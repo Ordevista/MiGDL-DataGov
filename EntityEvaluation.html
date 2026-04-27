@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiGDL Governance Entity Evaluation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Neutrals with Indigo/Emerald Accents -->
+    <!-- Application Structure Plan: The SPA uses a top-down narrative flow starting with the core philosophy, followed by an interactive tabbed interface for the three Governance Tiers. This structure was chosen because it allows executive stakeholders to first grasp the methodology, and then dive deep into the specific options, scores, and rationales for each tier independently without being overwhelmed by a massive wall of text. Interactive bar charts provide immediate visual comparison of the options, supported by detailed rationale cards. -->
+    <!-- Visualization & Content Choices: 
+         1. Methodology: Text cards -> Goal: Inform -> Method: Grid layout with Unicode icons -> Justification: Clear, scannable presentation of foundational concepts.
+         2. Tier Evaluation: Grouped Bar Chart -> Goal: Compare -> Method: Chart.js -> Interaction: Tab switching per tier, tooltips for score details -> Justification: Best way to compare 3 options across 4 scoring factors simultaneously. 
+         3. Option Details: State-managed cards -> Goal: Inform/Justify -> Method: Dynamic DOM updates -> Interaction: Updates on tab click -> Justification: Keeps the UI clean while providing deep rationales for the scores.
+         4. Compliance/FERPA: Static styled list/cards -> Goal: Organize -> Method: Tailwind CSS Grid -> Justification: Highlights critical compliance rules distinctly from the evaluation matrices. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 60vh;
+            max-height: 450px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#FAF9F6] text-slate-800 font-sans antialiased leading-relaxed">
+
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center font-bold text-xl text-indigo-900 tracking-tight">
+                    🏛️ MiGDL Governance
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#methodology" class="text-slate-600 hover:text-indigo-700 font-medium transition-colors">Methodology</a>
+                    <a href="#evaluation" class="text-slate-600 hover:text-indigo-700 font-medium transition-colors">Tier Evaluation</a>
+                    <a href="#compliance" class="text-slate-600 hover:text-indigo-700 font-medium transition-colors">Compliance</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-indigo-900 text-white py-16 sm:py-24 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-6">P-26 Education Data Trust</h1>
+            <p class="mt-4 max-w-3xl text-xl text-indigo-100 mx-auto">Responsible Entity Evaluation & Risk Isolation Framework</p>
+            <p class="mt-4 max-w-2xl text-base text-indigo-200 mx-auto">Evaluating proposed entities within the Big 'G', MiGDL, and Little 'g' hierarchy to ensure legal compliance, architectural integrity, and operational trust.</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <section id="methodology" class="scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900">Evaluation Methodology</h2>
+                <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">This section outlines the foundational philosophy used to assess governance entities. It provides context on what benefits are prioritized, what constraints shape the challenges, and how risk is classified to protect MAISA.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 hover:shadow-md transition-shadow">
+                    <div class="text-4xl mb-4">🌟</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Benefits: Trust over Standards</h3>
+                    <p class="text-slate-600 text-sm">Prioritizes entities that foster semantic interoperability, maintain the "Lake-First" architecture, and support informed instruction without compromising privacy.</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 hover:shadow-md transition-shadow">
+                    <div class="text-4xl mb-4">⚠️</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Challenges: Operational Constraints</h3>
+                    <p class="text-slate-600 text-sm">Evaluated against MAISA’s lack of a formal internal IT department, reliance on grant-based funding, and the risk of "hidden work" burdens on local ISD staff.</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 hover:shadow-md transition-shadow border-t-4 border-t-indigo-600">
+                    <div class="text-4xl mb-4">🛡️</div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Risk Isolation Framework</h3>
+                    <ul class="text-slate-600 text-sm space-y-2">
+                        <li><span class="font-bold text-red-600">Low:</span> MAISA is directly liable.</li>
+                        <li><span class="font-bold text-amber-600">Moderate:</span> Liability shared across consortium (e.g., JPA).</li>
+                        <li><span class="font-bold text-emerald-600">High:</span> Dedicated legal subsidiary/managed service acts as a "firebreak" with its own liability.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="evaluation" class="scroll-mt-20 bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="px-6 py-8 sm:p-10 border-b border-slate-200 bg-slate-50">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Interactive Tier Evaluation</h2>
+                <p class="text-slate-600 max-w-4xl">Navigate through the three governance tiers below. The interactive chart compares the scoring of different organizational options against core responsibilities. The detailed cards below the chart explain the composition, benefits, challenges, and the rationale behind the scores, clearly highlighting the recommended approach for each tier.</p>
+            </div>
+
+            <div class="flex border-b border-slate-200 bg-white overflow-x-auto">
+                <button id="tab-tier1" class="tier-tab flex-1 py-4 px-6 text-center font-semibold text-indigo-700 border-b-2 border-indigo-700 bg-indigo-50/50 whitespace-nowrap transition-colors" onclick="switchTier('tier1')">Tier 1: Big 'G'</button>
+                <button id="tab-tier2" class="tier-tab flex-1 py-4 px-6 text-center font-semibold text-slate-500 border-b-2 border-transparent hover:text-slate-700 hover:bg-slate-50 whitespace-nowrap transition-colors" onclick="switchTier('tier2')">Tier 2: MiGDL</button>
+                <button id="tab-tier3" class="tier-tab flex-1 py-4 px-6 text-center font-semibold text-slate-500 border-b-2 border-transparent hover:text-slate-700 hover:bg-slate-50 whitespace-nowrap transition-colors" onclick="switchTier('tier3')">Tier 3: Little 'g'</button>
+            </div>
+
+            <div class="p-6 sm:p-10">
+                <div class="mb-8">
+                    <h3 id="tier-title" class="text-2xl font-bold text-slate-900"></h3>
+                    <p id="tier-objective" class="text-slate-600 mt-2 font-medium"></p>
+                    <div class="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-slate-800 mb-2 text-sm uppercase tracking-wider">Core Responsibilities</h4>
+                        <ul id="tier-responsibilities" class="list-disc pl-5 text-sm text-slate-700 space-y-1"></ul>
+                    </div>
+                </div>
+
+                <div class="mb-12">
+                    <h4 class="text-lg font-bold text-slate-900 mb-6 text-center">Option Scoring Comparison (Out of 20)</h4>
+                    <div class="chart-container">
+                        <canvas id="evaluationChart"></canvas>
+                    </div>
+                </div>
+
+                <h4 class="text-xl font-bold text-slate-900 mb-6 border-b border-slate-200 pb-2">Detailed Option Analysis</h4>
+                <div id="options-container" class="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <section id="compliance" class="scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900">Compliance & Ambiguity Protocols</h2>
+                <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">This section outlines the strict data classification rules required for FERPA compliance and the established protocols for handling legal ambiguities regarding data ownership.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="text-3xl mr-4">🔒</div>
+                        <h3 class="text-2xl font-bold text-slate-900">FERPA Classification</h3>
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-lg">Personally Identifiable Information (PII)</h4>
+                            <p class="text-sm text-slate-600 mt-1">Access restricted via <span class="font-semibold text-indigo-700">Attribute-Based Access Control (ABAC)</span>. Only "Legitimate Educational Interest" (LEI) warrants decryption or access. Enforced at the Amorphic layer.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-lg">Directory Information</h4>
+                            <p class="text-sm text-slate-600 mt-1">Managed via "Opt-Out" protocols at the ISD level. In MiGDL, this is treated as "Protected" requiring role-based authorization, with lower encryption overhead for public reports.</p>
+                        </div>
+                        <div class="p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
+                            <h4 class="font-bold text-indigo-900 text-sm uppercase tracking-wide">The "Bronze Layer" Rule</h4>
+                            <p class="text-sm text-indigo-800 mt-1">No PII is removed or altered in the Bronze layer, maintaining an immutable audit trail. Redaction and de-identification occur strictly in the <strong>Silver/Gold</strong> transformation pipelines.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                    <div class="flex items-center mb-6">
+                        <div class="text-3xl mr-4">⚖️</div>
+                        <h3 class="text-2xl font-bold text-slate-900">Ambiguity Protocol</h3>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4 border-l-4 border-amber-400 pl-4 py-1">
+                        <strong>Flagged Item:</strong> Legal mechanism for "Ownership Transfer" from ISDs to the Data Trust remains at ~60% clarity.
+                    </p>
+                    
+                    <div class="space-y-4 mt-6">
+                        <div class="border border-slate-200 rounded-lg p-4">
+                            <h4 class="font-bold text-slate-800 text-sm">Alternative A</h4>
+                            <p class="text-sm text-slate-600">Retain ISD ownership; Trust acts as "Contracted Agent" under FERPA School Official Exception.</p>
+                        </div>
+                        <div class="border border-slate-200 rounded-lg p-4">
+                            <h4 class="font-bold text-slate-800 text-sm">Alternative B</h4>
+                            <p class="text-sm text-slate-600">Complete transfer of ownership to a 501(c)(3) subsidiary governed by the ISDs.</p>
+                        </div>
+                        
+                        <div class="mt-6 p-5 bg-emerald-50 border border-emerald-200 rounded-xl relative overflow-hidden">
+                            <div class="absolute top-0 right-0 p-3 opacity-20 text-5xl">✅</div>
+                            <h4 class="font-bold text-emerald-900 text-lg mb-2 relative z-10">Recommendation: Alternative A</h4>
+                            <p class="text-sm text-emerald-800 relative z-10">Minimizes "consent" requirements and relies on established School Official Exception precedents, providing the most robust and immediate risk-mitigation path.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-10 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+            <p>MiGDL Governance as a Service (DGaaS) Copilot Output</p>
+            <p class="mt-2">Based on the "Trust over Standards" Philosophy</p>
+        </div>
+    </footer>
+
+    <script>
+        const governanceData = {
+            tier1: {
+                title: "Tier 1: Big 'G' (Strategic/State-Level)",
+                objective: "Objective: High-level alignment with MDE/CEPI and strategic policy design.",
+                responsibilities: [
+                    "Purpose - Strategic Foundation: Verify and adopt the core 'why,' mission, and beneficiaries.",
+                    "Policy - Formalize Framework: Approve the Trust Charter, Operating Agreement, and Risk Mitigation Plan.",
+                    "Authority - Fiduciary Oversight: Set organizational goals, approve budgets, and conduct Trust Audits."
+                ],
+                factors: ["Purpose Alignment", "Policy Formulation", "Authority & Oversight", "Sustainability & Risk"],
+                options: [
+                    {
+                        name: "State Advisory Council",
+                        recommended: false,
+                        composition: "15-20 members (10 ISD Supts, MDE, CEPI, DTMB)",
+                        benefits: "Alignment with state: funding, mandates, policies.",
+                        challenges: "Political turnover, Bureaucratic inertia, Supt. engagement is low.",
+                        isolation: "Low - Align with state agency policy",
+                        scores: [5, 2, 2, 1],
+                        rationales: [
+                            "High representation ensures total alignment with state objectives.",
+                            "Large size and bureaucratic layers lead to slow ratification.",
+                            "High political turnover makes consistent long-term oversight difficult.",
+                            "Dependent on state political climate; MAISA lacks a buffer."
+                        ]
+                    },
+                    {
+                        name: "Data Trust Board (Hybrid)",
+                        recommended: true,
+                        composition: "17-20 members (Legal & Data Experts, Regional ISD Reps, MDE/CEPI/DTMB)",
+                        benefits: "Agility of experts, Regional buy-in without Supt. bottleneck, Integrated state partners.",
+                        challenges: "Coordinating diverse roles, Balancing state vs. regional interests.",
+                        isolation: "High - Fiduciary duties isolate the Trust",
+                        scores: [5, 5, 4, 5],
+                        rationales: [
+                            "Blends state objectives with local context.",
+                            "Legal and data experts ensure high-quality, actionable policy drafting.",
+                            "Fiduciary mandate provides independent oversight while maintaining beneficiary relationships.",
+                            "Separate legal & fiduciary standing. Participation is more stable by excluding Supts."
+                        ]
+                    },
+                    {
+                        name: "Joint Powers Authority (JPA)",
+                        recommended: false,
+                        composition: "10 members (MAISA Regional leads)",
+                        benefits: "Clear legal standing, Preserves regional local control.",
+                        challenges: "Complex to modify, Doesn't include non-ISD partners.",
+                        isolation: "High - Fiduciary duties isolate the Trust",
+                        scores: [5, 5, 3, 4],
+                        rationales: [
+                            "Goals primarily reflect a state-wide P-26 vision.",
+                            "Requires consensus across regional leads and benefit of collaboration.",
+                            "Strong operational authority over ISDs but lacks independent 'outside' check.",
+                            "Separate legal and fiduciary standing."
+                        ]
+                    }
+                ]
+            },
+            tier2: {
+                title: "Tier 2: MiGDL (Michigan Data Governance Level)",
+                objective: "Objective: Cross-ISD data sharing oversight and 'Pillar 3/4' enforcement.",
+                responsibilities: [
+                    "PAIR - Policy Adoption: Translate mandates into actionable district practices and council oversight.",
+                    "Accountability & Authorization: Approve sensitive access requests and certify data products fit for use.",
+                    "Resilience & Integrity: Ensure architectural integrity and manage the 'Speed vs. Governance' trade-off."
+                ],
+                factors: ["Policy Adoption (PAIR)", "Data Authorization", "Architectural Resilience", "Sustainability & Risk"],
+                options: [
+                    {
+                        name: "Internal MAISA Department",
+                        recommended: false,
+                        composition: "3-5 FTEs (Director, 2 Compliance, Tech Liaison)",
+                        benefits: "Direct control by MAISA leadership, Lower immediate cost.",
+                        challenges: "MAISA inherits all legal liability for data breaches.",
+                        isolation: "Low - No 'firebreak' between governance and fiscal agent",
+                        scores: [4, 3, 2, 1],
+                        rationales: [
+                            "Strong internal alignment, but small team lacks scale for statewide adoption.",
+                            "Vulnerable to internal MAISA pressure to expedite access for grant reporting.",
+                            "Hard to retain high-level tech talent on standard non-profit scales.",
+                            "Full liability on MAISA; recurring FTE costs are harder to scale down post-grant."
+                        ]
+                    },
+                    {
+                        name: "Trust Management Team",
+                        recommended: true,
+                        composition: "6-10 Roles (Dedicated Staff, Educators 'On-Loan', Managed Consultants)",
+                        benefits: "Independence from MAISA liability, Dedicated focus, High educator buy-in.",
+                        challenges: "Requires initial 'startup' managed service to train staff.",
+                        isolation: "High - Non-MAISA non-profit structure provides legal isolation",
+                        scores: [5, 5, 5, 5],
+                        rationales: [
+                            "Non-profit focus allows for dedicated playbooks and statewide operationalization.",
+                            "Objective oversight working directly for the Trust; audits LEI without fiscal agency bias.",
+                            "Hybrid of dedicated staff and specialized consultants ensures deep bench strength.",
+                            "High isolation; operating within a separate non-profit isolates MAISA from data-related liability."
+                        ]
+                    },
+                    {
+                        name: "Advisory Model",
+                        recommended: false,
+                        composition: "8-10 part-time staff 'on-loan' from ISDs",
+                        benefits: "Deep regional knowledge, High buy-in from local IT teams.",
+                        challenges: "'Matrix management' makes accountability difficult, Inconsistent availability.",
+                        isolation: "Moderate - Liability is fragmented across multiple employers",
+                        scores: [3, 2, 3, 3],
+                        rationales: [
+                            "Seconded staff prioritize their home ISDs, leading to inconsistent policy application.",
+                            "High risk of conflict of interest when ISD staff authorize access for regional peers.",
+                            "Reliance on part-time staff creates single-point-of-failure risks for platform integrity.",
+                            "Low direct cost but high 'hidden cost' and liability remains messy across multiple ISDs."
+                        ]
+                    }
+                ]
+            },
+            tier3: {
+                title: "Tier 3: Little 'g' (Operational/Steward-Level)",
+                objective: "Objective: Daily data quality, lifecycle mapping, and semantic modeling (Silver Layer).",
+                responsibilities: [
+                    "Execution - Stewardship: Manage lifecycle stages (Bronze/Silver/Gold) and MiDX loads.",
+                    "Controls - Technical Security: Monitor ABAC attributes and manage time-based access.",
+                    "Quality - Metadata & Semantic: Perform DQ validation and maintain the Amorphic catalog."
+                ],
+                factors: ["Lifecycle Execution", "Technical Controls", "Semantic Quality", "Sustainability & Risk"],
+                options: [
+                    {
+                        name: "Local ISD Stewardship",
+                        recommended: false,
+                        composition: "1 Steward per ISD (approx. 56 total across MI)",
+                        benefits: "High local SIS expertise and proximity to source systems.",
+                        challenges: "Impossible to sustain 56 trained staff; massive 'hidden work' and burnout risk.",
+                        isolation: "Moderate - Risk is localized but quality is highly inconsistent",
+                        scores: [2, 2, 3, 1],
+                        rationales: [
+                            "Most ISDs lack the technical bandwidth to perform rigorous Silver/Gold mapping.",
+                            "High variability in skill leads to inconsistent ABAC and security tagging.",
+                            "Data stays in 'Silos of Meaning'; hard to achieve cross-ISD interoperability.",
+                            "Operationally fragile; high turnover and burnout risk for 56 distinct positions."
+                        ]
+                    },
+                    {
+                        name: "Centralized Hub Stewards",
+                        recommended: false,
+                        composition: "3-4 Full-time 'Generalist' Stewards",
+                        benefits: "Efficient and consistent application of technical standards.",
+                        challenges: "'Standardization over Trust'; stewards lack pedagogical context for users.",
+                        isolation: "Moderate - Centralizes the risk of data misinterpretation",
+                        scores: [5, 4, 2, 3],
+                        rationales: [
+                            "Dedicated focus ensures rapid, consistent data movement through the Amorphic pipeline.",
+                            "Uniform application of standards, but may lack context for regional access nuances.",
+                            "Hubs often force 'one size fits all' models that lack pedagogical trust or context.",
+                            "Efficient but creates knowledge bottlenecks; detached from the end-user experience."
+                        ]
+                    },
+                    {
+                        name: "Regional Domain-Integrated Hub",
+                        recommended: true,
+                        composition: "5-7 specialized Domain Stewards with Regional Assignments",
+                        benefits: "Relationship-based customer service, Deep subject matter expertise, Cross-ISD 'Meaning' consistency.",
+                        challenges: "Coordination required between the central team and the diverse Domain Circles.",
+                        isolation: "High - Peer-validated modeling and relationship-based accountability",
+                        scores: [5, 5, 5, 5],
+                        rationales: [
+                            "Combines centralized efficiency with domain-specific technical nuance.",
+                            "Stewards build trust-based relationships to accurately map 'Legitimate Educational Interest.'",
+                            "Domain Circles ensure 'Shared Meaning' is developed with the actual data consumers.",
+                            "Most sustainable; deep roots in domains ensure service continuity and user satisfaction."
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let evaluationChartInstance = null;
+
+        function renderChart(tierData) {
+            const ctx = document.getElementById('evaluationChart').getContext('2d');
+            
+            if (evaluationChartInstance) {
+                evaluationChartInstance.destroy();
+            }
+
+            const chartData = {
+                labels: tierData.factors,
+                datasets: tierData.options.map((opt, index) => {
+                    const colors = [
+                        { bg: 'rgba(99, 102, 241, 0.7)', border: 'rgb(79, 70, 229)' },
+                        { bg: 'rgba(16, 185, 129, 0.8)', border: 'rgb(5, 150, 105)' }, 
+                        { bg: 'rgba(245, 158, 11, 0.7)', border: 'rgb(217, 119, 6)' }  
+                    ];
+                    return {
+                        label: opt.name + (opt.recommended ? " ★" : ""),
+                        data: opt.scores,
+                        backgroundColor: colors[index].bg,
+                        borderColor: colors[index].border,
+                        borderWidth: 1,
+                        borderRadius: 4
+                    };
+                })
+            };
+
+            evaluationChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', labels: { font: { family: 'sans-serif' } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw + '/5';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5,
+                            ticks: { stepSize: 1 }
+                        },
+                        x: {
+                            ticks: {
+                                callback: function(value) {
+                                    const label = this.getLabelForValue(value);
+                                    if (label.length > 16 && window.innerWidth < 768) {
+                                        return label.substr(0, 16) + '...';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderOptionsCards(options, factors) {
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            options.forEach(opt => {
+                const totalScore = opt.scores.reduce((a, b) => a + b, 0);
+                
+                let cardClass = opt.recommended 
+                    ? "bg-emerald-50/50 border-emerald-300 ring-2 ring-emerald-500 ring-offset-2" 
+                    : "bg-white border-slate-200";
+                
+                let headerClass = opt.recommended ? "text-emerald-900" : "text-slate-900";
+                
+                let rationalesHtml = '';
+                opt.scores.forEach((score, i) => {
+                    rationalesHtml += `
+                        <div class="mb-3">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-semibold text-slate-800 text-xs uppercase tracking-wider">${factors[i]}</span>
+                                <span class="font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded text-xs">${score}/5</span>
+                            </div>
+                            <p class="text-sm text-slate-600">${opt.rationales[i]}</p>
+                        </div>
+                    `;
+                });
+
+                const badge = opt.recommended 
+                    ? `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 mb-2">⭐ Recommended Model</span>` 
+                    : '';
+
+                const cardHtml = `
+                    <div class="rounded-2xl border p-6 shadow-sm flex flex-col h-full transition-all ${cardClass}">
+                        ${badge}
+                        <h5 class="text-xl font-bold mb-1 ${headerClass}">${opt.name}</h5>
+                        <div class="text-sm text-slate-500 mb-4 font-medium border-b border-slate-200 pb-3">Score: <span class="font-bold text-slate-800">${totalScore}/20</span></div>
+                        
+                        <div class="flex-grow space-y-4">
+                            <div>
+                                <strong class="block text-xs uppercase text-slate-400 tracking-wider mb-1">Composition</strong>
+                                <p class="text-sm text-slate-700">${opt.composition}</p>
+                            </div>
+                            <div>
+                                <strong class="block text-xs uppercase text-emerald-600 tracking-wider mb-1">Benefits</strong>
+                                <p class="text-sm text-slate-700">${opt.benefits}</p>
+                            </div>
+                            <div>
+                                <strong class="block text-xs uppercase text-amber-600 tracking-wider mb-1">Challenges</strong>
+                                <p class="text-sm text-slate-700">${opt.challenges}</p>
+                            </div>
+                            <div>
+                                <strong class="block text-xs uppercase text-indigo-600 tracking-wider mb-1">Risk Isolation</strong>
+                                <p class="text-sm font-medium text-slate-800">${opt.isolation}</p>
+                            </div>
+                            
+                            <div class="pt-4 mt-4 border-t border-slate-200">
+                                <strong class="block text-sm font-bold text-slate-900 mb-3">Scoring Rationale</strong>
+                                ${rationalesHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        function switchTier(tierKey) {
+            const data = governanceData[tierKey];
+            
+            document.querySelectorAll('.tier-tab').forEach(tab => {
+                tab.classList.remove('text-indigo-700', 'border-indigo-700', 'bg-indigo-50/50');
+                tab.classList.add('text-slate-500', 'border-transparent');
+            });
+            const activeTab = document.getElementById('tab-' + tierKey);
+            activeTab.classList.remove('text-slate-500', 'border-transparent');
+            activeTab.classList.add('text-indigo-700', 'border-indigo-700', 'bg-indigo-50/50');
+
+            document.getElementById('tier-title').innerText = data.title;
+            document.getElementById('tier-objective').innerText = data.objective;
+            
+            const ul = document.getElementById('tier-responsibilities');
+            ul.innerHTML = '';
+            data.responsibilities.forEach(req => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${req.split(':')[0]}:</strong> ${req.split(':')[1]}`;
+                ul.appendChild(li);
+            });
+
+            renderChart(data);
+            renderOptionsCards(data.options, data.factors);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTier('tier1');
+        });
+    </script>
+</body>
+</html>

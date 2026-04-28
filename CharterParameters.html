@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiGDL Data Governance Program Parameters</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Warm Sand & Stone Backgrounds, with Teal (Primary/Recommended), Indigo (Secondary), and Slate (Neutral text) accents for a professional, trustworthy, yet modern look. -->
+    
+    <!-- Application Structure Plan: 
+         The SPA is organized into a narrative funnel:
+         1. Strategic Identity: Explains the "Who" (School District as Beneficiary).
+         2. Evaluation Methodology: Visualizes the scoring criteria.
+         3. The Evaluation Dashboard: Interactive tabs for Tiers 1-3 with dynamic Chart.js and Pre-filled Strategic Deep Dives.
+         4. Compliance & Guardrails: Static deep-dive into FERPA and Ambiguity protocols.
+         5. Workforce Roadmap: A grid displaying the open positions with Pre-filled Job Briefs.
+    -->
+
+    <!-- Visualization & Content Choices: 
+         - Trust Relationship: Grid -> Goal: Organize -> Method: Tailwind Flex/Grid.
+         - Tier Scoring: Grouped Bar Chart -> Goal: Compare -> Method: Chart.js Canvas -> Interaction: Tab switching with JS-driven data updates.
+         - AI Features: Pre-filled Static Content -> Goal: Inform -> Method: Modal injection.
+         - NO SVG/Mermaid confirmed. -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 400px; }
+        }
+        .tab-active {
+            border-bottom: 4px solid #0d9488;
+            color: #0d9488;
+            background-color: #f0fdfa;
+        }
+        .firebreak-gradient {
+            background: linear-gradient(135deg, #f0fdfa 0%, #e0f2f1 100%);
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="bg-[#fafaf9] text-slate-800 font-sans antialiased">
+
+    <!-- Modal for Insights -->
+    <div id="aiModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden" role="dialog" aria-modal="true">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[80vh] flex flex-col overflow-hidden">
+            <div class="px-8 py-6 border-b border-stone-100 flex justify-between items-center bg-teal-50">
+                <h3 class="text-xl font-extrabold text-teal-900 flex items-center">
+                    <span class="mr-2">✨</span> MiGDL Strategy Brief
+                </h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 transition-colors text-2xl font-light">&times;</button>
+            </div>
+            <div id="modalContent" class="p-8 overflow-y-auto text-slate-700 leading-relaxed space-y-4 prose prose-teal max-w-none"></div>
+            <div class="px-8 py-4 bg-stone-50 border-t border-stone-100 flex justify-end">
+                <button onclick="closeModal()" class="px-6 py-2 bg-slate-800 text-white rounded-full font-bold text-sm hover:bg-slate-700 transition-colors">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center font-bold text-xl text-teal-800 tracking-tight">
+                    🏛️ MiGDL Governance
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#beneficiary" class="text-sm font-semibold text-slate-600 hover:text-teal-700 transition-colors">Beneficiaries</a>
+                    <a href="#evaluation" class="text-sm font-semibold text-teal-700 hover:text-teal-800 transition-colors">Parameters Dashboard</a>
+                    <a href="#workforce" class="text-sm font-semibold text-slate-600 hover:text-teal-700 transition-colors">Workforce</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-slate-900 text-stone-100 py-16 lg:py-24 border-b-8 border-teal-600 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-block px-3 py-1 bg-teal-900/50 text-teal-300 text-xs font-bold tracking-widest uppercase rounded-full mb-4 border border-teal-700">Governance Program Framework</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">MiGDL Data Governance <br> Program Parameters</h1>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-300 font-light leading-relaxed">
+                Establishing the structural, legal, and operational guardrails for fiduciary stewardship across Michigan’s School Districts.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <!-- Beneficiary Section -->
+        <section id="beneficiary" class="scroll-mt-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-slate-900">The School District as Beneficiary</h2>
+                <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto italic">
+                    "Shifting the narrative from static control to master-level insights."
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-stone-200 p-8">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center">
+                        <span class="text-2xl mr-3">🤝</span> The Three-Part Trust Relationship
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-5 bg-stone-50 rounded-2xl border border-stone-200">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-2">Grantor</span>
+                            <h4 class="font-bold text-slate-800 mb-2">Districts</h4>
+                            <p class="text-xs text-slate-600">Provide legal rights to the data.</p>
+                        </div>
+                        <div class="p-5 bg-teal-50 rounded-2xl border border-teal-200 ring-2 ring-teal-100">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-teal-600 block mb-2">Data Trustee</span>
+                            <h4 class="font-bold text-teal-900 mb-2">Data Trust Board</h4>
+                            <p class="text-xs text-teal-800 italic">Legally bound to act in the best interest of the beneficiary.</p>
+                        </div>
+                        <div class="p-5 bg-indigo-50 rounded-2xl border border-indigo-200">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-600 block mb-2">Beneficiary</span>
+                            <h4 class="font-bold text-indigo-900 mb-2">ISD, LEA, PSA</h4>
+                            <p class="text-xs text-indigo-800">Recipients of the master-level insights.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-800 rounded-3xl p-8 text-stone-100 flex flex-col justify-center">
+                    <h3 class="text-xl font-bold mb-4 text-teal-400">Duty of Loyalty</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        The Data Trustee holds a "Duty of Loyalty" to the districts, ensuring data is never used for unauthorized commercial purposes, strictly for educational impact.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evaluation Dashboard -->
+        <section id="evaluation" class="scroll-mt-24">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-extrabold text-slate-900">Governance Parameters Dashboard</h2>
+                <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">Compare organizational models across the Strategic, Governance, and Operational tiers.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-sm border border-stone-200 overflow-hidden flex flex-col">
+                <div class="flex flex-col sm:flex-row border-b border-stone-200 bg-stone-50">
+                    <button id="btn-tier1" class="tab-btn flex-1 py-5 px-6 text-center font-bold text-slate-500 border-b-4 border-transparent hover:bg-stone-100 transition-all active" onclick="switchTier('tier1')">
+                        <span class="text-xs uppercase tracking-widest block mb-1">Tier 1</span> Strategic
+                    </button>
+                    <button id="btn-tier2" class="tab-btn flex-1 py-5 px-6 text-center font-bold text-slate-500 border-b-4 border-transparent hover:bg-stone-100 transition-all" onclick="switchTier('tier2')">
+                        <span class="text-xs uppercase tracking-widest block mb-1">Tier 2</span> Management
+                    </button>
+                    <button id="btn-tier3" class="tab-btn flex-1 py-5 px-6 text-center font-bold text-slate-500 border-b-4 border-transparent hover:bg-stone-100 transition-all" onclick="switchTier('tier3')">
+                        <span class="text-xs uppercase tracking-widest block mb-1">Tier 3</span> Operational
+                    </button>
+                </div>
+
+                <div class="p-6 sm:p-10 lg:p-12">
+                    <div class="flex flex-col lg:flex-row gap-10">
+                        <div class="lg:w-1/2 flex flex-col">
+                            <div class="mb-8">
+                                <h3 id="tier-title" class="text-2xl font-bold text-slate-900 mb-2"></h3>
+                                <p id="tier-objective" class="text-slate-600 font-medium italic mb-4"></p>
+                            </div>
+                            <div class="chart-container bg-white border border-stone-100 rounded-2xl p-4 shadow-sm mb-6">
+                                <canvas id="tierChart"></canvas>
+                            </div>
+                            <div class="bg-stone-50 rounded-xl p-5 border border-stone-200">
+                                <h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 text-center">Scoring Rationale</h4>
+                                <div id="rationale-list" class="space-y-4 text-xs"></div>
+                            </div>
+                        </div>
+
+                        <div class="lg:w-1/2 flex flex-col space-y-6">
+                            <div id="recommended-card" class="firebreak-gradient border-2 border-teal-500 rounded-3xl p-8 relative shadow-lg">
+                                <div class="absolute top-0 right-0 bg-teal-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl uppercase">Recommendation</div>
+                                <h4 class="text-xl font-extrabold text-teal-900 mb-2" id="rec-name"></h4>
+                                <p class="text-sm text-teal-800 mb-6 leading-relaxed" id="rec-desc"></p>
+                                <div class="grid grid-cols-2 gap-4 mb-6">
+                                    <div class="bg-white/60 rounded-xl p-3">
+                                        <span class="text-[10px] font-bold text-teal-600 block mb-1">Benefits</span>
+                                        <p class="text-[11px] text-slate-700 leading-tight" id="rec-benefits"></p>
+                                    </div>
+                                    <div class="bg-white/60 rounded-xl p-3">
+                                        <span class="text-[10px] font-bold text-teal-600 block mb-1">Risk Isolation</span>
+                                        <p class="text-[11px] font-bold text-slate-900 leading-tight" id="rec-isolation"></p>
+                                    </div>
+                                </div>
+                                <button onclick="getDeepDive()" class="w-full py-3 bg-teal-600 text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-teal-700 transition-all shadow-md">
+                                    <span>✨ View Strategic Impact Briefing</span>
+                                </button>
+                            </div>
+                            <div class="bg-white border border-stone-200 rounded-3xl p-6">
+                                <h4 class="text-xs font-bold text-slate-400 mb-4 uppercase tracking-widest">Key Responsibilities</h4>
+                                <ul id="tier-responsibilities" class="text-xs text-slate-600 space-y-2"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Operational Readiness / Workforce -->
+        <section id="workforce" class="scroll-mt-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-slate-900 underline decoration-teal-500 decoration-4 underline-offset-8">Operational Readiness (Workforce)</h2>
+                <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">Required personnel to operationalize the recommended entities.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="workforce-grid"></div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t-8 border-teal-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-sm font-semibold text-slate-300">MiGreatDataLake Initiative</p>
+            <p class="text-xs mt-1">Data Governance Program Parameters Framework</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentChart = null;
+
+        const appState = {
+            activeTier: 'tier1',
+            data: {
+                tier1: {
+                    title: "Tier 1: Data Trust Board (Strategic)",
+                    objective: "Objective: Strategic Oversight & State Alignment",
+                    responsibilities: ["Adopt core mission and beneficiaries.", "Approve Trust Charter & Risk Mitigation Plan.", "Fiduciary Oversight and Budget Approval."],
+                    labels: ["Purpose", "Policy", "Authority", "Sustainability"],
+                    options: [
+                        { name: "State Advisory Council", scores: [5, 2, 2, 1], isRecommended: false },
+                        { name: "Data Trust Board (Hybrid)", scores: [5, 5, 4, 5], isRecommended: true, desc: "A hybrid model combining Legal/Data Experts with Regional ISD leads to provide a fiduciary firebreak.", isolation: "High Isolation", benefits: "Agile expert-led policy drafting." },
+                        { name: "Joint Powers Authority", scores: [5, 5, 3, 4], isRecommended: false }
+                    ],
+                    rationales: ["Total alignment with state MDE/CEPI objectives.", "Expertise ensures precise, actionable trust frameworks.", "Dedicated fiduciary mandate isolates risk from MAISA.", "Stable participation by excluding Superintendent bottleneck."],
+                    workforce: [
+                        { role: "Data Privacy Trustee (2 Positions)", desc: "Legal/GRC experts in FERPA and student privacy." },
+                        { role: "Strategic Data Trustee (2 Positions)", desc: "Leaders in data architecture and semantic integrity." },
+                        { role: "Regional Data Liaison (10 Positions)", desc: "One per MAISA region for fiduciary representation." },
+                        { role: "Agency Policy Liaison (3 Positions)", desc: "MDE, CEPI, and DTMB appointed reps." }
+                    ],
+                    deepDive: `
+                        <p><strong>Strategic Trade-off:</strong> The transition to a Hybrid Data Trust Board trades immediate "Superintendent Buy-in" for specialized legal and technical agility. By moving seats from Supts to Regional Leads and Experts, the board gains the context needed to oversee complex Medallion architectures without sacrificing ISD representation.</p>
+                        <p><strong>Michigan Impact:</strong> This model specifically protects districts by acting as a "fiduciary buffer." Board members are legally bound to protect the Data Trust's beneficiaries—the students and districts—ensuring that state-level policy shifts do not compromise localized instructional trust.</p>
+                    `
+                },
+                tier2: {
+                    title: "Tier 2: Trust Management Team (Oversight)",
+                    objective: "Objective: Cross-ISD Sharing & Enforcement",
+                    responsibilities: ["Translate mandates into action.", "Approve access requests & LEI audits.", "Ensure Amorphic platform architectural integrity."],
+                    labels: ["Policy", "Authorization", "Resilience", "Stability"],
+                    options: [
+                        { name: "Internal MAISA Dept", scores: [4, 3, 2, 1], isRecommended: false },
+                        { name: "Trust Mgmt Team", scores: [5, 5, 5, 5], isRecommended: true, desc: "A dedicated non-profit management team utilizing seconded staff and managed consultants.", isolation: "High Isolation", benefits: "Independence from fiscal agent liability." },
+                        { name: "Advisory Model", scores: [3, 2, 3, 3], isRecommended: false }
+                    ],
+                    rationales: ["Allows for dedicated, uncompromised playbooks.", "Objective oversight without internal fiscal agency bias.", "Specialized bench strength available 24/7.", "Isolates MAISA from all direct data-related liabilities."],
+                    workforce: [
+                        { role: "Executive Director (1 Position)", desc: "Strategic roadmap and stakeholder mgmt." },
+                        { role: "Director of Governance & Compliance (1 Position)", desc: "Daily Pillar 4 operations and LEI audits." },
+                        { role: "vCISO (1 Position)", desc: "Security integrity and SOC oversight." },
+                        { role: "Lead Information Architect (1 Position)", desc: "Structural integrity of medallion layers." },
+                        { role: "Instructional Data Specialist (2 Positions)", desc: "Translating pedagogy into data requirements." }
+                    ],
+                    deepDive: `
+                        <p><strong>Strategic Trade-off:</strong> Utilizing a non-MAISA non-profit for the Management Team trades "Direct Internal Control" for "Legal Risk Isolation." While it requires more rigorous contract management, it provides a crucial compliance firebreak between the data governance and the fiscal agent.</p>
+                        <p><strong>Michigan Impact:</strong> For Michigan ISDs, this means a higher level of objectivity. Data access requests and Legitimate Educational Interest (LEI) audits are performed by a neutral team, ensuring that "Informed Instruction" is the only driver for PII access.</p>
+                    `
+                },
+                tier3: {
+                    title: "Tier 3: Regional Domain Hub (Operational)",
+                    objective: "Objective: Daily Data Quality & Semantic Modeling",
+                    responsibilities: ["Manage medallion lifecycle stages.", "Monitor ABAC attributes and security tags.", "DQ validation and catalog maintenance."],
+                    labels: ["Execution", "Controls", "Quality", "Sustainability"],
+                    options: [
+                        { name: "Local ISD", scores: [2, 2, 3, 1], isRecommended: false },
+                        { name: "Generalist Hub", scores: [5, 4, 2, 3], isRecommended: false },
+                        { name: "Regional Domain Hub", scores: [5, 5, 5, 5], isRecommended: true, desc: "Domain-integrated stewards using regional assignments for concierge-style service.", isolation: "High Isolation", benefits: "Shared meaning + Service orientation." }
+                    ],
+                    rationales: ["Combines efficiency with deep subject nuance.", "Builds trust-based relationships to map LEI accurately.", "Ensures semantic interoperability with end consumers.", "Expertise is shared across members, preventing burnout."],
+                    workforce: [
+                        { role: "Domain Data Steward (5-7 Positions)", desc: "Assigned to specific domains and MAISA regions." },
+                        { role: "Metadata & Catalog Specialist (1 Position)", desc: "Technical maintenance of Amorphic catalog." }
+                    ],
+                    deepDive: `
+                        <p><strong>Strategic Trade-off:</strong> Moving from "One Steward per ISD" to a "Regional Domain Hub" trades "Total Local Autonomy" for "Statewide Semantic Integrity." By centralizing these roles within the Trust, we eliminate the 56-steward training burden while ensuring expert-level customer service.</p>
+                        <p><strong>Michigan Impact:</strong> Districts receive data products that are guaranteed to have "Shared Meaning." A Literacy Steward in the Upper Peninsula and one in Southeast Michigan use the same canonical definitions, ensuring that regional comparisons are accurate and scientifically sound.</p>
+                    `
+                }
+            },
+            prefilledBriefs: {
+                "Data Privacy Trustee (2 Positions)": "Required Expertise: Professional background in education law (FERPA/IDEA), risk mitigation, or equivalent verifiable field experience in data privacy management. Responsibility: Act as a legal firebreak by ratifying the Trust Charter and ensuring all data sharing agreements adhere to the highest privacy standards for Michigan students.",
+                "Strategic Data Trustee (2 Positions)": "Required Expertise: Expertise in Data Science, Information Architecture, or 7+ years of equivalent senior-level experience in technical data leadership. Responsibility: Oversee the semantic integrity of the Silver and Gold layers, ensuring that ML/AI models built on the platform are grounded in educational research.",
+                "Regional Data Liaison (10 Positions)": "Required Expertise: Regional leadership context (e.g., Regional Data Lead) or 5+ years equivalent experience in regional ISD data coordination. Responsibility: Represent the unique needs of a MAISA region's districts, ensuring that the Data Trustee's decisions provide equitable value across all ISDs/LEAs.",
+                "Agency Policy Liaison (3 Positions)": "Required Expertise: Policy analyst status at MDE, CEPI, or DTMB, or equivalent experience in state-level legislative policy work. Responsibility: Synchronize Data Trust operations with state-level legislative mandates and funding cycles without swallowing the Trust's independent agility.",
+                "Executive Director (1 Position)": "Required Expertise: 10+ years in non-profit management, state-level IT governance, or equivalent senior leadership experience in a complex multi-stakeholder environment. Responsibility: Lead the strategic roadmap for the non-MAISA management team, managing the transition from startup managed service to operational independence.",
+                "Director of Governance & Compliance (1 Position)": "Required Expertise: Professional certification in GRC, deep FERPA knowledge, or equivalent verifiable experience in managing data compliance for public sector entities. Responsibility: Technical oversight of daily 'Pillar 4' (Informed Instruction) operations, Legitimate Educational Interest (LEI) audits, and Attribute-Based Access Control (ABAC) enforcement to ensure data usage adheres to the Trust Charter.",
+                "vCISO (1 Position)": "Required Expertise: Information security leadership experience or equivalent technical mastery in cybersecurity operations. Responsibility: Oversee the SOC-2 compliance of the Amorphic platform, managing risk mitigation protocols and providing technical security integrity for the entire Data Lake.",
+                "Lead Information Architect (1 Position)": "Required Expertise: Hands-on experience in Medallion data architecture, AWS/Lake-First strategies, or equivalent senior-level technical expertise in cloud data infrastructure. Responsibility: Manage the structural integrity of the Bronze-to-Gold pipeline, ensuring that all regional data is mapped to valid canonical models.",
+                "Instructional Data Specialist (2 Positions)": "Required Expertise: Education practitioner with data fluency or equivalent experience in using instructional data to drive classroom outcomes. Responsibility: Serve as the 'on-loan' bridge between classroom needs and technical controls, ensuring that governance doesn't become a barrier to instruction.",
+                "Domain Data Steward (5-7 Positions)": "Required Expertise: Subject matter expertise (e.g., Special Education or Early Literacy) or 5+ years of equivalent experience in a specialized educational content domain. Responsibility: Provide concierge-style service to regional districts, maintaining the business glossary and validating data quality in their specific domain.",
+                "Metadata & Catalog Specialist (1 Position)": "Required Expertise: Technical metadata management experience or equivalent verifiable competency in maintaining enterprise-level data catalogs. Responsibility: Maintain the Amorphic data catalog, ensuring that every district can find and trust the 'Gold-layer' certified data products available to them."
+            }
+        };
+
+        function showModal(content, title = "✨ MiGDL Strategy Brief") {
+            const modal = document.getElementById('aiModal');
+            const target = document.getElementById('modalContent');
+            const titleEl = modal.querySelector('h3');
+            if (titleEl) titleEl.innerHTML = `<span class="mr-2">✨</span> ${title}`;
+            if (target && modal) {
+                target.innerHTML = content;
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('aiModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function getDeepDive() {
+            const tier = appState.data[appState.activeTier];
+            showModal(tier.deepDive, `${tier.title} Impact`);
+        }
+
+        function viewJobBrief(roleName) {
+            const brief = appState.prefilledBriefs[roleName] || "Job description coming soon.";
+            showModal(`<div class="p-2"><h4 class="font-bold text-teal-900 mb-4">${roleName}</h4><p class="text-slate-700 leading-relaxed">${brief}</p></div>`, "Recruitment Briefing");
+        }
+
+        function switchTier(tierKey) {
+            appState.activeTier = tierKey;
+            const data = appState.data[tierKey];
+            const recommended = data.options.find(o => o.isRecommended);
+
+            const tabIds = ['btn-tier1', 'btn-tier2', 'btn-tier3'];
+            tabIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('tab-active', 'active');
+            });
+
+            const activeBtn = document.getElementById(`btn-${tierKey}`);
+            if (activeBtn) activeBtn.classList.add('tab-active', 'active');
+
+            const updateText = (id, text) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = text;
+            };
+
+            updateText('tier-title', data.title);
+            updateText('tier-objective', data.objective);
+            updateText('rec-name', recommended.name);
+            updateText('rec-desc', recommended.desc);
+            updateText('rec-benefits', recommended.benefits);
+            updateText('rec-isolation', recommended.isolation);
+
+            const resList = document.getElementById('tier-responsibilities');
+            if (resList) {
+                resList.innerHTML = '';
+                data.responsibilities.forEach(res => {
+                    const li = document.createElement('li');
+                    li.innerText = res;
+                    resList.appendChild(li);
+                });
+            }
+
+            const ratList = document.getElementById('rationale-list');
+            if (ratList) {
+                ratList.innerHTML = '';
+                data.rationales.forEach((rat, i) => {
+                    const div = document.createElement('div');
+                    div.className = 'flex gap-3 items-start border-l-2 border-stone-200 pl-3';
+                    div.innerHTML = `<div class="w-5 h-5 rounded-full bg-teal-100 text-teal-700 flex-shrink-0 flex items-center justify-center font-bold text-[9px]">${i+1}</div><p>${rat}</p>`;
+                    ratList.appendChild(div);
+                });
+            }
+
+            updateChart(tierKey);
+        }
+
+        function updateChart(tierKey) {
+            const data = appState.data[tierKey];
+            const canvas = document.getElementById('tierChart');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            if (currentChart) currentChart.destroy();
+            
+            const datasets = data.options.map((opt, i) => ({
+                label: opt.name + (opt.isRecommended ? ' ★' : ''),
+                data: opt.scores,
+                backgroundColor: opt.isRecommended ? 'rgba(13, 148, 136, 0.8)' : (i === 0 ? 'rgba(148, 163, 184, 0.5)' : 'rgba(99, 102, 241, 0.5)'),
+                borderColor: opt.isRecommended ? '#0d9488' : '#94a3b8',
+                borderWidth: 1, 
+                borderRadius: 4
+            }));
+
+            currentChart = new Chart(ctx, { 
+                type: 'bar', 
+                data: { labels: data.labels, datasets }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        y: { beginAtZero: true, max: 5 } 
+                    } 
+                } 
+            });
+        }
+
+        function initWorkforce() {
+            const grid = document.getElementById('workforce-grid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+            const names = ['Entity 1: Trust Board', 'Entity 2: Mgmt Team', 'Entity 3: Operational Hub'];
+            ['tier1', 'tier2', 'tier3'].forEach((key, i) => {
+                const tier = appState.data[key];
+                let listHtml = '';
+                tier.workforce.forEach(job => {
+                    listHtml += `
+                        <div class="mb-5">
+                            <h6 class="text-xs font-bold text-slate-800 leading-tight">${job.role}</h6>
+                            <p class="text-[10px] text-slate-500 mb-2">${job.desc}</p>
+                            <button onclick="viewJobBrief('${job.role}')" class="text-[9px] font-bold text-teal-600 hover:text-teal-800 transition-colors uppercase">✨ Open Job Brief</button>
+                        </div>
+                    `;
+                });
+                grid.innerHTML += `<div class="bg-white rounded-3xl p-6 border border-stone-200 shadow-sm flex flex-col"><h5 class="text-indigo-900 font-extrabold text-[10px] uppercase tracking-widest border-b border-stone-100 pb-3 mb-5">${names[i]}</h5>${listHtml}</div>`;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { 
+            switchTier('tier1'); 
+            initWorkforce(); 
+        });
+    </script>
+</body>
+</html>

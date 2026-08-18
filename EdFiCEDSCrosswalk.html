@@ -1,0 +1,665 @@
+<title>Ed-Fi to CEDS Crosswalk</title>
+<style>
+:root{
+  --ground:#F5F7FA; --surface:#FFFFFF; --surface-2:#EBEFF5; --sunk:#E4EAF2;
+  --ink:#0F1720; --ink-2:#37485A; --muted:#586B7F; --faint:#8092A4;
+  --rule:#DBE2EB; --rule-2:#C3CEDB;
+  --accent:#2F5FA8; --accent-ink:#24497F; --accent-wash:#E5EDF8;
+  --edfi:#2F5FA8; --ceds:#0E7490;
+  --s-exact:#15803D; --s-close:#2F5FA8; --s-broad:#B45309;
+  --s-narrow:#B45309; --s-related:#7C3AED; --s-none:#8092A4;
+  --v40:#B45309; --v61:#15803D; --on-accent:#FFFFFF;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0C1218; --surface:#141D26; --surface-2:#1A252F; --sunk:#0F1922;
+    --ink:#E3EBF3; --ink-2:#BECDDA; --muted:#8496A7; --faint:#647689;
+    --rule:#22303B; --rule-2:#2F404E;
+    --accent:#7BA7E8; --accent-ink:#A5C4F2; --accent-wash:#152740;
+    --edfi:#7BA7E8; --ceds:#2DD4E4;
+    --s-exact:#4ADE80; --s-close:#7BA7E8; --s-broad:#F0A93B;
+    --s-narrow:#F0A93B; --s-related:#A78BFA; --s-none:#647689;
+    --v40:#F0A93B; --v61:#4ADE80; --on-accent:#0C1218;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0C1218; --surface:#141D26; --surface-2:#1A252F; --sunk:#0F1922;
+  --ink:#E3EBF3; --ink-2:#BECDDA; --muted:#8496A7; --faint:#647689;
+  --rule:#22303B; --rule-2:#2F404E;
+  --accent:#7BA7E8; --accent-ink:#A5C4F2; --accent-wash:#152740;
+  --edfi:#7BA7E8; --ceds:#2DD4E4;
+  --s-exact:#4ADE80; --s-close:#7BA7E8; --s-broad:#F0A93B;
+  --s-narrow:#F0A93B; --s-related:#A78BFA; --s-none:#647689;
+  --v40:#F0A93B; --v61:#4ADE80; --on-accent:#0C1218;
+}
+
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.6;margin:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+section{padding:52px 0;border-top:1px solid var(--rule)}
+section:first-of-type{border-top:0}
+h1,h2,h3{text-wrap:balance;margin:0}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint);margin:0 0 10px}
+h2{font-family:var(--mono);font-size:25px;letter-spacing:-.02em;font-weight:600;line-height:1.25}
+.lede{color:var(--muted);max-width:66ch;margin:12px 0 0;font-size:16.5px}
+p{margin:14px 0 0;max-width:68ch}
+a{color:var(--accent-ink)}
+code,.term{font-family:var(--mono);font-size:.9em}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+
+.mast{padding:60px 0 44px}
+.mast h1{font-family:var(--mono);font-size:clamp(32px,5.4vw,54px);letter-spacing:-.045em;
+  font-weight:600;line-height:1.03}
+.mast h1 .dim{color:var(--faint)}
+.vchip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.06em;color:var(--muted);border:1px solid var(--rule-2);border-radius:999px;
+  padding:4px 11px;margin-bottom:20px}
+.vchip b{color:var(--accent-ink);font-weight:600}
+
+/* version switch */
+.switch{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:32px}
+.seg{display:inline-flex;border:1px solid var(--rule-2);border-radius:3px;overflow:hidden}
+.seg button{font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;padding:9px 18px;
+  cursor:pointer;background:var(--surface);color:var(--muted);border:0;
+  border-right:1px solid var(--rule-2)}
+.seg button:last-child{border-right:0}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.switch .cap{font-size:13.5px;color:var(--muted);max-width:52ch}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin-top:22px}
+.stat{background:var(--surface);padding:16px 18px}
+.stat b{display:block;font-family:var(--mono);font-size:27px;font-weight:600;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{display:block;font-size:12px;color:var(--muted);margin-top:4px;line-height:1.35}
+.stat .delta{font-family:var(--mono);font-size:12px;font-weight:600;margin-left:8px;
+  letter-spacing:0;color:var(--v61)}
+
+/* compare table of the two versions */
+.cmp{width:100%;border-collapse:collapse;margin-top:22px;background:var(--surface);
+  border:1px solid var(--rule);font-variant-numeric:tabular-nums}
+.cmp th,.cmp td{padding:10px 16px;border-bottom:1px solid var(--rule);text-align:right;
+  font-family:var(--mono);font-size:12.5px}
+.cmp tr:last-child td{border-bottom:0}
+.cmp th{color:var(--faint);font-weight:500;font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase}
+.cmp th:first-child,.cmp td:first-child{text-align:left;color:var(--ink-2);font-family:var(--sans);
+  font-size:13.5px}
+.cmp td b{font-weight:600}
+.cmp .up{color:var(--v61)} .cmp .flat{color:var(--faint)}
+
+.note{border-left:3px solid var(--accent);background:var(--accent-wash);padding:14px 18px;margin-top:26px}
+.note p{margin:0;font-size:14.5px;color:var(--ink-2);max-width:74ch}
+.note p + p{margin-top:10px}
+.note strong{color:var(--ink)}
+
+/* coverage */
+.cov{margin-top:24px;border:1px solid var(--rule);background:var(--surface);padding:20px 22px;
+  overflow-x:auto}
+.covgrid{display:grid;grid-template-columns:210px 1fr 54px;gap:10px 14px;align-items:center;
+  min-width:600px}
+.covname{font-family:var(--mono);font-size:12px;color:var(--ink);text-align:right}
+.covstack{display:flex;flex-direction:column;gap:3px}
+.covrow{display:flex;align-items:center;gap:8px}
+.covtag{font-family:var(--mono);font-size:9.5px;color:var(--faint);width:22px;flex:none}
+.covbar{display:flex;height:13px;background:var(--sunk);overflow:hidden;flex:1}
+.covbar.thin{height:10px}
+.covbar i{display:block;height:100%}
+.covbar i[data-s="none"]{background:repeating-linear-gradient(135deg,
+  var(--s-none) 0 2px,transparent 2px 5px);opacity:.75}
+.covn{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:right;
+  font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px;padding-top:16px;
+  border-top:1px solid var(--rule)}
+.lg{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;
+  color:var(--muted)}
+.lg i{width:14px;height:10px;background:var(--c);flex:none}
+.lg.none i{background:repeating-linear-gradient(135deg,var(--s-none) 0 2px,transparent 2px 5px)}
+.fcap{font-size:13px;color:var(--muted);margin-top:16px;padding-top:14px;
+  border-top:1px solid var(--rule);max-width:none}
+.fcap code{color:var(--ink-2)}
+
+/* table */
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:24px}
+input[type=search]{font-family:var(--sans);font-size:14px;padding:9px 13px;min-width:240px;flex:1 1 240px;
+  background:var(--surface);color:var(--ink);border:1px solid var(--rule-2);border-radius:2px}
+input[type=search]::placeholder{color:var(--faint)}
+.btn{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;padding:8px 12px;cursor:pointer;
+  background:var(--surface);color:var(--muted);border:1px solid var(--rule-2);border-radius:2px}
+.btn:hover{color:var(--ink);border-color:var(--faint)}
+.btn[aria-pressed="true"]{color:var(--ink);border-color:var(--accent);
+  box-shadow:inset 0 -2px 0 var(--accent)}
+.btn[hidden]{display:none}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{font-family:var(--mono);font-size:11px;padding:5px 10px;cursor:pointer;background:var(--surface);
+  color:var(--muted);border:1px solid var(--rule);border-radius:999px;user-select:none}
+.chip[aria-pressed="true"]{color:var(--ink);border-color:var(--accent)}
+.chip[aria-pressed="false"]{opacity:.5}
+.chip .n{color:var(--faint);font-variant-numeric:tabular-nums;margin-left:5px}
+
+.tbl{margin-top:18px;border:1px solid var(--rule);background:var(--surface)}
+.domhead{display:flex;align-items:baseline;gap:12px;padding:13px 18px;background:var(--surface-2);
+  border-bottom:1px solid var(--rule);border-top:1px solid var(--rule);position:sticky;top:0;z-index:2}
+.domhead:first-child{border-top:0}
+.domhead h3{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.02em}
+.domhead .dn{font-family:var(--mono);font-size:11px;color:var(--faint);
+  font-variant-numeric:tabular-nums;margin-left:auto}
+.row{display:grid;grid-template-columns:1fr 22px 1fr 86px;gap:12px;align-items:start;
+  padding:11px 18px;border-bottom:1px solid var(--rule)}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--surface-2)}
+.cell b{display:block;font-family:var(--mono);font-size:12.5px;font-weight:500;line-height:1.4}
+.cell .k{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--faint);margin-top:2px;display:block}
+.cell.e b{color:var(--edfi)}
+.cell.c b{color:var(--ceds)}
+.cell.c.off b{color:var(--faint);font-style:italic}
+.mid{font-family:var(--mono);font-size:13px;color:var(--faint);text-align:center;padding-top:1px}
+.sc{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;
+  padding:3px 0;text-align:center;border:1px solid var(--c);color:var(--c);border-radius:999px;
+  align-self:start}
+.sc[data-s="none"]{border-style:dashed}
+.vb{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.08em;
+  padding:1px 5px;border:1px solid var(--c);color:var(--c);border-radius:2px;
+  margin-left:7px;vertical-align:1px}
+.reshape{font-family:var(--mono);font-size:10px;color:var(--faint);margin-left:6px}
+.rnote{grid-column:1 / -1;font-size:12.5px;color:var(--muted);line-height:1.5;
+  border-left:2px solid var(--rule-2);padding-left:10px;margin-top:2px;max-width:88ch}
+@media (max-width:760px){
+  .row{grid-template-columns:1fr 78px;gap:8px}
+  .mid{display:none}
+  .cell.c{grid-column:1}
+  .cell.c::before{content:"→ ";color:var(--faint)}
+  .sc{grid-row:1;grid-column:2}
+}
+.empty{padding:26px 18px;color:var(--faint);font-size:14px;font-style:italic}
+
+footer{border-top:1px solid var(--rule);padding:32px 0 60px;color:var(--muted);font-size:13.5px}
+footer p{max-width:74ch}
+footer code{color:var(--ink-2)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="vchip">Ed-Fi <b>4.0</b> and <b>6.1</b> <span aria-hidden="true">→</span>
+    CEDS <b>14.0.0.0</b> <span aria-hidden="true">·</span> entity level</div>
+  <h1>Ed-Fi and CEDS,<br><span class="dim">both versions, one map.</span></h1>
+  <p class="lede">Every entity in Ed-Fi Data Standard 4.0 and 6.1, matched to the CEDS 14 ontology
+  by domain. The Michigan Data Hub runs 4.0 for 2026&#8288;–&#8288;27; 6.1 is where the standard has
+  got to. Switch between them, or compare the two directly — 120 entities are common to both, 73
+  arrived with 6, and six were dropped.</p>
+  <div class="switch">
+    <div class="seg" role="group" aria-label="Data Standard version">
+      <button type="button" data-v="40" aria-pressed="false">Ed-Fi 4.0</button>
+      <button type="button" data-v="61" aria-pressed="false">Ed-Fi 6.1</button>
+      <button type="button" data-v="cmp" aria-pressed="true">Compare</button>
+    </div>
+    <span class="cap" id="switchcap"></span>
+  </div>
+  <div id="summary"></div>
+</header>
+
+<section id="coverage">
+  <p class="eyebrow">Where the models meet</p>
+  <h2>Coverage by domain</h2>
+  <p class="lede" id="covlede"></p>
+  <div class="cov" id="cov"></div>
+  <div class="note" id="covnote"></div>
+</section>
+
+<section id="shape">
+  <p class="eyebrow">Why the shapes differ</p>
+  <h2>One spine, two constructions</h2>
+  <p class="lede">The single most useful thing to understand before reading the table: CEDS has no
+  <span class="term">Student</span>, <span class="term">Staff</span>,
+  <span class="term">Contact</span>, or <span class="term">Candidate</span> entity. It has
+  <span class="term">Person</span>, and a person becomes a student by holding an
+  <span class="term">Enrollment</span> — one of eight specialisations of
+  <span class="term">Membership</span>. Ed-Fi does the reverse: it names the people and then makes
+  each specific association a first-class entity.</p>
+  <div class="cov" id="fig"></div>
+  <p class="fcap">This is why <code>Student</code>, <code>Staff</code>, <code>Contact</code>, and
+  <code>Candidate</code> all map to <code>Person</code> as <em>broad</em> matches rather than exact
+  ones, and why the Ed-Fi associations are the rows that hit the CEDS spine dead on. An ingestion
+  mapping should follow the associations, not the entities — and that advice holds identically in
+  both versions.</p>
+</section>
+
+<section id="table">
+  <p class="eyebrow">The crosswalk</p>
+  <h2 id="tblhead">All rows</h2>
+  <div class="tools">
+    <input type="search" id="q" placeholder="Search either side — try “IEP”, “enrollment”, “demographic”" autocomplete="off" aria-label="Search the crosswalk">
+    <button class="btn" id="changed" type="button" aria-pressed="false" hidden>Only what changed</button>
+    <button class="btn" id="expand" type="button" aria-pressed="false">Show reasoning</button>
+  </div>
+  <div class="chips" id="schips"></div>
+  <div class="chips" id="dchips"></div>
+  <div class="tbl" id="tbl"></div>
+</section>
+
+<footer>
+  <p>Ed-Fi sides generated from <code>Schemas/Bulk/Ed-Fi-Core.xsd</code> at tags
+  <code>v4.0.1</code> and <code>v6.1.0</code> of
+  <a href="https://github.com/Ed-Fi-Alliance-OSS/Ed-Fi-Data-Standard">Ed-Fi-Alliance-OSS/Ed-Fi-Data-Standard</a>;
+  CEDS side from <code>src/CEDS-Ontology.rdf</code> v14.0.0.0 of
+  <a href="https://github.com/CEDStandards/CEDS-Ontology">CEDStandards/CEDS-Ontology</a>. Within
+  each release line the core schemas are byte-identical (v4.0.0 = v4.0.1, v6.0.0 = v6.0.1), and
+  v6.1.0 is purely additive over v6.0, adding 28 types and removing none.</p>
+  <p>Domains are derived from each version's interchange schemas rather than assigned by hand.
+  Candidate CEDS targets were generated by label and definition similarity, then every row was
+  decided individually; the similarity scores are not shown because they did not decide anything.
+  The two versions share 120 rows, and this page asserts on build that those rows carry identical
+  decisions and identical domains in both — so every difference you see below is real model change,
+  not drift in the mapping. Strength values follow SKOS mapping semantics. This is a first-pass
+  entity-level mapping intended for review, not an agreed standard, and it is not endorsed by the
+  Ed-Fi Alliance or by CEDS. Property-level mapping is not included. Built by Ordevista.</p>
+</footer>
+
+</div>
+
+<script id="xw" type="application/json">{"meta":{"versions":{"40":{"entities":126,"mapped":96,"counts":{"exact":12,"close":56,"related":20,"none":30,"broad":8},"domainCounts":{"assessment":{"exact":2,"close":3,"related":1},"attendance":{"none":1,"broad":2,"close":2},"calendar":{"related":2,"close":3},"cohort":{"close":2,"none":1},"discipline":{"close":5,"related":1},"enrollment":{"close":4,"related":1},"finance":{"none":7,"close":4,"related":4},"intervention":{"close":1,"none":4,"related":1},"org":{"close":8,"broad":2,"related":1,"exact":6},"parent":{"broad":1,"close":1},"postsec":{"related":1},"program":{"exact":2,"none":1,"close":7,"broad":1},"record":{"close":4,"none":2,"related":3},"shared":{"none":1},"staff":{"close":8,"broad":1,"related":2},"standards":{"related":1,"close":2},"student":{"exact":1,"broad":1},"survey":{"none":13},"teaching":{"related":2,"exact":1,"close":2}},"cedsTargets":64,"label":"4.0","tag":"v4.0.1","model":{"de":85,"assoc":41,"common":79,"desc":189,"props":1291,"codesets":190,"values":3224}},"61":{"entities":193,"mapped":144,"counts":{"exact":14,"related":36,"close":80,"none":49,"broad":14},"domainCounts":{"assessment":{"exact":3,"related":5,"close":4},"attendance":{"none":1,"broad":2,"close":2},"calendar":{"related":2,"close":3},"cohort":{"close":2,"none":1},"contact":{"broad":1,"close":2},"discipline":{"close":4,"related":1},"edprep":{"broad":1,"close":7,"related":3,"none":1},"enrollment":{"close":5,"related":2},"finance":{"none":7,"close":4,"related":4},"health":{"close":1},"intervention":{"close":1,"none":4,"related":1},"org":{"close":9,"broad":2,"related":1,"exact":6},"path":{"none":6},"perfeval":{"close":5,"related":6,"exact":1,"none":1},"postsec":{"related":1},"proflearn":{"close":1,"related":1},"progeval":{"close":1,"none":4},"program":{"exact":2,"none":1,"close":7,"broad":2},"record":{"close":4,"none":2,"related":2},"recruit":{"none":5},"shared":{"none":1},"sped":{"related":1,"close":5},"staff":{"close":8,"related":4,"broad":3},"standards":{"close":2},"student":{"exact":1,"broad":3,"close":1},"survey":{"none":15},"teaching":{"related":2,"exact":1,"close":2}},"cedsTargets":89,"label":"6.1","tag":"v6.1.0","model":{"de":145,"assoc":48,"common":105,"desc":280,"props":1934,"codesets":281,"values":4051}}},"groups":{"org":"Education Organization","student":"Student Identity & Demographics","parent":"Parent","enrollment":"Enrollment","teaching":"Teaching & Learning","calendar":"School Calendar","staff":"Staff","assessment":"Assessment","standards":"Learning Standards","record":"Student Academic Record","attendance":"Student Attendance","discipline":"Discipline","program":"Student Programs","intervention":"Intervention","cohort":"Student Cohort","finance":"Finance","survey":"Survey","postsec":"Graduation & Postsecondary","shared":"Shared Structures","contact":"Contact","recruit":"Recruitment & Staffing","proflearn":"Professional Development","perfeval":"Performance Evaluation","edprep":"Educator Preparation","progeval":"Program Evaluation","sped":"Special Education","health":"Student Health","path":"Student Paths"},"cedsGroups":{"core":"Core","person":"Person","org":"Organization","k12":"K-12","postsec":"Postsecondary","early":"Early Learning","adult":"Adult Education","assessment":"Assessment","workforce":"Workforce","special":"Special Education & Services","facility":"Facilities","credential":"Credentials & Competencies","staff":"Staff & Jobs","learning":"Courses & Learning Resources","program":"Programs","finance":"Finance"},"cedsVersion":"14.0.0.0","strengths":["exact","close","broad","narrow","related","none"],"union":199,"shared":120,"added":["AssessmentAdministration","AssessmentAdministrationParticipation","AssessmentBatteryPart","StudentAssessmentRegistration","StudentAssessmentRegistrationBatteryPartAssociation","StudentEducationOrganizationAssessmentAccommodation","Contact","ContactIdentificationCode","StudentContactAssociation","Candidate","CandidateEducatorPreparationProgramAssociation","CandidateIdentificationCode","CandidateRelationshipToStaffAssociation","Certification","CertificationExam","CertificationExamResult","CredentialEvent","EducatorPreparationProgram","FieldworkExperience","FieldworkExperienceSectionAssociation","FinancialAid","CrisisEvent","StudentTransportation","StudentHealth","EducationOrganizationIdentificationCode","Path","PathMilestone","PathPhase","StudentPath","StudentPathMilestoneStatus","StudentPathPhaseStatus","Evaluation","EvaluationElement","EvaluationElementRating","EvaluationObjective","EvaluationObjectiveRating","EvaluationRating","Goal","PerformanceEvaluation","PerformanceEvaluationRating","QuantitativeMeasure","QuantitativeMeasureScore","RubricDimension","SurveySectionAggregateResponse","ProfessionalDevelopmentEvent","ProfessionalDevelopmentEventAttendance","EvaluationRubricDimension","ProgramEvaluation","ProgramEvaluationElement","ProgramEvaluationObjective","StudentProgramEvaluation","StudentSection504ProgramAssociation","ApplicantProfile","Application","ApplicationEvent","RecruitmentEvent","RecruitmentEventAttendance","IDEAEvent","StudentIEP","StudentIEPGoal","StudentIEPServiceDelivery","StudentIEPServicePrescription","StudentSpecialEducationProgramEligibilityAssociation","OpenStaffPositionEvent","StaffDemographic","StaffDirectory","StaffEducatorPreparationProgramAssociation","StaffIdentificationCode","StudentDemographic","StudentDirectory","StudentIdentificationCode","SurveyResponsePersonTargetAssociation","SurveySectionResponsePersonTargetAssociation"],"removed":["StudentDisciplineIncidentAssociation","Parent","StudentParentAssociation","StudentLearningObjective","StaffEducationOrganizationContactAssociation","LearningObjective"],"repropped":["StudentAssessment","GradingPeriod","DisciplineAction","DisciplineIncident","StudentDisciplineIncidentBehaviorAssociation","GraduationPlan","StudentEducationOrganizationAssociation","StudentEducationOrganizationResponsibilityAssociation","StudentSchoolAssociation","StudentSectionAssociation","CommunityOrganization","CommunityProvider","EducationOrganization","EducationOrganizationNetwork","EducationServiceCenter","LocalEducationAgency","OrganizationDepartment","PostSecondaryInstitution","Program","School","StateEducationAgency","GeneralStudentProgramAssociation","RestraintEvent","StudentCTEProgramAssociation","StudentHomelessProgramAssociation","StudentLanguageInstructionProgramAssociation","StudentMigrantEducationProgramAssociation","StudentNeglectedOrDelinquentProgramAssociation","StudentProgramAssociation","StudentSchoolFoodServiceProgramAssociation","StudentSpecialEducationProgramAssociation","StudentTitleIPartAProgramAssociation","CourseTranscript","Grade","ReportCard","StudentAcademicRecord","StudentGradebookEntry","Credential","OpenStaffPosition","Staff","StaffEducationOrganizationAssignmentAssociation","StaffEducationOrganizationEmploymentAssociation","LearningStandard","Student","SurveyResponse","SurveySection","Course","Section"]},"rows":[{"id":"Assessment","l":"Assessment","g":"assessment","kind":"Domain Entity","def":"This entity represents a tool, instrument, process, or exhibition composed of a systematic sampling of behavior for measuring a student's competence, knowledge, skills, or behavior. An assessment can be used to measure differences in individuals or groups and changes in performance from one occasion to the next.","ceds":"Assessment","cg":"assessment","cnp":23,"s":"exact","note":"","in40":true,"in61":true,"np40":45,"np61":45},{"id":"AssessmentAdministration","l":"Assessment Administration","g":"assessment","kind":"Domain Entity","def":"The anticipated administration of an assessment under the purview of an education organization.","ceds":"Assessment Administration","cg":"assessment","cnp":10,"s":"exact","note":"","in40":false,"in61":true,"np40":null,"np61":7},{"id":"AssessmentAdministrationParticipation","l":"Assessment Administration Participation","g":"assessment","kind":"Domain Entity","def":"Identifies the point of contact for the administration of an assessment under the purview of an education organization.","ceds":"Assessment Administration","cg":"assessment","cnp":10,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":8},{"id":"AssessmentBatteryPart","l":"Assessment Battery Part","g":"assessment","kind":"Domain Entity","def":"The parts organized for administering an assessessment which together provide a comprehensive assessment of the students.","ceds":"Assessment Subtest","cg":"assessment","cnp":25,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":3},{"id":"AssessmentItem","l":"Assessment Item","g":"assessment","kind":"Domain Entity","def":"This entity represents one of many single measures that make up an assessment.","ceds":"Assessment Item","cg":"assessment","cnp":28,"s":"exact","note":"","in40":true,"in61":true,"np40":13,"np61":13},{"id":"AssessmentScoreRangeLearningStandard","l":"Assessment Score Range Learning Standard","g":"assessment","kind":"Domain Entity","def":"Score ranges of an assessment associated with one or more learning standards.","ceds":"Assessment Performance Level","cg":"assessment","cnp":6,"s":"close","note":"","in40":true,"in61":true,"np40":7,"np61":7},{"id":"ObjectiveAssessment","l":"Objective Assessment","g":"assessment","kind":"Domain Entity","def":"This entity represents subtests that assess specific learning objectives.","ceds":"Assessment Subtest","cg":"assessment","cnp":25,"s":"close","note":"Both are the scored sub-part of an assessment.","in40":true,"in61":true,"np40":22,"np61":22},{"id":"StudentAssessment","l":"Student Assessment","g":"assessment","kind":"Domain Entity","def":"This entity represents the analysis or scoring of a student's response on an assessment. The analysis results in a value that represents a student's performance on a set of items on a test.","ceds":"Assessment Result","cg":"assessment","cnp":22,"s":"close","note":"CEDS splits the sitting (Assessment Registration) from the outcome (Assessment Result); Ed-Fi combines them on StudentAssessment.","in40":true,"in61":true,"np40":47,"np61":52},{"id":"StudentAssessmentEducationOrganizationAssociation","l":"Student Assessment Education Organization Association","g":"assessment","kind":"Association","def":"The association of individual StudentAssessments with EducationOrganizations indicating administration, enrollment, or attribution.","ceds":"Assessment Administration","cg":"assessment","cnp":10,"s":"related","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"StudentAssessmentRegistration","l":"Student Assessment Registration","g":"assessment","kind":"Domain Entity","def":"Identifies an assessment registration that a student is expected to participate in including the testing organization, reporting organization and assessment delivery details.","ceds":"Assessment Registration","cg":"assessment","cnp":24,"s":"close","note":"DS 6 splits registration from result, which brings it closer to the CEDS shape than DS 4.0 was.","in40":false,"in61":true,"np40":null,"np61":12},{"id":"StudentAssessmentRegistrationBatteryPartAssociation","l":"Student Assessment Registration Battery Part Association","g":"assessment","kind":"Association","def":"The association to the part(s) of the assessment battery that the student is to be tested for this administration of the assessment.","ceds":"Assessment Registration","cg":"assessment","cnp":24,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":3},{"id":"StudentEducationOrganizationAssessmentAccommodation","l":"Student Education Organization Assessment Accommodation","g":"assessment","kind":"Domain Entity","def":"The accommodation(s) required or expected for administering assessments as determined by the education organization.","ceds":"Individualized Program Assessment Accessibility Feature","cg":"special","cnp":1,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":3},{"id":"SectionAttendanceTakenEvent","l":"Section Attendance Taken Event","g":"attendance","kind":"Domain Entity","def":"Captures attendance taken event for given section.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"An operational flag that attendance was taken; CEDS records no such event.","in40":true,"in61":true,"np40":4,"np61":4},{"id":"StudentInterventionAttendanceEvent","l":"Student Intervention Attendance Event","g":"attendance","kind":"Domain Entity","def":"This event entity represents the recording of whether a student is in attendance for an intervention service.","ceds":"Role Attendance Event","cg":"core","cnp":12,"s":"broad","note":"","in40":true,"in61":true,"np40":9,"np61":9},{"id":"StudentProgramAttendanceEvent","l":"Student Program Attendance Event","g":"attendance","kind":"Domain Entity","def":"This event entity represents the recording of whether a student is in attendance to receive or participate in program services.","ceds":"Role Attendance Event","cg":"core","cnp":12,"s":"broad","note":"","in40":true,"in61":true,"np40":10,"np61":10},{"id":"StudentSchoolAttendanceEvent","l":"Student School Attendance Event","g":"attendance","kind":"Domain Entity","def":"This event entity represents the recording of whether a student is in attendance for a school day.","ceds":"Role Attendance Event","cg":"core","cnp":12,"s":"close","note":"","in40":true,"in61":true,"np40":12,"np61":12},{"id":"StudentSectionAttendanceEvent","l":"Student Section Attendance Event","g":"attendance","kind":"Domain Entity","def":"This event entity represents the recording of whether a student is in attendance for a section.","ceds":"Role Attendance Event","cg":"core","cnp":12,"s":"close","note":"","in40":true,"in61":true,"np40":12,"np61":12},{"id":"AcademicWeek","l":"Academic Week","g":"calendar","kind":"Domain Entity","def":"This entity represents the academic weeks for a school year, optionally captured to support analyses.","ceds":"Organization Calendar","cg":"org","cnp":8,"s":"related","note":"","in40":true,"in61":true,"np40":5,"np61":5},{"id":"Calendar","l":"Calendar","g":"calendar","kind":"Domain Entity","def":"A set of dates associated with an organization.","ceds":"Organization Calendar","cg":"org","cnp":8,"s":"close","note":"","in40":true,"in61":true,"np40":5,"np61":5},{"id":"CalendarDate","l":"Calendar Date","g":"calendar","kind":"Domain Entity","def":"The type of scheduled or unscheduled event for the day.","ceds":"Organization Calendar Day","cg":"org","cnp":1,"s":"close","note":"","in40":true,"in61":true,"np40":3,"np61":3},{"id":"GradingPeriod","l":"Grading Period","g":"calendar","kind":"Domain Entity","def":"This entity represents the time span for which grades are reported.","ceds":"Organization Calendar Session","cg":"org","cnp":27,"s":"related","note":"CEDS folds grading periods into the general calendar session.","in40":true,"in61":true,"np40":7,"np61":8},{"id":"Session","l":"Session","g":"calendar","kind":"Domain Entity","def":"A specific designated unit of time during which instruction is provided, grades are reported and academic credits are awarded to students (whenever applicable). Sessions serve as organized segments of the academic year and can be interrupted by vacations or other events.","ceds":"Organization Calendar Session","cg":"org","cnp":27,"s":"close","note":"","in40":true,"in61":true,"np40":9,"np61":9},{"id":"Cohort","l":"Cohort","g":"cohort","kind":"Domain Entity","def":"This entity represents any type of list of designated students for tracking, analysis, or intervention.","ceds":"K12 Student Cohort","cg":"k12","cnp":6,"s":"close","note":"","in40":true,"in61":true,"np40":7,"np61":7},{"id":"StaffCohortAssociation","l":"Staff Cohort Association","g":"cohort","kind":"Association","def":"This association indicates the staff associated with a cohort of students.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"CEDS cohorts are student-only.","in40":true,"in61":true,"np40":5,"np61":5},{"id":"StudentCohortAssociation","l":"Student Cohort Association","g":"cohort","kind":"Association","def":"This association represents the cohort(s) for which a student is designated.","ceds":"K12 Student Cohort","cg":"k12","cnp":6,"s":"close","note":"","in40":true,"in61":true,"np40":5,"np61":5},{"id":"Contact","l":"Contact","g":"contact","kind":"Domain Entity","def":"This entity represents a contact of a student, such as a parent, guardian or caretaker.","ceds":"Person","cg":"core","cnp":55,"s":"broad","note":"False friend: CEDS has an entity called Contact, but it means an individual within an organization who is a point of communication \u2014 not a parent or guardian. Ed-Fi 6 renamed Parent to Contact, so the two names now collide on different concepts.","in40":false,"in61":true,"np40":null,"np61":65},{"id":"ContactIdentificationCode","l":"Contact Identification Code","g":"contact","kind":"Domain Entity","def":"This entity holds different identity codes for a contact.","ceds":"Person Identification","cg":"person","cnp":4,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"StudentContactAssociation","l":"Student Contact Association","g":"contact","kind":"Association","def":"This association relates students to their parents, guardians, or caretakers.","ceds":"Person Relationship","cg":"person","cnp":7,"s":"close","note":"Replaces StudentParentAssociation from DS 4.0; the CEDS target is unchanged.","in40":false,"in61":true,"np40":null,"np61":9},{"id":"DisciplineAction","l":"Discipline Action","g":"discipline","kind":"Domain Entity","def":"This event entity represents actions taken by an education organization after a disruptive event that is recorded as a discipline incident.","ceds":"K12 Student Discipline","cg":"k12","cnp":18,"s":"close","note":"","in40":true,"in61":true,"np40":15,"np61":13},{"id":"DisciplineIncident","l":"Discipline Incident","g":"discipline","kind":"Domain Entity","def":"This event entity represents an occurrence of an infraction ranging from a minor behavioral problem that disrupts the orderly functioning of a school or classroom (such as tardiness) to a criminal act that results in the involvement of a law enforcement official (such as robbery). A single event (e.g., a fight) is one incident regardless of how many perpetrators or victims are involved. Discipline incidents are events classified as warranting discipline action.","ceds":"Incident","cg":"facility","cnp":24,"s":"close","note":"","in40":true,"in61":true,"np40":20,"np61":19},{"id":"StaffDisciplineIncidentAssociation","l":"Staff Discipline Incident Association","g":"discipline","kind":"Association","def":"This association indicates those staff who were victims, perpetrators, witnesses, and reporters for a discipline incident.","ceds":"Incident Person","cg":"facility","cnp":7,"s":"close","note":"","in40":true,"in61":true,"np40":3,"np61":3},{"id":"StudentDisciplineIncidentAssociation","l":"Student Discipline Incident Association","g":"discipline","kind":"Association","def":"This association indicates those students who were victims, perpetrators, witnesses, and reporters for a discipline incident.","ceds":"Incident Person","cg":"facility","cnp":7,"s":"close","note":"","in40":true,"in61":false,"np40":6,"np61":null},{"id":"StudentDisciplineIncidentBehaviorAssociation","l":"Student Discipline Incident Behavior Association","g":"discipline","kind":"Association","def":"This association describes the behavior of students involved in a discipline incident.","ceds":"Incident Person","cg":"facility","cnp":7,"s":"related","note":"CEDS carries behaviour as properties of Incident Person rather than as its own entity.","in40":true,"in61":true,"np40":5,"np61":6},{"id":"StudentDisciplineIncidentNonOffenderAssociation","l":"Student Discipline Incident Non Offender Association","g":"discipline","kind":"Association","def":"This association indicates those students who were involved and not perpetrators for a discipline incident.","ceds":"Incident Person","cg":"facility","cnp":7,"s":"close","note":"CEDS distinguishes the role via Incident Person, so victim and witness land here too.","in40":true,"in61":true,"np40":3,"np61":3},{"id":"Candidate","l":"Candidate","g":"edprep","kind":"Domain Entity","def":"A candidate is both a person enrolled in a educator preparation program and a candidate to become an educator.","ceds":"Person","cg":"core","cnp":55,"s":"broad","note":"Same pattern as Student and Staff \u2014 CEDS makes a person a candidate by way of Program Participation Teacher Prep, not by a Candidate entity.","in40":false,"in61":true,"np40":null,"np61":115},{"id":"CandidateEducatorPreparationProgramAssociation","l":"Candidate Educator Preparation Program Association","g":"edprep","kind":"Association","def":"Information about the association between the educator candidate and the educator preparation program.","ceds":"Program Participation Teacher Prep","cg":"program","cnp":10,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":23},{"id":"CandidateIdentificationCode","l":"Candidate Identification Code","g":"edprep","kind":"Domain Entity","def":"This entity holds different identity codes for a candidate.","ceds":"Person Identification","cg":"person","cnp":4,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"CandidateRelationshipToStaffAssociation","l":"Candidate Relationship To Staff Association","g":"edprep","kind":"Association","def":"Describes the relationship between a  current candidate and a staff person, typically at a K12 partnering district in the role of a mentor teacher, coordinating teacher, supervising principal, etc. It could also describe the relationship between a  current candidate and a university staff member. This is a relationship between two different people","ceds":"Person Relationship","cg":"person","cnp":7,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"Certification","l":"Certification","g":"edprep","kind":"Domain Entity","def":"An offering by an official granting authority of a certification or license that qualifies persons to perform specific job functions, such as fulfill a teaching assignment.","ceds":"Credential Definition","cg":"credential","cnp":30,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":16},{"id":"CertificationExam","l":"Certification Exam","g":"edprep","kind":"Domain Entity","def":"An examination required by one or more certifications.","ceds":"Teacher Education Credential Exam","cg":"assessment","cnp":4,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":7},{"id":"CertificationExamResult","l":"Certification Exam Result","g":"edprep","kind":"Domain Entity","def":"The person's result from taking a certification exam.","ceds":"Teacher Education Credential Exam","cg":"assessment","cnp":4,"s":"related","note":"CEDS carries the exam and its score on one entity; Ed-Fi separates the result.","in40":false,"in61":true,"np40":null,"np61":8},{"id":"CredentialEvent","l":"Credential Event","g":"edprep","kind":"Domain Entity","def":"An event associated with a person's credential.","ceds":"Person Credential","cg":"person","cnp":10,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":4},{"id":"EducatorPreparationProgram","l":"Educator Preparation Program","g":"edprep","kind":"Domain Entity","def":"The educator preparation program designed to prepare students to become licensed educators.","ceds":"Program","cg":"program","cnp":5,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":6},{"id":"FieldworkExperience","l":"Fieldwork Experience","g":"edprep","kind":"Domain Entity","def":"The information regarding a post-secondary instructional course in a particular field of study that typically involves a prescribed number, instruction periods, or meetings for enrolled students.","ceds":"Staff Experience","cg":"staff","cnp":4,"s":"related","note":"CEDS Staff Experience is a count of years, not a described placement. Weak match.","in40":false,"in61":true,"np40":null,"np61":11},{"id":"FieldworkExperienceSectionAssociation","l":"Fieldwork Experience Section Association","g":"edprep","kind":"Association","def":"Associates field work experience with a section.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":2},{"id":"FinancialAid","l":"Financial Aid","g":"edprep","kind":"Domain Entity","def":"This entity represents the financial aid a person is awarded.","ceds":"Financial Aid Award","cg":"postsec","cnp":4,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":7},{"id":"CrisisEvent","l":"Crisis Event","g":"enrollment","kind":"Domain Entity","def":"A natural or man-made event that causes the disruption of school-level activities and the temporary or permanent displacement of students.","ceds":"Organization Calendar Crisis","cg":"org","cnp":7,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"GraduationPlan","l":"Graduation Plan","g":"enrollment","kind":"Domain Entity","def":"This entity is a plan outlining the required credits, credits by subject, credits by course, and other criteria required for graduation. A graduation plan may be one or more standard plans defined by an education organization and/or individual plans for some or all students.","ceds":"K12 Student Graduation Plan","cg":"k12","cnp":3,"s":"close","note":"","in40":true,"in61":true,"np40":23,"np61":27},{"id":"StudentEducationOrganizationAssociation","l":"Student Education Organization Association","g":"enrollment","kind":"Association","def":"This association represents student information as reported in the context of the student's relationship to the education organization. Enrollment relationship semantics are covered by StudentSchoolAssociation.","ceds":"Person","cg":"core","cnp":55,"s":"related","note":"This is where Ed-Fi puts student demographics, scoped to an organization. CEDS attaches the same facts to Person and its satellite entities, unscoped. One of the most consequential differences for an ingestion mapping.","in40":true,"in61":true,"np40":89,"np61":27},{"id":"StudentEducationOrganizationResponsibilityAssociation","l":"Student Education Organization Responsibility Association","g":"enrollment","kind":"Association","def":"This association indicates a relationship between a student and an education organization other than an enrollment relationship, and generally indicating some kind of responsibility of the education organization for the student. Enrollment relationship semantics are covered by StudentSchoolAssociation.","ceds":"K12 Organization Student Responsibility","cg":"k12","cnp":6,"s":"close","note":"","in40":true,"in61":true,"np40":5,"np61":6},{"id":"StudentSchoolAssociation","l":"Student School Association","g":"enrollment","kind":"Association","def":"This association represents the school in which a student is enrolled. The semantics of enrollment may differ slightly by state. Non-enrollment relationships between a student and an education organization may be described using the StudentEducationOrganizationAssociation, StudentDemographic and StudentDirectory.","ceds":"K12 Student Enrollment","cg":"k12","cnp":33,"s":"close","note":"The anchor row of the whole crosswalk: Ed-Fi enrolment maps onto the CEDS Membership spine via Enrollment, specialised for K12.","in40":true,"in61":true,"np40":21,"np61":26},{"id":"StudentSectionAssociation","l":"Student Section Association","g":"enrollment","kind":"Association","def":"This association indicates the course sections to which a student is assigned.","ceds":"Student Course Section Enrollment","cg":"core","cnp":22,"s":"close","note":"","in40":true,"in61":true,"np40":8,"np61":15},{"id":"StudentTransportation","l":"Student Transportation","g":"enrollment","kind":"Domain Entity","def":"This entity captures a student's specific transportation arrangement.","ceds":"Person Transportation Eligibility","cg":"person","cnp":3,"s":"related","note":"CEDS records eligibility for transport, not the routing and stop detail Ed-Fi carries.","in40":false,"in61":true,"np40":null,"np61":11},{"id":"BalanceSheetDimension","l":"Balance Sheet Dimension","g":"finance","kind":"Domain Entity","def":"The NCES balance sheet accounting dimension, used to track financial transactions for each fund. These financial statements only report assets, deferred outflows of resources, liabilities, deferred inflows of resources, and equity accounts. The statements are considered snapshots of how these accounts stand as of a certain point in time.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"ChartOfAccount","l":"Chart Of Account","g":"finance","kind":"Domain Entity","def":"A valid combination of account dimensions under which financials are reported. This financial entity represents a funding source combined with its purpose and type of transaction. It provides a formal record of the debits and credits relating to the specific account.","ceds":"Financial Account","cg":"finance","cnp":24,"s":"close","note":"CEDS Financial Account is a single account; Ed-Fi ChartOfAccount is the assembled dimensional key. Close on concept, different on construction.","in40":true,"in61":true,"np40":16,"np61":16},{"id":"FunctionDimension","l":"Function Dimension","g":"finance","kind":"Domain Entity","def":"The NCES function accounting dimension representing an expenditure. The function describes the activity for which a service or material object is acquired. The functions of a school district are generally classified into five broad areas, including instruction, support services, operation of non-instructional services, facilities acquisition and construction, and debt service.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"FundDimension","l":"Fund Dimension","g":"finance","kind":"Domain Entity","def":"The NCES fund accounting dimension. A fund is a fiscal and accounting entity with a self-balancing set of accounts recording cash and other financial resources, together with all related liabilities and residual equities or balances, and changes therein, which are segregated for the purpose of carrying on specific activities or attaining certain objectives in accordance with special regulations, restrictions, or limitations.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"LocalAccount","l":"Local Account","g":"finance","kind":"Domain Entity","def":"The set of account codes defined by an education organization for a fiscal year. It provides a formal record of the debits and credits relating to the specific account.","ceds":"Financial Account","cg":"finance","cnp":24,"s":"close","note":"","in40":true,"in61":true,"np40":8,"np61":8},{"id":"LocalActual","l":"Local Actual","g":"finance","kind":"Domain Entity","def":"The set of local education agency or charter management organization expense or revenue amounts.","ceds":"Organization Financial","cg":"org","cnp":12,"s":"close","note":"Both hold actual amounts for an account within an accounting period.","in40":true,"in61":true,"np40":4,"np61":4},{"id":"LocalBudget","l":"Local Budget","g":"finance","kind":"Domain Entity","def":"The set of local education agency or charter management organization budget amounts.","ceds":"Organization Financial","cg":"org","cnp":12,"s":"related","note":"CEDS carries budgeted and actual amounts on the same entity; Ed-Fi separates them.","in40":true,"in61":true,"np40":4,"np61":4},{"id":"LocalContractedStaff","l":"Local Contracted Staff","g":"finance","kind":"Domain Entity","def":"The set of local education agency or charter management organization contracted staff amounts.","ceds":"Staff Compensation","cg":"staff","cnp":11,"s":"related","note":"","in40":true,"in61":true,"np40":5,"np61":5},{"id":"LocalEncumbrance","l":"Local Encumbrance","g":"finance","kind":"Domain Entity","def":"The set of local education agency or charter management organization encumbrance amounts.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"LocalPayroll","l":"Local Payroll","g":"finance","kind":"Domain Entity","def":"The set of local education agency or charter management organization payroll amounts.","ceds":"Staff Compensation","cg":"staff","cnp":11,"s":"related","note":"","in40":true,"in61":true,"np40":5,"np61":5},{"id":"ObjectDimension","l":"Object Dimension","g":"finance","kind":"Domain Entity","def":"The NCES object accounting dimension representing an expenditure. Per the NCES definition, this classification is used to describe the service or commodity obtained as the result of a specific expenditure, such as salaries, benefits, tuition reimbursement, and so forth.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"OperationalUnitDimension","l":"Operational Unit Dimension","g":"finance","kind":"Domain Entity","def":"The NCES operational unit accounting dimension. This dimension is used to segregate costs by school and operational unit such as physical location, department, or other method.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"ProgramDimension","l":"Program Dimension","g":"finance","kind":"Domain Entity","def":"The NCES program accounting dimension. A program is defined by the NCES as a plan of activities and procedures designed to accomplish a predetermined objective or set of objectives. These are often categorized into broad program areas such as regular education, special education, vocational education, other PK-12 instructional, nonpublic school, adult and continuing education, community and junior college education, community services, and co-curricular or extracurricular activities.","ceds":"Financial Account Program","cg":"finance","cnp":2,"s":"close","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"ProjectDimension","l":"Project Dimension","g":"finance","kind":"Domain Entity","def":"The NCES project accounting dimension. The project dimension reporting code permits school districts to accumulate expenditures to meet a variety of specialized reporting requirements at the local, state, and federal levels.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"SourceDimension","l":"Source Dimension","g":"finance","kind":"Domain Entity","def":"The NCES source dimension. This dimension is used to segregate costs by school and operational unit such as physical location, department, or other method.","ceds":"Course Funding Source","cg":"learning","cnp":2,"s":"related","note":"CEDS models funding source only where it attaches to a course or to staff compensation, not as a reusable account dimension.","in40":true,"in61":true,"np40":4,"np61":4},{"id":"StudentHealth","l":"Student Health","g":"health","kind":"Domain Entity","def":"This entity stores the student health records.","ceds":"Person Health","cg":"person","cnp":11,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":13},{"id":"EducationContent","l":"Education Content","g":"intervention","kind":"Domain Entity","def":"This entity represents materials for students or teachers that can be used for teaching, learning, research, and more. Education content includes full courses, course materials, modules, intervention descriptions, textbooks, streaming videos, tests, software, and any other tools, materials, or techniques used to support access to knowledge.","ceds":"Learning Resource","cg":"learning","cnp":62,"s":"close","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"EducationOrganizationInterventionPrescriptionAssociation","l":"Education Organization Intervention Prescription Association","g":"intervention","kind":"Association","def":"This association indicates interventions made available by an education organization. Often, a district-level education organization purchases a set of intervention prescriptions and makes them available to its schools for use on demand.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"Intervention","l":"Intervention","g":"intervention","kind":"Domain Entity","def":"An implementation of an instructional approach focusing on the specific techniques and materials used to teach a given subject.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"CEDS 14 has no intervention model.","in40":true,"in61":true,"np40":22,"np61":22},{"id":"InterventionPrescription","l":"Intervention Prescription","g":"intervention","kind":"Domain Entity","def":"This entity represents a formal prescription of an instructional approach focusing on the specific techniques and materials used to teach a given subject. This can be prescribed by academic research, an interventions vendor, or another entity.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":15,"np61":15},{"id":"InterventionStudy","l":"Intervention Study","g":"intervention","kind":"Domain Entity","def":"An experimental or quasi-experimental study of an intervention technique.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":20,"np61":20},{"id":"StudentInterventionAssociation","l":"Student Intervention Association","g":"intervention","kind":"Association","def":"This association indicates the students participating in an intervention.","ceds":"Service Membership","cg":"core","cnp":5,"s":"related","note":"The nearest CEDS shape is a service a person receives, not an intervention as such.","in40":true,"in61":true,"np40":11,"np61":11},{"id":"AccountabilityRating","l":"Accountability Rating","g":"org","kind":"Domain Entity","def":"An accountability rating for a school or district.","ceds":"Organization Federal Accountability","cg":"org","cnp":21,"s":"close","note":"","in40":true,"in61":true,"np40":7,"np61":7},{"id":"CommunityOrganization","l":"Community Organization","g":"org","kind":"Domain Entity","def":"This entity represents an administrative unit at the state level which exists primarily to operate local community providers.","ceds":"Organization","cg":"core","cnp":48,"s":"broad","note":"CEDS has no community-organization subtype; Service Provider is the nearest specific one.","in40":true,"in61":true,"np40":46,"np61":44},{"id":"CommunityProvider","l":"Community Provider","g":"org","kind":"Domain Entity","def":"This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups.","ceds":"Service Provider","cg":"special","cnp":1,"s":"close","note":"","in40":true,"in61":true,"np40":52,"np61":50},{"id":"CommunityProviderLicense","l":"Community Provider License","g":"org","kind":"Domain Entity","def":"The legal document held by the community provider that authorizes the holder to perform certain functions and or services.","ceds":"Authorization Document","cg":"core","cnp":4,"s":"related","note":"CEDS treats licensure as an authorizing document rather than an organization property.","in40":true,"in61":true,"np40":12,"np61":12},{"id":"EducationOrganization","l":"Education Organization","g":"org","kind":"Domain Entity","def":"This entity represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level.","ceds":"Education Institution","cg":"org","cnp":0,"s":"close","note":"Both are the abstract parent of the specific education-organization types.","in40":true,"in61":true,"np40":45,"np61":43},{"id":"EducationOrganizationIdentificationCode","l":"Education Organization Identification Code","g":"org","kind":"Domain Entity","def":"This entity holds different identity codes for an education organization.","ceds":"Organization Identification","cg":"org","cnp":18,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":4},{"id":"EducationOrganizationNetwork","l":"Education Organization Network","g":"org","kind":"Domain Entity","def":"This entity is a self-organized membership network of peer-level education organizations intended to provide shared services or collective procurement.","ceds":"Education Organization Network","cg":"org","cnp":0,"s":"exact","note":"","in40":true,"in61":true,"np40":47,"np61":45},{"id":"EducationOrganizationNetworkAssociation","l":"Education Organization Network Association","g":"org","kind":"Association","def":"Properties of the association between the education organization and its network(s).","ceds":"Organization Relationship","cg":"org","cnp":3,"s":"close","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"EducationOrganizationPeerAssociation","l":"Education Organization Peer Association","g":"org","kind":"Association","def":"The association from an education organization to its peers.","ceds":"Organization Relationship","cg":"org","cnp":3,"s":"close","note":"","in40":true,"in61":true,"np40":2,"np61":2},{"id":"EducationServiceCenter","l":"Education Service Center","g":"org","kind":"Domain Entity","def":"This entity represents a regional, multi-services public agency authorized by state law to develop, manage and provide services, programs, or other support options (e.g., construction, food services, and technology services) to LEAs.","ceds":"Intermediate Educational Unit","cg":"k12","cnp":0,"s":"close","note":"This is the Michigan ISD. Ed-Fi ESC and CEDS IEU describe the same regional agency.","in40":true,"in61":true,"np40":47,"np61":45},{"id":"FeederSchoolAssociation","l":"Feeder School Association","g":"org","kind":"Association","def":"The association from feeder school to the receiving school.","ceds":"Organization Relationship","cg":"org","cnp":3,"s":"close","note":"","in40":true,"in61":true,"np40":5,"np61":5},{"id":"LocalEducationAgency","l":"Local Education Agency","g":"org","kind":"Domain Entity","def":"This entity represents an administrative unit at the local level which exists primarily to operate schools or to contract for educational services. It includes school districts, charter schools, charter management organizations, or other local administrative organizations.","ceds":"Local Education Agency","cg":"k12","cnp":16,"s":"exact","note":"","in40":true,"in61":true,"np40":65,"np61":64},{"id":"Location","l":"Location","g":"org","kind":"Domain Entity","def":"This entity represents the physical space where students gather for a particular class/section. The location may be an indoor or outdoor area designated for the purpose of meeting the educational needs of students.","ceds":"Location","cg":"facility","cnp":1,"s":"exact","note":"","in40":true,"in61":true,"np40":4,"np61":4},{"id":"OrganizationDepartment","l":"Organization Department","g":"org","kind":"Domain Entity","def":"An organizational unit of another education organization, often devoted to a particular academic discipline, area of study, or organization function.","ceds":"Organization","cg":"core","cnp":48,"s":"broad","note":"CEDS has no sub-organizational unit type.","in40":true,"in61":true,"np40":48,"np61":46},{"id":"PostSecondaryInstitution","l":"Post Secondary Institution","g":"org","kind":"Domain Entity","def":"An organization that provides educational programs for individuals who have completed or otherwise left educational programs in secondary school(s).","ceds":"Postsecondary Institution","cg":"postsec","cnp":14,"s":"exact","note":"","in40":true,"in61":true,"np40":49,"np61":48},{"id":"Program","l":"Program","g":"org","kind":"Domain Entity","def":"This entity represents any program designed to work in conjunction with, or as a supplement to, the main academic program. Programs may provide instruction, training, services, or benefits through federal, state, or local agencies. Programs may also include organized extracurricular activities for students.","ceds":"Program","cg":"program","cnp":5,"s":"exact","note":"Both model a program as an organization.","in40":true,"in61":true,"np40":9,"np61":7},{"id":"School","l":"School","g":"org","kind":"Domain Entity","def":"This entity represents an educational organization that includes staff, students and candidates who participate in classes and educational activity groups, inclusive of school in a post secondary institution.","ceds":"K12 School","cg":"k12","cnp":25,"s":"close","note":"Ed-Fi School is not restricted to K12, but in practice carries K12 semantics.","in40":true,"in61":true,"np40":57,"np61":59},{"id":"StateEducationAgency","l":"State Education Agency","g":"org","kind":"Domain Entity","def":"This entity represents the agency of the state charged with the primary responsibility for coordinating and supervising public instruction, including the setting of standards for elementary and secondary instructional programs.","ceds":"State Education Agency","cg":"k12","cnp":2,"s":"exact","note":"","in40":true,"in61":true,"np40":52,"np61":51},{"id":"Parent","l":"Parent","g":"parent","kind":"Domain Entity","def":"This entity represents a parent or guardian of a student, such as mother, father, or caretaker.","ceds":"Person","cg":"core","cnp":55,"s":"broad","note":"As with Staff, CEDS has no Parent entity \u2014 the role comes from the relationship.","in40":true,"in61":false,"np40":61,"np61":null},{"id":"StudentParentAssociation","l":"Student Parent Association","g":"parent","kind":"Association","def":"This association relates students to their parents, guardians, or caretakers.","ceds":"Person Relationship","cg":"person","cnp":7,"s":"close","note":"","in40":true,"in61":false,"np40":9,"np61":null},{"id":"Path","l":"Path","g":"path","kind":"Domain Entity","def":"A scheme for achieving milestones organized by phases for students to follow and be tracked against.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":3},{"id":"PathMilestone","l":"Path Milestone","g":"path","kind":"Domain Entity","def":"A significant event or achievement as part of a path of study.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":4},{"id":"PathPhase","l":"Path Phase","g":"path","kind":"Domain Entity","def":"A stage in the process of a student achieving milestones.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"StudentPath","l":"Student Path","g":"path","kind":"Domain Entity","def":"The entity representing the association or assignment of the student to the path of study being pursued.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"StudentPathMilestoneStatus","l":"Student Path Milestone Status","g":"path","kind":"Domain Entity","def":"The status of the student's achievement of the path milestone.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":8},{"id":"StudentPathPhaseStatus","l":"Student Path Phase Status","g":"path","kind":"Domain Entity","def":"The status of the student's association with the path's phase.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":9},{"id":"Evaluation","l":"Evaluation","g":"perfeval","kind":"Domain Entity","def":"An evaluation instrument applied to evaluate an educator.  The evaluation could be internally developed, or could be an industry recognized instrument such as TTESS or Marzano.","ceds":"Staff Evaluation","cg":"staff","cnp":6,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":11},{"id":"EvaluationElement","l":"Evaluation Element","g":"perfeval","kind":"Domain Entity","def":"The lowest-level elements or criterion of performance being evaluated by rubric, quantitative measure, or aggregate survey response.","ceds":"Staff Evaluation Part","cg":"staff","cnp":3,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":10},{"id":"EvaluationElementRating","l":"Evaluation Element Rating","g":"perfeval","kind":"Domain Entity","def":"The lowest-level rating for an evaluation element for an individual educator.","ceds":"Staff Evaluation Part","cg":"staff","cnp":3,"s":"related","note":"CEDS holds the score on the evaluation part itself rather than as a separate rating.","in40":false,"in61":true,"np40":null,"np61":11},{"id":"EvaluationObjective","l":"Evaluation Objective","g":"perfeval","kind":"Domain Entity","def":"A sub-component of an evaluation, a specific educator objective or domain of performance that is being evaluated.","ceds":"Staff Evaluation Part","cg":"staff","cnp":3,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":11},{"id":"EvaluationObjectiveRating","l":"Evaluation Objective Rating","g":"perfeval","kind":"Domain Entity","def":"The rating for the component evaluation objective for an individual educator.","ceds":"Staff Evaluation Part","cg":"staff","cnp":3,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":8},{"id":"EvaluationRating","l":"Evaluation Rating","g":"perfeval","kind":"Domain Entity","def":"The summary weighting for the evaluation instrument for an individual educator.","ceds":"Staff Evaluation","cg":"staff","cnp":6,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":17},{"id":"Goal","l":"Goal","g":"perfeval","kind":"Domain Entity","def":"The goal for performance improvement assigned to an educator associated with an evaluation element.","ceds":"Goal","cg":"special","cnp":6,"s":"exact","note":"","in40":false,"in61":true,"np40":null,"np61":12},{"id":"PerformanceEvaluation","l":"Performance Evaluation","g":"perfeval","kind":"Domain Entity","def":"A performance evaluation of an educator, typically regularly scheduled and uniformly applied, composed of one or more evaluations.","ceds":"Staff Evaluation","cg":"staff","cnp":6,"s":"close","note":"Ed-Fi 6 builds a five-level evaluation hierarchy \u2014 performance evaluation, evaluation, objective, element, and their ratings. CEDS flattens all of it into Staff Evaluation and Staff Evaluation Part, so the whole domain maps but loses depth.","in40":false,"in61":true,"np40":null,"np61":13},{"id":"PerformanceEvaluationRating","l":"Performance Evaluation Rating","g":"perfeval","kind":"Domain Entity","def":"The summary rating for a performance evaluation across all evaluation instruments for an individual educator.","ceds":"Staff Evaluation","cg":"staff","cnp":6,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":19},{"id":"QuantitativeMeasure","l":"Quantitative Measure","g":"perfeval","kind":"Domain Entity","def":"A quantitative measure of the educator performance associated with an evaluation element.","ceds":"Goal Measurement","cg":"special","cnp":5,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":4},{"id":"QuantitativeMeasureScore","l":"Quantitative Measure Score","g":"perfeval","kind":"Domain Entity","def":"The score or value for a quantitative measure achieved by an individual educator.","ceds":"Goal Performance","cg":"special","cnp":3,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":4},{"id":"RubricDimension","l":"Rubric Dimension","g":"perfeval","kind":"Domain Entity","def":"The cells of a rubric, consisting of a qualitative decription, definition, or exemplar with the associated rubric rating and rating level.","ceds":"Rubric Criterion","cg":"assessment","cnp":6,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"SurveySectionAggregateResponse","l":"Survey Section Aggregate Response","g":"perfeval","kind":"Domain Entity","def":"The aggregate or average score across the surveying population for a survey section being used for performance evaluation.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":3},{"id":"PostSecondaryEvent","l":"Post Secondary Event","g":"postsec","kind":"Domain Entity","def":"This entity captures significant post-secondary events during a student's high school tenure (e.g., FAFSA application or college application, acceptance, and enrollment) or during a student's enrollment at a post-secondary institution.","ceds":"Postsecondary Student Enrollment","cg":"postsec","cnp":42,"s":"related","note":"Ed-Fi records the event of applying or enrolling; CEDS records the enrolment itself.","in40":true,"in61":true,"np40":4,"np61":4},{"id":"ProfessionalDevelopmentEvent","l":"Professional Development Event","g":"proflearn","kind":"Domain Entity","def":"Information about a professional development event.","ceds":"Professional Development Session","cg":"staff","cnp":21,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":7},{"id":"ProfessionalDevelopmentEventAttendance","l":"Professional Development Event Attendance","g":"proflearn","kind":"Domain Entity","def":"This event entity represents the recording of whether a staff is in attendance for professional development.","ceds":"Staff Professional Development Activity","cg":"staff","cnp":12,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"EvaluationRubricDimension","l":"Evaluation Rubric Dimension","g":"progeval","kind":"Domain Entity","def":"The cells of a rubric, consisting of a qualitative description, definition, or exemplar with the associated rubric evaluation level.","ceds":"Rubric Criterion","cg":"assessment","cnp":6,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"ProgramEvaluation","l":"Program Evaluation","g":"progeval","kind":"Domain Entity","def":"An evaluation instrument applied to evaluate a student in the context of a program. Student evaluations are typically applied by a staff member based upon a rubric.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"CEDS evaluates staff and student eligibility, but not programs.","in40":false,"in61":true,"np40":null,"np61":11},{"id":"ProgramEvaluationElement","l":"Program Evaluation Element","g":"progeval","kind":"Domain Entity","def":"The lowest level elements or criterion of a students's performance that is being evaluated, typically by a rubric.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":11},{"id":"ProgramEvaluationObjective","l":"Program Evaluation Objective","g":"progeval","kind":"Domain Entity","def":"A subcomponent of a ProgramEvaluation, a specific student objective or domain of performance that is being evaluated.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":10},{"id":"StudentProgramEvaluation","l":"Student Program Evaluation","g":"progeval","kind":"Domain Entity","def":"The evaluation results for a student as evaluated in the context of a program.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":18},{"id":"GeneralStudentProgramAssociation","l":"General Student Program Association","g":"program","kind":"Association","def":"This association base class represents the basic relationship between students and programs.","ceds":"Program Participation","cg":"core","cnp":20,"s":"exact","note":"Both are the abstract parent that every specific program association specialises.","in40":true,"in61":true,"np40":17,"np61":12},{"id":"RestraintEvent","l":"Restraint Event","g":"program","kind":"Domain Entity","def":"This event entity represents the instances where a special education student was physically or mechanically restrained due to imminent serious physical harm to themselves or others, imminent serious property destruction or a combination of both imminent serious physical harm to themselves or others and imminent serious property destruction.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"CEDS 14 carries no restraint or seclusion entity.","in40":true,"in61":true,"np40":7,"np61":8},{"id":"StudentCTEProgramAssociation","l":"Student CTE Program Association","g":"program","kind":"Association","def":"This association represents the career and technical education (CTE) program that a student participates in. The association is a subclass of the GeneralStudentProgramAssociation specifically designed for CTE programs.","ceds":"Program Participation Career And Technical","cg":"program","cnp":14,"s":"close","note":"","in40":true,"in61":true,"np40":36,"np61":21},{"id":"StudentHomelessProgramAssociation","l":"Student Homeless Program Association","g":"program","kind":"Association","def":"This association represents the McKinney-Vento Homeless Program program(s) that a student participates in or from which the student receives services. The association is a subclass of the GeneralStudentProgramAssociation specifically designed for homeless programs.","ceds":"Program Participation","cg":"core","cnp":20,"s":"broad","note":"CEDS records homelessness as Person Homelessness, a person status, rather than as a program participation subtype.","in40":true,"in61":true,"np40":25,"np61":20},{"id":"StudentLanguageInstructionProgramAssociation","l":"Student Language Instruction Program Association","g":"program","kind":"Association","def":"This association represents the Title III Language Instruction for Limited English Proficient and Immigrant Students program(s) that a student participates in or from which the student receives services. The association is a subclass of the GeneralStudentProgramAssociation specifically designed for language instruction programs.","ceds":"Program Participation Title III English Learner","cg":"program","cnp":2,"s":"close","note":"","in40":true,"in61":true,"np40":30,"np61":25},{"id":"StudentMigrantEducationProgramAssociation","l":"Student Migrant Education Program Association","g":"program","kind":"Association","def":"This association represents the migrant education program(s) that a student participates in or receives services from. The association is a subclass of the GeneralStudentProgramAssociation specifically designed for migrant education programs.","ceds":"Program Participation Migrant","cg":"program","cnp":15,"s":"close","note":"","in40":true,"in61":true,"np40":31,"np61":26},{"id":"StudentNeglectedOrDelinquentProgramAssociation","l":"Student Neglected Or Delinquent Program Association","g":"program","kind":"Association","def":"This association represents the Title I Part D Neglected or Delinquent program(s) that a student participates in or from which the student receives services. The association is a subclass of the GeneralStudentProgramAssociation specifically designed for Title I Part D Neglected or Delinquent programs.","ceds":"Program Participation Neglected","cg":"program","cnp":8,"s":"close","note":"","in40":true,"in61":true,"np40":25,"np61":20},{"id":"StudentProgramAssociation","l":"Student Program Association","g":"program","kind":"Association","def":"This association represents the program(s) that a student participates in or is served by.","ceds":"Program Participation","cg":"core","cnp":20,"s":"exact","note":"","in40":true,"in61":true,"np40":22,"np61":17},{"id":"StudentSchoolFoodServiceProgramAssociation","l":"Student School Food Service Program Association","g":"program","kind":"Association","def":"This association represents the school food services program(s), such as the Free or Reduced Lunch program, that a student participates in or from which the student receives services. The association is a subclass of the GeneralStudentProgramAssociation specifically designed for school food service programs.","ceds":"Program Participation Food Service","cg":"program","cnp":1,"s":"close","note":"","in40":true,"in61":true,"np40":23,"np61":18},{"id":"StudentSection504ProgramAssociation","l":"Student Section504 Program Association","g":"program","kind":"Association","def":"This association identifies student that qualifies for the Section 504 of the Rehabilitation Act of 1973.","ceds":"Program Participation","cg":"core","cnp":20,"s":"broad","note":"CEDS has no Section 504 specialisation of Program Participation.","in40":false,"in61":true,"np40":null,"np61":17},{"id":"StudentSpecialEducationProgramAssociation","l":"Student Special Education Program Association","g":"program","kind":"Association","def":"This association represents the special education program(s) that a student participates in or receives services from. The association is a subclass of the GeneralStudentProgramAssociation specifically designed for special education programs.","ceds":"Program Participation Special Education","cg":"program","cnp":8,"s":"close","note":"","in40":true,"in61":true,"np40":42,"np61":44},{"id":"StudentTitleIPartAProgramAssociation","l":"Student Title I Part A Program Association","g":"program","kind":"Association","def":"This association represents the Title I Part A program(s) that a student participates in or from which the student receives services. The association is a subclass of the GeneralStudentProgramAssociation specifically designed for Title I Part A programs.","ceds":"Program Participation Title I","cg":"program","cnp":1,"s":"close","note":"","in40":true,"in61":true,"np40":28,"np61":18},{"id":"CompetencyObjective","l":"Competency Objective","g":"record","kind":"Domain Entity","def":"This entity holds additional competencies for student achievement that are not associated with specific learning objectives (e.g., paying attention in class).","ceds":"Competency Definition","cg":"credential","cnp":36,"s":"close","note":"","in40":true,"in61":true,"np40":6,"np61":6},{"id":"CourseTranscript","l":"Course Transcript","g":"record","kind":"Domain Entity","def":"This entity is the final record of a student's performance in their courses at the end of a semester or school year.","ceds":"K12 Student Course Section Mark","cg":"k12","cnp":6,"s":"close","note":"Ed-Fi records the final mark at course level; CEDS at section level.","in40":true,"in61":true,"np40":39,"np61":41},{"id":"Grade","l":"Grade","g":"record","kind":"Domain Entity","def":"This educational entity represents an overall score or assessment tied to a course over a period of time (i.e., the grading period). Student grades are usually a compilation of marks and other scores.","ceds":"K12 Student Course Section Mark","cg":"k12","cnp":6,"s":"close","note":"","in40":true,"in61":true,"np40":15,"np61":16},{"id":"GradebookEntry","l":"Gradebook Entry","g":"record","kind":"Domain Entity","def":"This entity represents an assignment, homework, or classroom assessment to be recorded in a gradebook.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"CEDS models no gradebook.","in40":true,"in61":true,"np40":13,"np61":13},{"id":"ReportCard","l":"Report Card","g":"record","kind":"Domain Entity","def":"This educational entity represents the collection of student grades for courses taken during a grading period.","ceds":"K12 Student Academic Record","cg":"k12","cnp":20,"s":"related","note":"CEDS has no report-card entity; the equivalent facts live on the academic record.","in40":true,"in61":true,"np40":16,"np61":13},{"id":"StudentAcademicRecord","l":"Student Academic Record","g":"record","kind":"Domain Entity","def":"This educational entity represents the cumulative record of academic achievement for a student.","ceds":"K12 Student Academic Record","cg":"k12","cnp":20,"s":"close","note":"","in40":true,"in61":true,"np40":57,"np61":52},{"id":"StudentCompetencyObjective","l":"Student Competency Objective","g":"record","kind":"Domain Entity","def":"This entity represents the competency assessed or evaluated for the student against a specific competency objective.","ceds":"Goal Performance","cg":"special","cnp":3,"s":"related","note":"","in40":true,"in61":true,"np40":5,"np61":5},{"id":"StudentGradebookEntry","l":"Student Gradebook Entry","g":"record","kind":"Domain Entity","def":"This entity holds a student's grade or competency level for a gradebook entry.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"CEDS models no gradebook.","in40":true,"in61":true,"np40":11,"np61":13},{"id":"StudentLearningObjective","l":"Student Learning Objective","g":"record","kind":"Domain Entity","def":"This entity represents the competency assessed or evaluated for the student against a specific learning objective.","ceds":"Goal Performance","cg":"special","cnp":3,"s":"related","note":"","in40":true,"in61":false,"np40":5,"np61":null},{"id":"ApplicantProfile","l":"Applicant Profile","g":"recruit","kind":"Domain Entity","def":"The profile of the person making an application.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":92},{"id":"Application","l":"Application","g":"recruit","kind":"Domain Entity","def":"An application for employment or acceptance.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"False friend: CEDS also has an entity called Application, but it means a software application used for authentication and access. Ed-Fi means a job application. Do not map these to each other.","in40":false,"in61":true,"np40":null,"np61":22},{"id":"ApplicationEvent","l":"Application Event","g":"recruit","kind":"Domain Entity","def":"The life cycle event associated with an application.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":9},{"id":"RecruitmentEvent","l":"Recruitment Event","g":"recruit","kind":"Domain Entity","def":"Events associated with the recruitment process.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":6},{"id":"RecruitmentEventAttendance","l":"Recruitment Event Attendance","g":"recruit","kind":"Domain Entity","def":"A prospect for employment or acceptance that has not yet made a formal application but has attended a recruitment event, such as a job fair or university recruiting visit.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":52},{"id":"DescriptorMapping","l":"Descriptor Mapping","g":"shared","kind":"Domain Entity","def":"A mapping of a descriptor value in one namespace to a descriptor value in another namespace. This can be used to exchange known contextual mappings of enumeration values.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"An Ed-Fi mechanism for mapping local descriptor values, with no CEDS counterpart.","in40":true,"in61":true,"np40":5,"np61":5},{"id":"IDEAEvent","l":"IDEA Event","g":"sped","kind":"Domain Entity","def":"EARLY ACCESS: An IDEA related student event describing status, dates and narrative.","ceds":"Eligibility Determination","cg":"special","cnp":2,"s":"related","note":"Added in 6.1. CEDS models the determination; Ed-Fi models the event that produced it.","in40":false,"in61":true,"np40":null,"np61":9},{"id":"StudentIEP","l":"Student IEP","g":"sped","kind":"Domain Entity","def":"EARLY ACCESS: This entity represents an Individualized Education Program (IEP) for a student receiving special education services. The IEP is a legally required document that outlines a student's special education services.","ceds":"Individualized Program","cg":"special","cnp":34,"s":"close","note":"Added in 6.1.","in40":false,"in61":true,"np40":null,"np61":22},{"id":"StudentIEPGoal","l":"Student IEP Goal","g":"sped","kind":"Domain Entity","def":"EARLY ACCESS: A goal prescribed to a student as part of their Individual Education Program (IEP).","ceds":"Individualized Program Goal","cg":"special","cnp":2,"s":"close","note":"Added in 6.1.","in40":false,"in61":true,"np40":null,"np61":8},{"id":"StudentIEPServiceDelivery","l":"Student IEP Service Delivery","g":"sped","kind":"Domain Entity","def":"EARLY ACCESS: Services delivered to a student as prescribed by their Individual Education Program (IEP).","ceds":"Services Received","cg":"special","cnp":3,"s":"close","note":"Added in 6.1.","in40":false,"in61":true,"np40":null,"np61":14},{"id":"StudentIEPServicePrescription","l":"Student IEP Service Prescription","g":"sped","kind":"Domain Entity","def":"EARLY ACCESS: The service prescribed to a student as part of their Individual Education Program (IEP).","ceds":"Individualized Program Service","cg":"special","cnp":5,"s":"close","note":"Added in 6.1.","in40":false,"in61":true,"np40":null,"np61":12},{"id":"StudentSpecialEducationProgramEligibilityAssociation","l":"Student Special Education Program Eligibility Association","g":"sped","kind":"Association","def":"Captures details regarding the evaluation process for eligibility of students for special education services under IDEA Part C or Part B.","ceds":"Individualized Program Eligibility","cg":"special","cnp":5,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":19},{"id":"Credential","l":"Credential","g":"staff","kind":"Domain Entity","def":"The legal document giving authorization to perform teaching assignment services.","ceds":"Credential Award","cg":"credential","cnp":20,"s":"close","note":"Ed-Fi Credential carries issuance and expiry, so it is the award rather than the definition.","in40":true,"in61":true,"np40":13,"np61":22},{"id":"OpenStaffPosition","l":"Open Staff Position","g":"staff","kind":"Domain Entity","def":"This entity represents an open staff position that the education organization is seeking to fill.","ceds":"Job Position","cg":"staff","cnp":5,"s":"close","note":"","in40":true,"in61":true,"np40":11,"np61":22},{"id":"OpenStaffPositionEvent","l":"Open Staff Position Event","g":"staff","kind":"Domain Entity","def":"Represents significant milestones related to an open staff position.","ceds":"Job Position","cg":"staff","cnp":5,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":4},{"id":"Staff","l":"Staff","g":"staff","kind":"Domain Entity","def":"This entity represents an individual who performs specified activities for any public or private education institution or agency that provides instructional and/or support services to students or staff at the early childhood level through high school completion.","ceds":"Person","cg":"core","cnp":55,"s":"broad","note":"CEDS has no Staff entity. A person is staff by virtue of holding an Employment or Assignment membership.","in40":true,"in61":true,"np40":85,"np61":39},{"id":"StaffAbsenceEvent","l":"Staff Absence Event","g":"staff","kind":"Domain Entity","def":"This event entity represents the recording of the dates of staff absence.","ceds":"Role Attendance Event","cg":"core","cnp":12,"s":"close","note":"","in40":true,"in61":true,"np40":5,"np61":5},{"id":"StaffDemographic","l":"Staff Demographic","g":"staff","kind":"Domain Entity","def":"The demographic information associated to a Staff member","ceds":"Person","cg":"core","cnp":55,"s":"broad","note":"DS 6 breaks staff demographics out of the employment association. CEDS spreads the same facts across Person and its satellites such as Person Demographic Race.","in40":false,"in61":true,"np40":null,"np61":15},{"id":"StaffDirectory","l":"Staff Directory","g":"staff","kind":"Domain Entity","def":"The contact information associated to a staff member.","ceds":"Person","cg":"core","cnp":55,"s":"broad","note":"","in40":false,"in61":true,"np40":null,"np61":41},{"id":"StaffEducationOrganizationAssignmentAssociation","l":"Staff Education Organization Assignment Association","g":"staff","kind":"Association","def":"This association indicates the education organization to which a staff member provides services.","ceds":"Assignment","cg":"core","cnp":8,"s":"close","note":"Direct hit on the CEDS Membership spine.","in40":true,"in61":true,"np40":10,"np61":11},{"id":"StaffEducationOrganizationContactAssociation","l":"Staff Education Organization Contact Association","g":"staff","kind":"Association","def":"This association provides the contact information of the staff associated with the education organization.","ceds":"Contact","cg":"person","cnp":5,"s":"close","note":"","in40":true,"in61":false,"np40":27,"np61":null},{"id":"StaffEducationOrganizationEmploymentAssociation","l":"Staff Education Organization Employment Association","g":"staff","kind":"Association","def":"This association indicates the education organization an employee, contractor, volunteer, or other service provider is formally associated with typically indicated by which organization the staff member has a services contract with or receives compensation from.","ceds":"Employment","cg":"core","cnp":18,"s":"close","note":"Direct hit on the CEDS Membership spine.","in40":true,"in61":true,"np40":13,"np61":33},{"id":"StaffEducatorPreparationProgramAssociation","l":"Staff Educator Preparation Program Association","g":"staff","kind":"Association","def":"This association indicates the educator preparation program associated with a staff.","ceds":"Program Participation Teacher Prep","cg":"program","cnp":10,"s":"related","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"StaffIdentificationCode","l":"Staff Identification Code","g":"staff","kind":"Domain Entity","def":"This entity holds different identity codes for staff member.","ceds":"Person Identification","cg":"person","cnp":4,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"StaffLeave","l":"Staff Leave","g":"staff","kind":"Domain Entity","def":"This entity represents the recording of the dates of staff leave (e.g., sick leave, personal time, vacation).","ceds":"Role Attendance Event","cg":"core","cnp":12,"s":"related","note":"","in40":true,"in61":true,"np40":6,"np61":6},{"id":"StaffProgramAssociation","l":"Staff Program Association","g":"staff","kind":"Association","def":"This association indicates the staff associated with a program.","ceds":"Assignment","cg":"core","cnp":8,"s":"related","note":"CEDS Assignment is scoped to an institution, not to a program.","in40":true,"in61":true,"np40":5,"np61":5},{"id":"StaffSchoolAssociation","l":"Staff School Association","g":"staff","kind":"Association","def":"This association indicates the school(s) to which a staff member provides instructional services.","ceds":"Assignment","cg":"core","cnp":8,"s":"close","note":"","in40":true,"in61":true,"np40":7,"np61":7},{"id":"StaffSectionAssociation","l":"Staff Section Association","g":"staff","kind":"Association","def":"This association indicates the class sections to which a staff member is assigned.","ceds":"K12 Staff Assignment","cg":"k12","cnp":19,"s":"close","note":"","in40":true,"in61":true,"np40":8,"np61":8},{"id":"LearningObjective","l":"Learning Objective","g":"standards","kind":"Domain Entity","def":"This entity represents identified LearningObjectives for courses in specific grades.","ceds":"Competency Definition","cg":"credential","cnp":36,"s":"related","note":"Deprecated in Ed-Fi in favour of LearningStandard.","in40":true,"in61":false,"np40":19,"np61":null},{"id":"LearningStandard","l":"Learning Standard","g":"standards","kind":"Domain Entity","def":"A statement that describes a specific competency or academic standard.","ceds":"Competency Definition","cg":"credential","cnp":36,"s":"close","note":"","in40":true,"in61":true,"np40":25,"np61":24},{"id":"LearningStandardEquivalenceAssociation","l":"Learning Standard Equivalence Association","g":"standards","kind":"Association","def":"Indicates a directional association of equivalence from a source to a target learning standard.","ceds":"Competency Definition Association","cg":"credential","cnp":10,"s":"close","note":"","in40":true,"in61":true,"np40":6,"np61":6},{"id":"Person","l":"Person","g":"student","kind":"Domain Entity","def":"This entity represents a human being.","ceds":"Person","cg":"core","cnp":55,"s":"exact","note":"","in40":true,"in61":true,"np40":2,"np61":2},{"id":"Student","l":"Student","g":"student","kind":"Domain Entity","def":"This entity represents an individual for whom instruction, services, and/or care are provided in an early childhood, elementary, or secondary educational program under the jurisdiction of a school, education agency or other institution or program. A student is a person who has been enrolled in a school or other educational institution.","ceds":"Person","cg":"core","cnp":55,"s":"broad","note":"CEDS has no Student entity. A person is a student by virtue of holding an Enrollment.","in40":true,"in61":true,"np40":30,"np61":28},{"id":"StudentDemographic","l":"Student Demographic","g":"student","kind":"Domain Entity","def":"The demographic information associated to a student.","ceds":"Person","cg":"core","cnp":55,"s":"broad","note":"The most consequential DS 6 change for a CEDS mapping: demographics move out of StudentEducationOrganizationAssociation into their own entity, still scoped to an education organization. CEDS attaches them to Person, unscoped.","in40":false,"in61":true,"np40":null,"np61":28},{"id":"StudentDirectory","l":"Student Directory","g":"student","kind":"Domain Entity","def":"The contact information associated to a student.","ceds":"Person","cg":"core","cnp":55,"s":"broad","note":"","in40":false,"in61":true,"np40":null,"np61":41},{"id":"StudentIdentificationCode","l":"Student Identification Code","g":"student","kind":"Domain Entity","def":"This entity holds different identity codes for a student","ceds":"Person Identification","cg":"person","cnp":4,"s":"close","note":"","in40":false,"in61":true,"np40":null,"np61":5},{"id":"Survey","l":"Survey","g":"survey","kind":"Domain Entity","def":"A survey to identified or anonymous respondents.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":8,"np61":8},{"id":"SurveyCourseAssociation","l":"Survey Course Association","g":"survey","kind":"Association","def":"The course associated with the survey.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":2,"np61":2},{"id":"SurveyProgramAssociation","l":"Survey Program Association","g":"survey","kind":"Association","def":"The program associated with the survey.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":2,"np61":2},{"id":"SurveyQuestion","l":"Survey Question","g":"survey","kind":"Domain Entity","def":"The questions for the survey.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":13,"np61":13},{"id":"SurveyQuestionResponse","l":"Survey Question Response","g":"survey","kind":"Domain Entity","def":"The response to a survey question.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":15,"np61":15},{"id":"SurveyResponse","l":"Survey Response","g":"survey","kind":"Domain Entity","def":"Responses to a Survey for named or anonymous persons.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":8,"np61":9},{"id":"SurveyResponseEducationOrganizationTargetAssociation","l":"Survey Response Education Organization Target Association","g":"survey","kind":"Association","def":"This association provides information about the survey being taken and the education organization the survey is about.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":2,"np61":2},{"id":"SurveyResponsePersonTargetAssociation","l":"Survey Response Person Target Association","g":"survey","kind":"Association","def":"The association provides information about the survey being taken and who the survey is about.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":2},{"id":"SurveyResponseStaffTargetAssociation","l":"Survey Response Staff Target Association","g":"survey","kind":"Association","def":"The association provides information about the survey being taken and who the survey is about.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":2,"np61":2},{"id":"SurveySection","l":"Survey Section","g":"survey","kind":"Domain Entity","def":"The section of questions for the survey.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":2,"np61":3},{"id":"SurveySectionAssociation","l":"Survey Section Association","g":"survey","kind":"Association","def":"The section associated with the survey.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":2,"np61":2},{"id":"SurveySectionResponse","l":"Survey Section Response","g":"survey","kind":"Domain Entity","def":"Optional information about the responses provided for a section of a survey.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":3,"np61":3},{"id":"SurveySectionResponseEducationOrganizationTargetAssociation","l":"Survey Section Response Education Organization Target Association","g":"survey","kind":"Association","def":"This association provides information about the survey section and the education organization the survey section is about.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":2,"np61":2},{"id":"SurveySectionResponsePersonTargetAssociation","l":"Survey Section Response Person Target Association","g":"survey","kind":"Association","def":"This association provides information about the survey section and the person the survey section is about.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":false,"in61":true,"np40":null,"np61":2},{"id":"SurveySectionResponseStaffTargetAssociation","l":"Survey Section Response Staff Target Association","g":"survey","kind":"Association","def":"This association provides information about the survey section and the staff the survey section is about.","ceds":null,"cg":null,"cnp":0,"s":"none","note":"","in40":true,"in61":true,"np40":2,"np61":2},{"id":"BellSchedule","l":"Bell Schedule","g":"teaching","kind":"Domain Entity","def":"This entity represents the schedule of class period meeting times.","ceds":"Course Section Schedule","cg":"learning","cnp":5,"s":"related","note":"","in40":true,"in61":true,"np40":9,"np61":9},{"id":"ClassPeriod","l":"Class Period","g":"teaching","kind":"Domain Entity","def":"This entity represents the designation of a regularly scheduled series of class meetings at designated times and days of the week.","ceds":"Course Section Schedule","cg":"learning","cnp":5,"s":"related","note":"","in40":true,"in61":true,"np40":6,"np61":6},{"id":"Course","l":"Course","g":"teaching","kind":"Domain Entity","def":"This educational entity represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis.","ceds":"Course","cg":"learning","cnp":24,"s":"exact","note":"","in40":true,"in61":true,"np40":31,"np61":30},{"id":"CourseOffering","l":"Course Offering","g":"teaching","kind":"Domain Entity","def":"This entity represents an entry in the course catalog of available courses offered by the school during a session.","ceds":"Course Section","cg":"learning","cnp":22,"s":"close","note":"Ed-Fi splits the catalogue offering from the taught section; CEDS Course Section covers both.","in40":true,"in61":true,"np40":9,"np61":9},{"id":"Section","l":"Section","g":"teaching","kind":"Domain Entity","def":"This entity represents a setting in which organized instruction of course content is provided, in-person or otherwise, to one or more students for a given period of time. A course offering may be offered to more than one section.","ceds":"Course Section","cg":"learning","cnp":22,"s":"close","note":"Note that in CEDS a Course Section is a kind of Organization.","in40":true,"in61":true,"np40":20,"np61":21}]}</script>
+<script>
+(function(){
+"use strict";
+var D=JSON.parse(document.getElementById('xw').textContent);
+var ROWS=D.rows, META=D.meta, DOMS=META.groups, CGROUPS=META.cedsGroups||{};
+var V40=META.versions['40'], V61=META.versions['61'];
+var nf=new Intl.NumberFormat('en-US');
+var STR=['exact','close','broad','related','none'];
+var SLABEL={exact:'Exact',close:'Close',broad:'Broader in CEDS',related:'Related',none:'No analogue'};
+var RESHAPED={}; META.repropped.forEach(function(i){RESHAPED[i]=1;});
+
+var VER='cmp';                       /* '40' | '61' | 'cmp' */
+var showNotes=false, changedOnly=false;
+var activeS={}; STR.forEach(function(s){activeS[s]=true;});
+var activeD={}; Object.keys(DOMS).forEach(function(g){activeD[g]=true;});
+
+function inVer(r){ return VER==='40' ? r.in40 : VER==='61' ? r.in61 : true; }
+function verRows(){ return ROWS.filter(inVer); }
+function stat(){ return VER==='40'?V40:V61; }
+function isChanged(r){ return !r.in40 || !r.in61 || RESHAPED[r.id]; }
+
+/* ---------------------------------------------------------------- summary */
+function el(tag,cls){ var e=document.createElement(tag); if(cls) e.className=cls; return e; }
+
+function renderSummary(){
+  var host=document.getElementById('summary');
+  host.innerHTML='';
+  if(VER==='cmp'){
+    var t=el('table','cmp');
+    t.innerHTML='<thead><tr><th>&nbsp;</th><th>Ed-Fi 4.0</th><th>Ed-Fi 6.1</th><th>Change</th></tr></thead>';
+    var tb=el('tbody');
+    [['Entities and associations',V40.entities,V61.entities],
+     ['Matched to a CEDS class',V40.mapped,V61.mapped],
+     ['Exact matches',V40.counts.exact||0,V61.counts.exact||0],
+     ['No CEDS analogue',V40.counts.none||0,V61.counts.none||0],
+     ['Distinct CEDS targets',V40.cedsTargets,V61.cedsTargets],
+     ['Declared properties',V40.model.props,V61.model.props],
+     ['Controlled vocabularies',V40.model.codesets,V61.model.codesets]
+    ].forEach(function(r){
+      var d=r[2]-r[1], pct=Math.round(r[1]?d/r[1]*100:0);
+      var tr=el('tr');
+      tr.innerHTML='<td></td><td></td><td><b></b></td><td class="'+(d?'up':'flat')+'"></td>';
+      tr.children[0].textContent=r[0];
+      tr.children[1].textContent=nf.format(r[1]);
+      tr.children[2].firstChild.textContent=nf.format(r[2]);
+      tr.children[3].textContent=d?((d>0?'+':'')+nf.format(d)+'  ('+(d>0?'+':'')+pct+'%)'):'—';
+      tb.appendChild(tr);
+    });
+    var cov=el('tr');
+    cov.innerHTML='<td></td><td></td><td><b></b></td><td class="flat"></td>';
+    cov.children[0].textContent='Share of entities mapped';
+    cov.children[1].textContent=Math.round(V40.mapped/V40.entities*100)+'%';
+    cov.children[2].firstChild.textContent=Math.round(V61.mapped/V61.entities*100)+'%';
+    cov.children[3].textContent='held';
+    tb.appendChild(cov);
+    t.appendChild(tb); host.appendChild(t);
+    return;
+  }
+  var v=stat(), other=VER==='40'?V61:V40;
+  var wrap=el('div','stats');
+  [[v.entities,'Ed-Fi '+v.label+' entities and associations'],
+   [v.mapped,'matched to a CEDS class'],
+   [v.counts.exact||0,'exact matches — same concept, same scope'],
+   [v.cedsTargets,'distinct CEDS classes used as targets'],
+   [v.counts.none||0,'with no CEDS analogue at all']
+  ].forEach(function(s,i){
+    var d=el('div','stat');
+    d.innerHTML='<b></b><span></span>';
+    d.querySelector('b').textContent=nf.format(s[0]);
+    d.querySelector('span').textContent=s[1];
+    wrap.appendChild(d);
+  });
+  host.appendChild(wrap);
+}
+
+/* --------------------------------------------------------------- coverage */
+function domTotals(rows){
+  var m={};
+  rows.forEach(function(r){ (m[r.g]=m[r.g]||{})[r.s]=((m[r.g]||{})[r.s]||0)+1; });
+  return m;
+}
+function barInto(host,counts,total,thin){
+  var bar=el('div','covbar'+(thin?' thin':'')), parts=[];
+  STR.forEach(function(s){
+    if(!counts[s]) return;
+    var i=el('i');
+    i.style.width=(counts[s]/total*100)+'%';
+    i.setAttribute('data-s',s);
+    if(s!=='none') i.style.background='var(--s-'+s+')';
+    i.title=counts[s]+' '+SLABEL[s].toLowerCase();
+    bar.appendChild(i);
+    parts.push(counts[s]+' '+SLABEL[s].toLowerCase());
+  });
+  bar.setAttribute('role','img');
+  bar.setAttribute('aria-label',parts.join(', '));
+  host.appendChild(bar);
+  return bar;
+}
+function renderCoverage(){
+  var host=document.getElementById('cov');
+  host.innerHTML='';
+  var grid=el('div','covgrid');
+  var m40=domTotals(ROWS.filter(function(r){return r.in40;}));
+  var m61=domTotals(ROWS.filter(function(r){return r.in61;}));
+  var active=VER==='40'?m40:VER==='61'?m61:null;
+  var keys=Object.keys(DOMS).filter(function(g){
+    return VER==='cmp' ? (m40[g]||m61[g]) : (active&&active[g]);
+  });
+  function tot(m,g){ var n=0,k; if(!m[g]) return 0; for(k in m[g]) n+=m[g][k]; return n; }
+  keys.sort(function(a,b){ return (tot(m61,b)+tot(m40,b))-(tot(m61,a)+tot(m40,a)); });
+  keys.forEach(function(g){
+    var nm=el('div','covname'); nm.textContent=DOMS[g]||g;
+    var stack=el('div','covstack');
+    if(VER==='cmp'){
+      [['4.0',m40],['6.1',m61]].forEach(function(pair){
+        var row=el('div','covrow');
+        var tag=el('span','covtag'); tag.textContent=pair[0]; row.appendChild(tag);
+        var t=tot(pair[1],g);
+        if(t) barInto(row,pair[1][g],t,true);
+        else { var e=el('div','covbar thin'); e.title='not in this version'; row.appendChild(e); }
+        stack.appendChild(row);
+      });
+    } else {
+      barInto(stack,active[g],tot(active,g));
+    }
+    var n=el('div','covn');
+    n.textContent=VER==='cmp' ? (tot(m40,g)+' / '+tot(m61,g)) : tot(active,g);
+    grid.appendChild(nm); grid.appendChild(stack); grid.appendChild(n);
+  });
+  host.appendChild(grid);
+  var lg=el('div','legend');
+  var counts=VER==='cmp'?null:stat().counts;
+  STR.forEach(function(s){
+    var e=el('span','lg'+(s==='none'?' none':''));
+    e.style.setProperty('--c','var(--s-'+s+')');
+    e.innerHTML='<i></i><span></span>';
+    e.querySelector('span').textContent=SLABEL[s]+(counts?' '+(counts[s]||0)
+      :' '+((V40.counts[s]||0)+' / '+(V61.counts[s]||0)));
+    lg.appendChild(e);
+  });
+  host.appendChild(lg);
+  if(VER==='cmp'){
+    var cap=el('p','fcap');
+    cap.textContent='Two bars per domain: Data Standard 4.0 above, 6.1 below. An empty track means '+
+      'the domain did not exist in that version. Counts at the right are 4.0 / 6.1.';
+    host.appendChild(cap);
+  }
+}
+
+var LEDE={
+  '40':'Data Standard 4.0 against CEDS 14. The two agree almost completely about organizations, '+
+       'enrolment, programs, and staff — the territory CEDS built its Membership spine for.',
+  '61':'Data Standard 6.1 against CEDS 14, including the special-education model added in 6.1, '+
+       'which lands almost perfectly on a part of CEDS that Ed-Fi 4.0 never touched.',
+  'cmp':'Both versions, domain by domain. Ed-Fi grew by half between them and coverage held at '+
+        'about three quarters, so the expansion added in both directions at once.'
+};
+var NOTE={
+  '40':'<p><strong>The three real gaps.</strong> <em>Survey</em> maps to nothing at all: CEDS 14 '+
+    'carries no survey model, only a single named instrument. <em>Finance</em> maps badly because '+
+    'Ed-Fi ships a full dimensional chart of accounts and CEDS models finance as a handful of '+
+    'account entities. <em>Intervention</em> has no CEDS counterpart either. Together those three '+
+    'account for 24 of the 30 unmapped entities.</p>',
+  '61':'<p><strong>Five domains map to nothing.</strong> <em>Survey</em> (15) and '+
+    '<em>Intervention</em> (4) were already unmapped in 4.0; <em>Student Paths</em> (6), '+
+    '<em>Recruitment &amp; Staffing</em> (5) and most of <em>Program Evaluation</em> (4) are new '+
+    'gaps that arrived with 6.</p>'+
+    '<p><strong>The best news is special education.</strong> The IEP model added in 6.1 lands on '+
+    'the CEDS <code>Individualized Program</code> family, which was already there and unused by '+
+    '4.0. Five of six rows are close matches.</p>',
+  'cmp':'<p><strong>Coverage held while the model grew by half.</strong> 4.0 matched 96 of 126 '+
+    'entities; 6.1 matches 144 of 193. Both are almost exactly three quarters.</p>'+
+    '<p><strong>What actually moved.</strong> Special education went from absent to well mapped. '+
+    'Student and staff demographics were broken out into their own entities but stayed scoped to '+
+    'an education organization, so the mismatch with CEDS <code>Person</code> survives the '+
+    'upgrade. And three new domains — Student Paths, Recruitment &amp; Staffing, Program '+
+    'Evaluation — arrived with no CEDS counterpart at all.</p>'+
+    '<p><strong>Two false friends to watch.</strong> Ed-Fi 6 renamed <code>Parent</code> to '+
+    '<code>Contact</code>, but CEDS <code>Contact</code> means an organizational point of '+
+    'communication, not a guardian. Ed-Fi <code>Application</code> is a job application; CEDS '+
+    '<code>Application</code> is a software application used for authentication. Neither pair '+
+    'should be mapped on the strength of the name.</p>'
+};
+
+/* ------------------------------------------------------- the spine figure */
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  var s=document.createElementNS(NS,'svg');
+  s.setAttribute('viewBox','0 0 980 300');
+  s.setAttribute('role','img');
+  s.setAttribute('aria-label','CEDS derives roles from Person via Membership; Ed-Fi names the entities and makes each association first-class');
+  s.style.cssText='display:block;min-width:640px;width:100%;height:auto';
+  function mk(tag,a,t){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);
+    if(t!=null)e.textContent=t;s.appendChild(e);return e;}
+  function box(x,y,w,h,label,sub,stroke){
+    mk('rect',{x:x,y:y,width:w,height:h,rx:2,fill:'var(--surface-2)',
+      stroke:stroke||'var(--rule-2)','stroke-width':stroke?1.5:1});
+    mk('text',{x:x+w/2,y:y+(sub?h/2-2:h/2+4),'text-anchor':'middle',
+      'font-family':'var(--mono)','font-size':12.5,fill:'var(--ink)'},label);
+    if(sub) mk('text',{x:x+w/2,y:y+h/2+14,'text-anchor':'middle',
+      'font-family':'var(--sans)','font-size':11.5,fill:'var(--muted)'},sub);
+    return {x:x,y:y,w:w,h:h,cx:x+w/2,cy:y+h/2};
+  }
+  var d=mk('defs',{});
+  var m=document.createElementNS(NS,'marker');
+  m.setAttribute('id','xa');m.setAttribute('viewBox','0 0 8 8');m.setAttribute('refX','7');
+  m.setAttribute('refY','4');m.setAttribute('markerWidth','7');m.setAttribute('markerHeight','7');
+  m.setAttribute('orient','auto-start-reverse');
+  var pp=document.createElementNS(NS,'path');
+  pp.setAttribute('d','M0,0 L8,4 L0,8 z');pp.setAttribute('fill','var(--rule-2)');
+  m.appendChild(pp);d.appendChild(m);
+  function arrow(x1,y1,x2,y2){
+    mk('path',{d:'M'+x1+' '+y1+' L'+x2+' '+y2,stroke:'var(--rule-2)',fill:'none',
+      'marker-end':'url(#xa)'});
+  }
+  mk('text',{x:24,y:26,'font-family':'var(--mono)','font-size':11,
+    'letter-spacing':'.12em',fill:'var(--ceds)'},'CEDS 14');
+  box(24,48,150,52,'Person','one entity','var(--ceds)');
+  box(250,48,150,52,'Membership','a role, dated','var(--ceds)');
+  arrow(174,74,242,74);
+  ['Enrollment','Employment','Assignment','Program Participation'].forEach(function(t,i){
+    var y=132+i*34;
+    mk('rect',{x:250,y:y,width:230,height:24,rx:2,fill:'var(--surface-2)',stroke:'var(--rule-2)'});
+    mk('text',{x:260,y:y+16,'font-family':'var(--mono)','font-size':12,fill:'var(--ink)'},t);
+    mk('path',{d:'M236 '+(y+12)+' L246 '+(y+12),stroke:'var(--rule-2)',fill:'none'});
+  });
+  mk('path',{d:'M325 100 L325 116 L236 116 L236 '+(132+3*34+12),stroke:'var(--rule-2)',fill:'none'});
+  mk('text',{x:250,y:120,'font-family':'var(--sans)','font-size':11.5,fill:'var(--muted)'},
+    'specialised as');
+  mk('path',{d:'M520 30 L520 280',stroke:'var(--rule)',fill:'none','stroke-dasharray':'3 4'});
+  mk('text',{x:560,y:26,'font-family':'var(--mono)','font-size':11,
+    'letter-spacing':'.12em',fill:'var(--edfi)'},'ED-FI 4.0 AND 6.1');
+  box(560,48,150,52,'Student','named entity','var(--edfi)');
+  box(806,48,150,52,'School','named entity','var(--edfi)');
+  box(560,152,396,52,'Student School Association','a first-class entity, 21 → 26 properties','var(--edfi)');
+  arrow(680,152,600,106);
+  arrow(836,152,880,106);
+  mk('text',{x:560,y:232,'font-family':'var(--sans)','font-size':11.5,fill:'var(--muted)'},
+    'and separately: Student Section Association, Staff School Association,');
+  mk('text',{x:560,y:250,'font-family':'var(--sans)','font-size':11.5,fill:'var(--muted)'},
+    'Student Contact Association, nine Student Program Associations …');
+  document.getElementById('fig').appendChild(s);
+})();
+
+/* ------------------------------------------------------------------ chips */
+var sc=document.getElementById('schips'), dc=document.getElementById('dchips');
+function buildChips(){
+  sc.innerHTML=''; dc.innerHTML='';
+  var rows=verRows();
+  var scount={}, dcount={};
+  rows.forEach(function(r){ scount[r.s]=(scount[r.s]||0)+1; dcount[r.g]=(dcount[r.g]||0)+1; });
+  STR.forEach(function(s){
+    var b=el('button','chip'); b.type='button';
+    b.setAttribute('aria-pressed',String(activeS[s]));
+    b.innerHTML='<span></span><span class="n"></span>';
+    b.children[0].textContent=SLABEL[s];
+    b.children[1].textContent=scount[s]||0;
+    b.addEventListener('click',function(){
+      activeS[s]=!activeS[s]; b.setAttribute('aria-pressed',String(activeS[s])); renderTable();
+    });
+    sc.appendChild(b);
+  });
+  Object.keys(DOMS).filter(function(g){return dcount[g];})
+    .sort(function(a,b){return dcount[b]-dcount[a];})
+    .forEach(function(g){
+      var b=el('button','chip'); b.type='button';
+      b.setAttribute('aria-pressed',String(activeD[g]));
+      b.innerHTML='<span></span><span class="n"></span>';
+      b.children[0].textContent=DOMS[g];
+      b.children[1].textContent=dcount[g];
+      b.addEventListener('click',function(){
+        activeD[g]=!activeD[g]; b.setAttribute('aria-pressed',String(activeD[g])); renderTable();
+      });
+      dc.appendChild(b);
+    });
+}
+
+/* ------------------------------------------------------------------ table */
+var q=document.getElementById('q');
+function renderTable(){
+  var v=q.value.trim().toLowerCase();
+  var host=document.getElementById('tbl');
+  host.innerHTML='';
+  var pool=verRows();
+  var dcount={};
+  pool.forEach(function(r){ dcount[r.g]=(dcount[r.g]||0)+1; });
+  var order=Object.keys(DOMS).filter(function(g){return dcount[g];})
+    .sort(function(a,b){return dcount[b]-dcount[a];});
+  var shown=0;
+  order.forEach(function(g){
+    if(!activeD[g]) return;
+    var rows=pool.filter(function(r){
+      if(r.g!==g||!activeS[r.s]) return false;
+      if(changedOnly&&VER==='cmp'&&!isChanged(r)) return false;
+      if(v.length<2) return true;
+      return (r.l+' '+(r.ceds||'')+' '+(r.def||'')+' '+(r.note||'')).toLowerCase().indexOf(v)>=0;
+    });
+    if(!rows.length) return;
+    var h=el('div','domhead');
+    h.innerHTML='<h3></h3><span class="dn"></span>';
+    h.querySelector('h3').textContent=DOMS[g];
+    h.querySelector('.dn').textContent=rows.length+(rows.length===1?' row':' rows');
+    host.appendChild(h);
+    rows.forEach(function(r){
+      shown++;
+      var d=el('div','row');
+      var e=el('div','cell e');
+      e.innerHTML='<b></b><span class="k"></span>';
+      var nameEl=e.querySelector('b');
+      nameEl.textContent=r.l;
+      if(VER==='cmp'){
+        if(!r.in40){ nameEl.appendChild(badge('NEW IN 6','var(--v61)','Added in Data Standard 6')); }
+        else if(!r.in61){ nameEl.appendChild(badge('4.0 ONLY','var(--v40)','Removed in Data Standard 6')); }
+      } else if(VER==='61'&&!r.in40){
+        nameEl.appendChild(badge('NEW IN 6','var(--v61)','Added in Data Standard 6'));
+      } else if(VER==='40'&&!r.in61){
+        nameEl.appendChild(badge('DROPPED','var(--v40)','Removed in Data Standard 6'));
+      }
+      var np = VER==='40' ? r.np40 : VER==='61' ? r.np61 : (r.np61===null?r.np40:r.np61);
+      e.querySelector('.k').textContent=r.kind+' · '+np+' props';
+      if(VER==='cmp'&&RESHAPED[r.id]){
+        var rs=el('span','reshape'); rs.textContent=r.np40+' → '+r.np61+' props';
+        rs.title='Property count changed between versions';
+        e.querySelector('.k').textContent=r.kind;
+        e.querySelector('.k').appendChild(rs);
+      }
+      var mid=el('div','mid'); mid.textContent='→';
+      var c=el('div','cell c'+(r.ceds?'':' off'));
+      c.innerHTML='<b></b><span class="k"></span>';
+      c.querySelector('b').textContent=r.ceds||'no CEDS analogue';
+      c.querySelector('.k').textContent=r.ceds?(CGROUPS[r.cg]||r.cg||''):'';
+      var s=el('div','sc');
+      s.setAttribute('data-s',r.s);
+      s.style.setProperty('--c','var(--s-'+r.s+')');
+      s.textContent=r.s;
+      d.appendChild(e); d.appendChild(mid); d.appendChild(c); d.appendChild(s);
+      if(showNotes&&r.note){
+        var n=el('div','rnote'); n.textContent=r.note; d.appendChild(n);
+      }
+      host.appendChild(d);
+    });
+  });
+  if(!shown){
+    var em=el('div','empty');
+    em.textContent=v.length>1?'Nothing matches “'+q.value+'” in the current filters.'
+      :'No rows match the current filters.';
+    host.appendChild(em);
+  }
+  document.getElementById('tblhead').textContent =
+    VER==='cmp' ? ('All '+META.union+' rows across both versions')
+                : ('All '+stat().entities+' rows in Ed-Fi '+stat().label);
+}
+function badge(text,color,title){
+  var b=el('span','vb'); b.textContent=text; b.title=title||'';
+  b.style.setProperty('--c',color);
+  return b;
+}
+
+/* ----------------------------------------------------------------- wiring */
+var CAP={
+  '40':'Showing Data Standard 4.0 — the version the Michigan Data Hub runs for 2026–27.',
+  '61':'Showing Data Standard 6.1 — the current release line.',
+  'cmp':'Showing both, with every row marked where it exists in only one version.'
+};
+function setVersion(v){
+  VER=v;
+  [].forEach.call(document.querySelectorAll('.seg button'),function(b){
+    b.setAttribute('aria-pressed',String(b.getAttribute('data-v')===v));
+  });
+  document.getElementById('switchcap').textContent=CAP[v];
+  document.getElementById('covlede').textContent=LEDE[v];
+  document.getElementById('covnote').innerHTML=NOTE[v];
+  var cb=document.getElementById('changed');
+  cb.hidden = v!=='cmp';
+  if(v!=='cmp'&&changedOnly){ changedOnly=false; cb.setAttribute('aria-pressed','false');
+    cb.textContent='Only what changed'; }
+  renderSummary(); renderCoverage(); buildChips(); renderTable();
+}
+[].forEach.call(document.querySelectorAll('.seg button'),function(b){
+  b.addEventListener('click',function(){ setVersion(b.getAttribute('data-v')); });
+});
+document.getElementById('expand').addEventListener('click',function(){
+  showNotes=!showNotes;
+  this.setAttribute('aria-pressed',String(showNotes));
+  this.textContent=showNotes?'Hide reasoning':'Show reasoning';
+  renderTable();
+});
+document.getElementById('changed').addEventListener('click',function(){
+  changedOnly=!changedOnly;
+  this.setAttribute('aria-pressed',String(changedOnly));
+  this.textContent=changedOnly?'Show all rows':'Only what changed';
+  renderTable();
+});
+q.addEventListener('input',renderTable);
+setVersion('cmp');
+})();
+</script>

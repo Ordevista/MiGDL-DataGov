@@ -174,6 +174,35 @@ footer p{max-width:74ch}
 footer code{color:var(--ink-2)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+<style id="api-css">
+.ep-list{margin-top:24px;border:1px solid var(--rule);background:var(--surface);
+  max-height:560px;overflow-y:auto}
+.ep{display:grid;grid-template-columns:230px 1fr 110px 62px;gap:14px;align-items:baseline;
+  padding:10px 16px;border-bottom:1px solid var(--rule)}
+.ep:last-child{border-bottom:0}
+.ep .pa{font-family:var(--mono);font-size:12.5px;color:var(--ink);overflow-wrap:anywhere}
+.ep .de{font-size:12.5px;color:var(--muted)}
+.ep .de b{color:var(--ink-2);font-weight:600}
+.ep .tb{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:5px;
+  overflow-wrap:anywhere}
+.ep .gp{font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--muted);
+  border:1px solid var(--rule-2);border-radius:999px;padding:2px 7px;justify-self:start}
+.ep .nf{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right;
+  font-variant-numeric:tabular-nums}
+.covgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin-top:26px}
+.cov{background:var(--surface);padding:14px 16px}
+.cov b{display:block;font-family:var(--mono);font-size:22px;font-weight:600;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums}
+.cov span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+.cov i{display:block;height:5px;background:var(--sunk);margin-top:9px;position:relative}
+.cov i em{position:absolute;left:0;top:0;bottom:0;background:var(--accent);display:block}
+@media (max-width:760px){.ep{grid-template-columns:1fr 62px}.ep .gp{display:none}}
+</style>
+
+
+
+
 
 <div class="wrap">
 
@@ -329,6 +358,46 @@ footer code{color:var(--ink-2)}
     <p>The names originate outside this repo &mdash; in the column-mapping JSON in S3
     (<code>bronze/silver_to_gold_mapping/</code>) &mdash; so a rename has to move that config, the
     <code>goldstage</code> datasets, the manifest and all downstream SQL together.</p>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+<section id="api">
+  <p class="eyebrow">The delivery layer</p>
+  <h2>Nineteen endpoints,<br>and what they hand over</h2>
+  <p class="lede">MiEWIMS, MiRead, MiSAFEStudent and Community Schools Manager do not query the lake.
+  They call <code>maisa-consumption-api</code>, which is the only part of MiGDL those apps ever see.
+  This is what it delivers, and which tables it reads to do it.</p>
+  <div class="tools">
+    <input type="search" id="aq" placeholder="Filter endpoints, entities or tables" autocomplete="off" aria-label="Filter endpoints">
+    <button class="btn" id="aall">All</button>
+    <button class="btn" id="adist">District</button>
+    <button class="btn" id="astu">Student</button>
+    <button class="btn" id="aew">MiEWIMS</button>
+    <button class="btn" id="ard">MiRead</button>
+  </div>
+  <div class="ep-list" id="alist"></div>
+  <p class="fcap" id="acap"></p>
+
+  <h3 style="font-family:var(--mono);font-size:16px;margin-top:42px">How much of the lake is reachable</h3>
+  <p>Of the <b id="a-gp"></b> Gold and Platinum tables in this pipeline, the API reads
+  <b id="a-read"></b>. The conformed layer is almost entirely absent from it: the endpoints are
+  served by the star schema and the curated marts.</p>
+  <div class="covgrid" id="acov"></div>
+  <div class="note">
+    <p><strong>Unreachable here does not mean unused.</strong> This is one consumer. Anything else
+    that reads Redshift directly &mdash; Amorphic, analyst queries, dashboards, a second API &mdash;
+    is invisible to this count. What it does show is that <strong>nothing an app sees passes through
+    those 97 tables</strong>, so a change there cannot reach an app except through the derived and
+    curated tables that do.</p>
+    <p>Read alongside the crosswalk above: 42 of 81 Ed-Fi resources already stop at Gold conformed.
+    Those two findings are the same shape seen from opposite ends.</p>
   </div>
 </section>
 
@@ -616,4 +685,45 @@ document.getElementById('trapgrid').innerHTML=[
     '<p><b>Actually holds:</b> <span class="term">'+esc(t[1])+'</span></p>'+
     '<p>'+t[2]+'</p><div class="files">'+t[3]+'</div></div>'; }).join('');
 
+</script>
+
+<script id="api-data" type="application/json">{"eps":[{"p":"/app/district/roster","g":"District","ent":"","s":"Retrieve all students, teachers, and sections from a given district with optional school key(s) and/or staff id(s)","n":70,"t":["platinum.curated_district_roster"],"src":"lambda/app_district_handler/roster_v2.py","json":0},{"p":"/app/district/schools","g":"District","ent":"EducationOrganization","s":"Retrieve school reference records for a district","n":40,"t":["gold.dim_education_organization"],"src":"lambda/app_district_handler/schools.py","json":0},{"p":"/app/district/sections","g":"District","ent":"","s":"Retrieve section reference records for a district and optional school key(s) and/or section id(s)","n":22,"t":["gold.dim_education_organization","gold.dim_section"],"src":"lambda/app_district_handler/sections.py","json":0},{"p":"/app/district/staff","g":"District","ent":"","s":"Retrieve staff list for a district and optional school key(s) and/or staff id(s)","n":31,"t":["gold.dim_staff","gold.fact_staff_edorg_assignment_assoc","gold.fact_staff_school_assoc"],"src":"lambda/app_district_handler/staff.py","json":0},{"p":"/app/district/student","g":"District","ent":"","s":"Retrieve student list for a district and optional school key(s)","n":47,"t":["gold.dim_student"],"src":"lambda/app_district_handler/student.py","json":0},{"p":"/app/student","g":"Student","ent":"StudentProfile","s":"Retrieve student profile by unique student ID(s)","n":45,"t":["gold.dim_student"],"src":"lambda/app_student_handler/student.py","json":0},{"p":"/app/student/attendance","g":"Student","ent":"StudentAttendanceEvent","s":"Retrieve attendance event records for a student","n":24,"t":["gold.dim_student","gold.fact_student_school_attendance"],"src":"lambda/app_student_handler/attendance.py","json":0},{"p":"/app/student/contacts","g":"Student","ent":"StudentContact","s":"Retrieve all contacts tied to a student by student key(s)","n":29,"t":["gold.dim_parent","gold.dim_student","gold.fact_student_parent"],"src":"lambda/app_student_handler/student_contacts.py","json":0},{"p":"/app/student/discipline","g":"Student","ent":"DisciplineIncident","s":"Retrieve discipline action records for a student","n":20,"t":["platinum.curated_student_discipline"],"src":"lambda/app_student_handler/discipline_v2.py","json":0},{"p":"/app/student/enrollment","g":"Student","ent":"StudentEnrollment","s":"Retrieve enrollment records for a student","n":29,"t":["gold.dim_education_organization","gold.dim_student","gold.fact_student_enrollment"],"src":"lambda/app_student_handler/student_enrollment.py","json":0},{"p":"/app/student/enrollment/history","g":"Student","ent":"StudentEnrollmentHistory","s":"Retrieve enrollment history for student(s) across districts","n":29,"t":["platinum.curated_enrollment_history"],"src":"lambda/app_student_handler/student_enrollment_history_v2.py","json":0},{"p":"/app/student/sectionenrollment","g":"Student","ent":"StudentSectionEnrollment","s":"Retrieve section enrollment records for a student","n":20,"t":["gold.dim_section","gold.dim_student","gold.fact_student_section_enrollment"],"src":"lambda/app_student_handler/student_section_enrollment.py","json":0},{"p":"/app/student/sectiongrades","g":"Student","ent":"StudentSectionGrade","s":"Retrieve per-Section grade rows for a student","n":28,"t":["gold.dim_student","gold.fact_student_section_grade"],"src":"lambda/app_student_handler/student_sectiongrades.py","json":0},{"p":"/miewims/district/earlywarning","g":"MiEWIMS","ent":"StudentEarlyWarning","s":"Retrieve full early warning dataset for a district and school year (analytics/export)","n":83,"t":["platinum.curated_ewims_student_early_warn_incidents_actions"],"src":"lambda/miewims_handler/districts_early_warning.py","json":0},{"p":"/miewims/district/earlywarning/summary","g":"MiEWIMS","ent":"StudentEarlyWarningSummary","s":"Retrieve early warning summary rows for all students in a district (list view)","n":53,"t":["platinum.curated_ewims_student_early_warn_incidents_actions"],"src":"lambda/miewims_handler/districts_early_warning_summary.py","json":0},{"p":"/miewims/district/gradingperiods","g":"MiEWIMS","ent":"GradingPeriodCalendar","s":"Retrieve grading period calendar for schools in a district","n":10,"t":["gold.dim_education_organization","gold.dim_grading_period"],"src":"lambda/miewims_handler/district_grading_periods.py","json":5},{"p":"/miewims/student/earlywarning","g":"MiEWIMS","ent":"StudentEarlyWarning","s":"Retrieve early warning data for a student","n":83,"t":["platinum.curated_ewims_student_early_warn_incidents_actions"],"src":"lambda/miewims_handler/students_early_warning.py","json":0},{"p":"/miread/district/assessment","g":"MiRead","ent":"","s":"Retrieve student assessments for a district and school year(s)","n":47,"t":["platinum.curated_miread_district_assessment"],"src":"lambda/miread_handler/district_assessment_v2.py","json":7},{"p":"/miread/student/context","g":"MiRead","ent":"StudentContext","s":"Retrieve application context for a student given a student key and school year(s)","n":83,"t":["platinum.fact_miread_student_context_enriched"],"src":"lambda/miread_handler/student_context.py","json":32}],"cov":{"gold_main":[3,81],"gold_derived":[10,22],"platinum":[6,17]},"reach":["gold.dim_education_organization","gold.dim_grading_period","gold.dim_parent","gold.dim_section","gold.dim_staff","gold.dim_student","gold.fact_staff_edorg_assignment_assoc","gold.fact_staff_school_assoc","gold.fact_student_enrollment","gold.fact_student_parent","gold.fact_student_school_attendance","gold.fact_student_section_enrollment","gold.fact_student_section_grade","platinum.curated_district_roster","platinum.curated_enrollment_history","platinum.curated_ewims_student_early_warn_incidents_actions","platinum.curated_miread_district_assessment","platinum.curated_student_discipline","platinum.fact_miread_student_context_enriched"],"unreach":["gold.dim_academic_week","gold.dim_assessment","gold.dim_assessment_item","gold.dim_calendar","gold.dim_calendar_date","gold.dim_class_period","gold.dim_cohort","gold.dim_course","gold.dim_course_offering","gold.dim_credential","gold.dim_date","gold.dim_descriptor_mapping","gold.dim_education_content","gold.dim_education_service_center","gold.dim_eem_characteristic","gold.dim_eem_characteristic_enum","gold.dim_eem_county","gold.dim_eem_edu_org_assoc","gold.dim_eem_educationentitymaster_detail","gold.dim_eem_entity","gold.dim_eem_entity_contact","gold.dim_eem_entity_relationship_hist","gold.dim_eem_entity_type","gold.dim_eem_entity_type_relationship","gold.dim_eem_grade","gold.dim_eem_program","gold.dim_eem_program_participation","gold.dim_eem_school_year","gold.dim_eem_shared_entity","gold.dim_eem_title_iii","gold.dim_feeder_school_assoc","gold.dim_grade_type","gold.dim_graduation_plan","gold.dim_intervention","gold.dim_intervention_prescription","gold.dim_intervention_study","gold.dim_learning_content_resource","gold.dim_learning_objective","gold.dim_learning_standard","gold.dim_local_education_agency","gold.dim_location","gold.dim_objective_assessment","gold.dim_parent_conf","gold.dim_program","gold.dim_school","gold.dim_school_year","gold.dim_school_year_type","gold.dim_section_conf","gold.dim_session","gold.dim_staff_conf","gold.dim_state_education_agency","gold.dim_student_conf","gold.fact_accountability_rating","gold.fact_community_provider_license","gold.fact_discipline_action","gold.fact_discipline_action_conf","gold.fact_discipline_incident","gold.fact_discipline_incident_behavior","gold.fact_discipline_incident_conf","gold.fact_grade","gold.fact_grade_conf","gold.fact_staff_cohort_assoc","gold.fact_staff_employment_assoc","gold.fact_staff_section","gold.fact_staff_section_assoc_conf","gold.fact_student_academic_record","gold.fact_student_academic_record_conf","gold.fact_student_assessment","gold.fact_student_assessment_conf","gold.fact_student_cohort_assoc","gold.fact_student_discipline_behavior_assoc","gold.fact_student_discipline_incident_assoc","gold.fact_student_education_org_assoc","gold.fact_student_enrollment_conf","gold.fact_student_food_service_program","gold.fact_student_homeless_program","gold.fact_student_intervention_assoc","gold.fact_student_intervention_attendance","gold.fact_student_language_instruction_program","gold.fact_student_learning_objective","gold.fact_student_objective_assessment","gold.fact_student_parent_assoc_conf","gold.fact_student_program","gold.fact_student_program_conf","gold.fact_student_school_attendance_conf","gold.fact_student_section_enrollment_conf","gold.fact_student_section_grade_conf","gold.fact_student_special_edu_program_assoc","gold.fact_student_title_iparta_program_assoc","gold.fact_student_title_itas_program_assoc","platinum.dim_ewims_indicator_domain","platinum.dim_ewims_time_period_type","platinum.dim_miread_assessment_period","platinum.dim_miread_assessment_vendor","platinum.dim_miread_literacy_component","platinum.dim_miread_proficiency_level","platinum.fact_ewims_student_early_warning","platinum.fact_miread_student_assessment","platinum.fact_miread_student_assessment_component","platinum.fact_miread_student_context","platinum.fact_teacher_roster"],"spec":"api-2_2_2.yaml","ver":"2.2.2","fields":793,"tables":19,"gp":120}</script>
+<script>
+(function(){
+var A=JSON.parse(document.getElementById('api-data').textContent);
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+var af='all', aq='';
+var list=document.getElementById('alist'), cap=document.getElementById('acap');
+function render(){
+  var rows=A.eps.filter(function(e){
+    if(af!=='all'&&e.g!==af)return false;
+    if(!aq)return true;
+    return (e.p+' '+e.ent+' '+e.s+' '+e.t.join(' ')).toLowerCase().indexOf(aq)>=0;});
+  list.innerHTML=rows.map(function(e){
+    return '<div class="ep"><div class="pa">'+esc(e.p)+
+      '<div class="tb">'+e.t.map(esc).join('<br>')+'</div></div>'+
+      '<div class="de">'+(e.ent?'<b>'+esc(e.ent)+'</b> &middot; ':'')+esc(e.s)+
+      (e.json?'<div class="tb">'+e.json+' field'+(e.json===1?'':'s')+' arrive packed in a JSON column</div>':'')+
+      '</div>'+
+      '<div class="gp">'+esc(e.g)+'</div>'+
+      '<div class="nf">'+e.n+'</div></div>';}).join('');
+  cap.textContent=rows.length+' of '+A.eps.length+' endpoints \u00B7 '+
+    rows.reduce(function(a,b){return a+b.n;},0)+' response fields \u00B7 field counts include '+
+    'every leaf of the nested JSON the app receives';
+}
+[['aall','all'],['adist','District'],['astu','Student'],['aew','MiEWIMS'],['ard','MiRead']]
+ .forEach(function(p){document.getElementById(p[0]).addEventListener('click',function(){
+   af=p[1];render();});});
+document.getElementById('aq').addEventListener('input',function(e){
+  aq=e.target.value.trim().toLowerCase();render();});
+document.getElementById('a-gp').textContent=A.gp;
+document.getElementById('a-read').textContent=A.tables;
+var order=[['gold_main','Gold conformed'],['gold_derived','Gold star'],['platinum','Platinum']];
+document.getElementById('acov').innerHTML=order.map(function(o){
+  var c=A.cov[o[0]]||[0,0], pct=c[1]?Math.round(100*c[0]/c[1]):0;
+  return '<div class="cov"><b>'+c[0]+' / '+c[1]+'</b><span>'+o[1]+
+    ' tables read by the API</span><i><em style="width:'+pct+'%"></em></i></div>';}).join('');
+render();
+})();
 </script>

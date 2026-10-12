@@ -1,0 +1,134 @@
+{
+  "site": {
+    "title": "Michigan K-12 Data Governance Resources",
+    "org": "Ordevista",
+    "tagline": "Order for a Future with Privacy",
+    "intro": "Everything from our Michigan K-12 data governance sessions in one place: the self-assessment, slides, handouts, and the statewide programs that can help your district act on the results. New material is added here after each session.",
+    "contact_email": "Kurt@Ordevista.com",
+    "base_url": "https://k12.ordevista.com"
+  },
+  "sections": [
+    {
+      "id": "start",
+      "title": "Start here",
+      "intro": "Five minutes. Twelve questions. Your results by email the moment you submit.",
+      "items": [
+        {
+          "title": "Michigan K-12 Data Governance Self-Assessment",
+          "description": "Four domains, three questions each, one 1–4 confidence scale. Returns your Confidence Index, three prioritized next steps, and a shareable version with names stripped out.",
+          "url": "https://forms.gle/9w6arL6jcmE3VYZFA",
+          "type": "Form",
+          "badge": "Open until Oct 31, 2026",
+          "expires": "2026-10-31",
+          "featured": true
+        }
+      ]
+    },
+    {
+      "id": "sessions",
+      "title": "Session materials",
+      "intro": "Slides and handouts from each presentation, posted after each session.",
+      "items": [
+        {
+          "title": "METL — Data Governance Self-Assessment (slides)",
+          "description": "September 17, 2026. The building analogy, the four domains, what you get back, and the three asks.",
+          "file": "metl-2026-09-self-assessment-slides.pdf",
+          "type": "PDF",
+          "date": "2026-09-17"
+        },
+        {
+          "title": "ISD collaboration handout",
+          "description": "Two-page handout: six parallel data privacy action options, with a discussion guide on the back.",
+          "file": "isd-collaboration-handout.pdf",
+          "type": "PDF",
+          "date": "2026-09-17"
+        },
+        {
+          "title": "MAEDS #62 — session materials",
+          "description": "October 28–30, 2026, Grand Traverse Resort. Slides will be posted here after the session.",
+          "type": "Upcoming",
+          "badge": "Coming after MAEDS",
+          "date": "2026-10-29"
+        }
+      ]
+    },
+    {
+      "id": "programs",
+      "title": "Michigan programs you can join",
+      "intro": "Existing statewide programs — you would be joining something, not building it.",
+      "items": [
+        {
+          "title": "Michigan Student Data Privacy Alliance",
+          "description": "REMC's statewide SDPC alliance: one standard data privacy agreement instead of negotiating vendor by vendor, plus a shared registry of signed agreements.",
+          "url": "https://remc.org/educator-resources/student-data-privacy-consortium-sdpc-/",
+          "type": "Program",
+          "owner": "REMC / SDPC",
+          "logo": "remc.png",
+          "domain": "Data Use & Sharing"
+        },
+        {
+          "title": "MiSecure",
+          "description": "Incident response planning tools, tabletop exercises, the Quick Self-Audit, and the K-12 Operations Center.",
+          "url": "https://misecure.org/",
+          "type": "Program",
+          "owner": "METL",
+          "logo": "misecure.png",
+          "domain": "Security & Privacy"
+        },
+        {
+          "title": "Michigan DataHub",
+          "description": "Interoperability on the Ed-Fi standard, so the same field means the same thing everywhere it lands.",
+          "url": "https://www.midatahub.org/",
+          "type": "Program",
+          "owner": "KRESA",
+          "logo": "midatahub.png",
+          "domain": "Data Management"
+        },
+        {
+          "title": "MiGreatDataLake",
+          "description": "Regional analysis capacity for Michigan ISDs and districts. A Data Trust Board is forming and seeking districts.",
+          "url": "https://www.gomaisa.org/downloads/maisa/draft__mi_great_data_lake_feasibility_study_v01.092424.pdf",
+          "type": "PDF",
+          "owner": "MAISA",
+          "logo": "migdl.png",
+          "domain": "Leadership & Strategy"
+        }
+      ]
+    },
+    {
+      "id": "references",
+      "title": "Laws and frameworks",
+      "intro": "The citations behind the self-assessment's next steps.",
+      "items": [
+        {
+          "title": "MCL 380.1136 — Protection of pupil privacy",
+          "description": "Parents may request a list of every third party that received their child's data, and why. Thirty days, no charge.",
+          "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-380-1136",
+          "type": "Law",
+          "owner": "Michigan Legislature"
+        },
+        {
+          "title": "MCL 388.1697g — Section 97g, statewide K-12 SOC",
+          "description": "Funds the statewide Security Operations Center and managed detection and response for districts and ISDs.",
+          "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-388-1697g",
+          "type": "Law",
+          "owner": "Michigan Legislature"
+        },
+        {
+          "title": "General Schedule #2 — Public Schools records retention",
+          "description": "Michigan's approved retention schedule for public school records: how long to keep them and how to dispose of them.",
+          "url": "https://www.michigan.gov/dtmb/services/recordsmanagement/schedules/gslocal",
+          "type": "Schedule",
+          "owner": "Michigan DTMB"
+        },
+        {
+          "title": "CIS Critical Security Controls v8.1",
+          "description": "The safeguards each next step maps to, organized by Implementation Group (IG1 → IG2 → IG3).",
+          "url": "https://www.cisecurity.org/controls/v8-1",
+          "type": "Framework",
+          "owner": "Center for Internet Security"
+        }
+      ]
+    }
+  ]
+}

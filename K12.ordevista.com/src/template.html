@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}} · {{ORG}}</title>
+  <meta name="description" content="{{INTRO}}">
+  <link rel="canonical" href="{{BASE_URL}}/">
+  <meta property="og:title" content="{{TITLE}}">
+  <meta property="og:description" content="{{INTRO}}">
+  <meta property="og:url" content="{{BASE_URL}}/">
+  <meta name="theme-color" content="#203B7B">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:image" content="{{BASE_URL}}/assets/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="hero">
+    <div class="wrap">
+      <p class="brand"><span class="wordmark">{{ORG}}</span><span class="tag">{{TAGLINE}}</span></p>
+      <h1>{{TITLE}}</h1>
+      <p class="lede">{{INTRO}}</p>
+      <nav aria-label="Sections">
+        {{NAV}}
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <div class="search">
+      <label for="q">Filter resources</label>
+      <input id="q" type="search" placeholder="Try “vendor”, “incident”, or “retention”" autocomplete="off">
+      <p id="q-status" class="q-status" aria-live="polite"></p>
+    </div>
+    {{SECTIONS}}
+  </main>
+
+  <footer class="wrap foot">
+    <p><strong>Your privacy here:</strong> this page sets no cookies and uses no analytics or third-party scripts.</p>
+    <p>Questions or a regional meeting request: <a href="mailto:{{EMAIL}}">{{EMAIL}}</a></p>
+    <p class="small">Updated {{UPDATED}} · © {{YEAR}} Ordevista LLC · Links to partner programs go to their own sites.</p>
+  </footer>
+  <script src="app.js" defer></script>
+</body>
+</html>

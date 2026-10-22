@@ -634,9 +634,57 @@
           "</span></div>";
       }).join("") + "</div>" + SBAR_LEGEND + "</section>" +
 
+      gapSection() +
+
       '<section class="sect"><h2>Who is carrying it</h2>' +
       '<p class="hint">Count of plannable items per person. Not a capacity model — there are no ' +
       'estimates on most of these items.</p>' + barList(aPairs, P.length, 14) + "</section>";
+  }
+
+
+  /* ---- the Jira gap register, rendered in Sprint planning ---- */
+  var PRIOLBL = { 1: "Do first", 2: "Next", 3: "Later" };
+
+  function gapSection() {
+    var G = window.GAPS, kinds = G.kinds;
+    var order = ["process", "data", "setting", "schema", "hygiene", "keep-out"];
+    var actionable = G.gaps.filter(function (g) { return g.kind !== "keep-out"; });
+    var closed = actionable.filter(function (g) { return g.closed; }).length;
+
+    function row(g) {
+      var pctTxt = g.pct == null ? "" : g.pct + "%";
+      var cls = g.pct == null ? "" : g.pct >= 100 ? "full" : g.pct === 0 ? "none" : "";
+      return '<div class="gapitem' + (g.closed ? " done" : "") + '">' +
+        "<div><span class='pill " + (g.priority === 1 ? "crit" : g.priority === 2 ? "warn" : "") +
+        "'>" + PRIOLBL[g.priority] + "</span>" +
+        (g.closed ? " <span class='pill ok'>done</span>" : "") + "</div>" +
+        '<div><span class="t">' + esc(g.title) + "</span>" +
+        (g.unlocks ? '<div class="u"><b>Unlocks.</b> ' + esc(g.unlocks) + "</div>" : "") +
+        '<div class="h"><b>Do.</b> ' + esc(g.how) + "</div></div>" +
+        "<div>" + (g.pct == null ? "<span class='gapsub'>no measure — judgement call</span>"
+          : '<span class="gapnum">' + g.have + " / " + g.need + " " + pctTxt + "</span>" +
+            '<div class="meter"><i class="' + cls + '" style="width:' +
+            Math.max(g.pct, 1) + '%"></i></div>' +
+            '<div class="gapsub">' + esc(g.unit) + "</div>") +
+        "</div></div>";
+    }
+
+    return '<section class="sect"><h2>To run this from Jira alone</h2>' +
+      '<p class="hint">This page is built from three sources: Jira, the ingestion tracker ' +
+      'spreadsheet, and two hand transcriptions of the Lucid map and the Game Plan. Below is ' +
+      'what Jira would have to hold for it to be the only one. Each row is measured against ' +
+      'live data, so the list closes itself as fields get populated — ' + closed +
+      ' of ' + actionable.length + ' are done today.</p>' +
+      order.map(function (k) {
+        var rows = G.gaps.filter(function (g) { return g.kind === k; });
+        if (!rows.length) return "";
+        rows.sort(function (a, b) { return a.priority - b.priority; });
+        return "<h3 style='font-size:13.5px;margin:16px 0 6px'>" + esc(kinds[k]) +
+          " <span class='gapsub' style='font-weight:400'>" + rows.length + "</span></h3>" +
+          (k === "keep-out" ? "<p class='hint' style='margin-bottom:8px'>Not everything " +
+            "belongs in Jira. These are better left where they are.</p>" : "") +
+          '<div class="card">' + rows.map(row).join("") + "</div>";
+      }).join("") + "</section>";
   }
 
   /* ---- view: leadership ---- */

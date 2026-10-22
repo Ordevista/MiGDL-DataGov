@@ -32,7 +32,7 @@ regenerate the bundles themselves.
 | **The map** | station | The Data Journey's own layout, with every cited ticket showing live Jira status, plus a register of what the map commits to that Jira cannot track |
 | **Game plan** | operating stage | Which stage the operation is in, and whether each gate's tickets have actually landed |
 | Developer | table and column | Which asset is affected, how far a change propagates, what blocks what |
-| Sprint planning | deliverable | What is ready against what is blocked, and who is carrying it |
+| Sprint planning | deliverable | What is ready against what is blocked, who is carrying it, and what Jira would need to hold for this page to run from Jira alone |
 | K-12 stakeholder | district and app | Is a district's data in, how old is it, and which apps can use it |
 
 ## Where district state comes from
@@ -50,6 +50,17 @@ evidence it used, and the page marks a name match as the weaker one.
 
 `source-ingestion-tracker-v2.redacted.json` is the export the page is built from, with
 district names replaced by SD code and EEM codes removed.
+
+## Getting to one source
+
+The page is built from three sources today: Jira, the ingestion tracker, and two hand
+transcriptions. The Sprint planning view ends with a register of what Jira would have to
+hold for it to be the only one — split into populating existing fields, adding fields,
+project configuration, moving a dataset in, hygiene, and the things better left outside
+Jira.
+
+Each row is measured against live data by `generator/jira_gaps.py`, so the register
+closes itself: populate a field and its coverage moves without anyone editing the list.
 
 ## Why it is an ontology and not a report
 

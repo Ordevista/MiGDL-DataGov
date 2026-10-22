@@ -1,0 +1,22 @@
+{
+ "note": "What was removed from this public copy. Counts only: naming the individuals here would defeat the redaction.",
+ "individuals_replaced_by_role": 29,
+ "districts_identified_by_sd_code_only": 76,
+ "defect_summaries_withheld": 104,
+ "quantitative_defect_evidence_removed": [
+  "Per-district runtime measurement removed.",
+  "Zombie-row counts for a single district removed."
+ ],
+ "also_dropped": [
+  "per-district Jira issue key lists",
+  "district names and EEM codes (SD code retained)",
+  "\u201cwhat the app shows\u201d plain-language outcomes"
+ ],
+ "unchanged": [
+  "issue keys and statuses",
+  "counts and totals",
+  "the map-against-Jira reconciliation",
+  "medallion table names",
+  "pipeline structure, stages and gates"
+ ]
+}

@@ -1,0 +1,294 @@
+<title>MiGDL Work Ontology</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a fixed masthead and audience switch over a shared stage rail, with one
+   swappable panel below. Colour is keyed to the medallion metals the data lives in. */
+:root{
+  --bg:#f6f7fa; --surface:#fff; --sunk:#eef1f6; --line:#dde2ea; --line-2:#c9d1dd;
+  --fg:#1a2330; --fg-2:#3d4a5c; --muted:#66748a;
+  --accent:#1d5fa6; --accent-soft:#e7eff8;
+  --bronze:#9c6239; --silver:#74839a; --gold:#ab7d24; --platinum:#655aa4;
+  --ok:#2d7449; --ok-soft:#e4f0e8; --warn:#9c6c17; --warn-soft:#f7eeda;
+  --crit:#ab3733; --crit-soft:#f8e6e5;
+  --d:"Archivo",system-ui,sans-serif;
+  --b:"Source Sans 3",system-ui,sans-serif;
+  --m:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f141b; --surface:#161d26; --sunk:#1c2530; --line:#2a3542; --line-2:#3a4756;
+  --fg:#e7ecf3; --fg-2:#c2cbd8; --muted:#8e9db2;
+  --accent:#6ca8ea; --accent-soft:#17283c;
+  --bronze:#c98b5c; --silver:#9fb0c6; --gold:#d6a948; --platinum:#9b8fdc;
+  --ok:#5aae7a; --ok-soft:#163022; --warn:#d2a34c; --warn-soft:#332715;
+  --crit:#e0756f; --crit-soft:#361c1b; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0f141b; --surface:#161d26; --sunk:#1c2530; --line:#2a3542; --line-2:#3a4756;
+  --fg:#e7ecf3; --fg-2:#c2cbd8; --muted:#8e9db2;
+  --accent:#6ca8ea; --accent-soft:#17283c;
+  --bronze:#c98b5c; --silver:#9fb0c6; --gold:#d6a948; --platinum:#9b8fdc;
+  --ok:#5aae7a; --ok-soft:#163022; --warn:#d2a34c; --warn-soft:#332715;
+  --crit:#e0756f; --crit-soft:#361c1b; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--b);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1240px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--d);text-wrap:balance;margin:0}
+a{color:var(--accent)}
+.mono{font-family:var(--m);font-size:.92em}
+.num{font-variant-numeric:tabular-nums}
+
+/* masthead */
+.mast{background:var(--surface);border-bottom:1px solid var(--line)}
+.mast .wrap{padding-block:20px 16px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between}
+.mast h1{font-size:25px;letter-spacing:-.015em}
+.lede{color:var(--muted);margin:5px 0 0;max-width:62ch;font-size:13.5px}
+.stats{display:flex;flex-wrap:wrap;gap:18px;margin:0}
+.stats div{min-width:0}
+.stats dt{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.stats dd{font-family:var(--d);font-size:21px;font-weight:600;margin:1px 0 0;font-variant-numeric:tabular-nums}
+
+/* audience switch */
+.aud{display:flex;gap:0;flex-wrap:wrap;border-bottom:1px solid var(--line);background:var(--surface)}
+.audwrap{background:var(--surface);border-bottom:1px solid var(--line)}
+.audwrap .wrap{display:flex;gap:4px;flex-wrap:wrap;padding-block:0}
+.tab{appearance:none;background:none;border:0;border-bottom:2px solid transparent;
+  font-family:var(--d);font-size:13.5px;font-weight:600;color:var(--muted);
+  padding:11px 13px;cursor:pointer;min-width:0}
+.tab:hover{color:var(--fg)}
+.tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+.tab small{display:block;font-family:var(--b);font-weight:400;font-size:11px;letter-spacing:0}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+/* stage rail */
+.rail{background:var(--sunk);border-bottom:1px solid var(--line)}
+.rail .wrap{padding-block:13px}
+.railhd{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:9px}
+.railhd h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.railhd .note{font-size:12px;color:var(--muted)}
+.stages{display:flex;gap:5px;overflow-x:auto;padding-bottom:3px}
+.stg{flex:1 1 0;min-width:92px;background:var(--surface);border:1px solid var(--line);
+  border-radius:3px;padding:8px 9px;text-align:left;cursor:pointer;font:inherit;color:inherit}
+.stg:hover{border-color:var(--line-2)}
+.stg[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.stg .nm{font-family:var(--d);font-size:11.5px;font-weight:600;line-height:1.25;display:block}
+.stg .ct{font-family:var(--d);font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.stg .sub{font-size:10.5px;color:var(--muted)}
+.stg .lyr{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;margin-top:3px;color:var(--muted)}
+.stg:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+/* panels */
+main{padding-block:22px 40px}
+.sect{margin-bottom:30px}
+.sect>h2{font-size:17px;margin-bottom:3px}
+.sect>.hint{color:var(--muted);font-size:13px;margin:0 0 12px;max-width:78ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:4px}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+.tscroll{overflow-x:auto}
+th{text-align:left;font-family:var(--d);font-size:10.5px;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--muted);font-weight:600;padding:8px 10px;
+  border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+.ttl{min-width:0}
+
+.pill{display:inline-block;font-size:10.5px;font-family:var(--d);font-weight:600;
+  padding:1px 6px;border-radius:9px;border:1px solid var(--line-2);color:var(--fg-2);white-space:nowrap}
+.pill.ok{background:var(--ok-soft);border-color:transparent;color:var(--ok)}
+.pill.warn{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
+.pill.crit{background:var(--crit-soft);border-color:transparent;color:var(--crit)}
+.pill.acc{background:var(--accent-soft);border-color:transparent;color:var(--accent)}
+.lay{display:inline-block;font-size:10px;font-family:var(--m);padding:1px 5px;border-radius:2px;
+  border:1px solid currentColor;white-space:nowrap}
+.lay.bronze{color:var(--bronze)} .lay.silver{color:var(--silver)}
+.lay.goldstage,.lay.gold-conformed,.lay.gold-star{color:var(--gold)}
+.lay.platinum{color:var(--platinum)} .lay.staging-temp{color:var(--muted)}
+
+/* blast-radius bar */
+.blast{display:flex;align-items:center;gap:7px;min-width:120px}
+.blast .bar{height:7px;background:var(--crit);border-radius:1px;min-width:2px}
+.blast .z{color:var(--muted);font-size:12px}
+
+/* stacked status bar */
+.sbar{display:flex;height:9px;border-radius:2px;overflow:hidden;background:var(--sunk);min-width:70px}
+.sbar i{display:block}
+.sbar .todo{background:var(--line-2)} .sbar .prog{background:var(--accent)} .sbar .done{background:var(--ok)}
+.legend{display:flex;gap:13px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:7px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+
+/* district journey dots */
+.dots{display:flex;gap:3px}
+.dot{width:13px;height:13px;border-radius:50%;border:1.5px solid var(--line-2);flex:0 0 auto}
+.dot.on{background:var(--ok);border-color:var(--ok)}
+.dot.now{background:var(--accent);border-color:var(--accent)}
+
+.kv{display:flex;flex-direction:column;gap:2px;padding:11px 12px}
+.kv .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-family:var(--d);font-weight:600}
+.kv .v{font-family:var(--d);font-size:23px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.15}
+.kv .n{font-size:12px;color:var(--muted)}
+
+.gap{background:var(--warn-soft);border:1px solid transparent;border-left:3px solid var(--warn);
+  border-radius:3px;padding:11px 13px;font-size:13px;color:var(--fg-2);margin-bottom:14px}
+.gap b{color:var(--fg);font-family:var(--d)}
+
+.bar-row{display:grid;grid-template-columns:minmax(96px,auto) 1fr auto;gap:10px;align-items:center;
+  padding:6px 12px;border-bottom:1px solid var(--line);font-size:13px}
+.bar-row:last-child{border-bottom:0}
+.bar-row .lbl{min-width:0;overflow-wrap:anywhere}
+.hbar{height:11px;background:var(--accent);border-radius:2px;min-width:2px}
+
+
+/* ---- map replica: the Lucid layout, 7 station columns over shared bands ---- */
+.mapwrap{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+.mapgrid{display:grid;grid-template-columns:132px repeat(7,minmax(208px,1fr));min-width:1700px}
+.mapgrid>div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:9px 10px;min-width:0}
+.mapgrid>div:last-child{border-right:0}
+.bandlbl{position:sticky;left:0;z-index:2;background:var(--sunk);font-family:var(--d);
+  font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600}
+.bandlbl small{display:block;font-family:var(--b);text-transform:none;letter-spacing:0;
+  font-size:11px;font-weight:400;margin-top:3px}
+.sthead{background:var(--sunk)}
+.sthead .n{display:block;font-family:var(--d);font-size:13.5px;font-weight:700;line-height:1.25}
+.sthead .t{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.sthead .l{margin-top:5px;display:flex;gap:3px;flex-wrap:wrap}
+.mapcell{font-size:12.5px;color:var(--fg-2)}
+.mapcell.none{color:var(--muted);font-style:italic}
+.chg{display:grid;grid-template-columns:22px 1fr;gap:7px;align-items:start;font-size:12.5px}
+.chg .mk{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--d);font-weight:700;font-size:12px;flex:0 0 auto}
+.mk.ok{background:var(--ok-soft);color:var(--ok)}
+.mk.some{background:var(--warn-soft);color:var(--warn)}
+.mk.lost{background:var(--crit-soft);color:var(--crit)}
+.painc{border-left:3px solid var(--crit);background:var(--crit-soft);border-radius:3px;
+  padding:8px 9px;font-size:12.5px}
+.painc.clean{border-left-color:var(--ok);background:var(--ok-soft)}
+.painc .h{font-family:var(--d);font-weight:600;font-size:12.5px;display:block;color:var(--fg)}
+.painc .q{display:block;margin-top:4px;color:var(--fg-2);font-style:italic}
+.painc .e{display:block;margin-top:4px;font-size:11px;color:var(--muted);font-family:var(--m)}
+.fixc{border:1px solid var(--line-2);border-radius:3px;padding:8px 9px;font-size:12.5px;background:var(--surface)}
+.fixc.nojira{border-style:dashed;border-color:var(--crit)}
+.fixc .h{font-family:var(--d);font-weight:600;display:block;color:var(--fg)}
+.tix{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px}
+.tix a{display:inline-flex;align-items:center;gap:3px;font-family:var(--m);font-size:10.5px;
+  border:1px solid var(--line-2);border-radius:3px;padding:1px 4px;text-decoration:none;color:var(--fg-2)}
+.tix a.moved{border-color:var(--warn);background:var(--warn-soft);color:var(--warn)}
+.tix a.done{border-color:transparent;background:var(--ok-soft);color:var(--ok)}
+.tix a.gone{border-color:var(--crit);background:var(--crit-soft);color:var(--crit);text-decoration:line-through}
+.calo{border:1px dashed var(--accent);background:var(--accent-soft);border-radius:3px;
+  padding:8px 9px;font-size:12.5px}
+.calo .h{font-family:var(--d);font-weight:600;display:block;color:var(--fg)}
+.maplegend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:9px 0 0}
+.maplegend b{color:var(--fg-2);font-family:var(--d)}
+.nj{display:grid;grid-template-columns:auto 1fr;gap:9px 12px;align-items:start;
+  padding:10px 12px;border-bottom:1px solid var(--line);font-size:13px}
+.nj:last-child{border-bottom:0}
+.nj .w{font-family:var(--d);font-weight:600}
+
+/* ---- game plan: stages over time, with the bars that run at each ---- */
+.stagerow{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.stagec{border:1px solid var(--line);border-radius:4px;background:var(--surface);
+  padding:11px 12px;display:flex;flex-direction:column;gap:7px;border-top:3px solid var(--line-2)}
+.stagec.met{border-top-color:var(--ok)}
+.stagec.partial{border-top-color:var(--warn)}
+.stagec.open{border-top-color:var(--accent)}
+.stagec.untracked{border-top-color:var(--crit)}
+.stagec .sn{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);
+  font-family:var(--d);font-weight:600}
+.stagec h3{font-size:14.5px;line-height:1.3}
+.stagec .gate{font-size:12px;color:var(--fg-2);background:var(--sunk);border-radius:3px;padding:6px 8px}
+.stagec .does{font-size:12.5px;color:var(--fg-2)}
+.stagec .kpi{font-size:12px;border-top:1px solid var(--line);padding-top:7px}
+.stagec .kpi b{font-family:var(--d);font-size:10.5px;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--muted);display:block;margin-bottom:2px}
+.unread{font-style:italic;color:var(--muted);font-size:11.5px}
+.bar{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;
+  border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:3px;
+  padding:6px 9px;margin-bottom:5px;font-size:12.5px;background:var(--surface)}
+.bar.pB{border-left-color:var(--gold)}
+.bar .k{font-family:var(--d);font-weight:600;white-space:nowrap}
+.bar .hop{font-family:var(--m);font-size:10.5px;color:var(--muted);white-space:nowrap}
+.iud{display:flex;gap:3px;white-space:nowrap}
+.iud span{font-family:var(--m);font-size:10.5px;padding:0 4px;border-radius:2px}
+.iud .yes{background:var(--ok-soft);color:var(--ok)}
+.iud .partial{background:var(--warn-soft);color:var(--warn)}
+.iud .no{background:var(--crit-soft);color:var(--crit)}
+.lyrstrip{display:flex;gap:6px;flex-wrap:wrap}
+.lyrstrip>div{flex:1 1 150px;border:1px solid var(--line);border-radius:3px;padding:8px 9px;
+  background:var(--surface);font-size:12px;min-width:0}
+.lyrstrip .c{font-family:var(--m);font-weight:500;font-size:13px}
+footer{border-top:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:12.5px}
+footer .wrap{padding-block:16px 26px;display:flex;gap:22px;flex-wrap:wrap;justify-content:space-between}
+footer code{font-family:var(--m);font-size:11.5px;background:var(--sunk);padding:1px 4px;border-radius:2px}
+footer p{margin:0 0 5px;max-width:66ch}
+.toggle{appearance:none;background:none;border:1px solid var(--line-2);border-radius:3px;
+  color:var(--muted);font:inherit;font-size:12px;padding:3px 9px;cursor:pointer}
+@media (max-width:620px){
+  .mast .wrap{align-items:flex-start}
+  .stats{gap:14px}
+  .stats dd{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="brand">
+      <h1>MiGDL Work Ontology</h1>
+      <p class="lede">Every work item in Jira project MIGDL, placed on the seven stations of
+      the Data Journey and on the medallion assets it changes &mdash; so one set of facts can be
+      read four ways, by the people who each need a different one.</p>
+    </div>
+    <dl class="stats">
+      <div><dt>Work items</dt><dd class="num">{{NITEMS}}</dd></div>
+      <div><dt>Districts</dt><dd class="num">{{NDIST}}</dd></div>
+      <div><dt>Map claims stale</dt><dd class="num">{{NDRIFT}} / {{NCLAIM}}</dd></div>
+      <div><dt>Jira read</dt><dd class="num">{{GEN}}</dd></div>
+    </dl>
+  </div>
+</header>
+
+<div class="audwrap"><div class="wrap">
+  <nav class="aud" id="tabs" role="tablist" aria-label="Audience"></nav>
+</div></div>
+
+<section class="rail"><div class="wrap">
+  <div class="railhd">
+    <h2>Data journey &mdash; seven stations</h2>
+    <span class="note">Plain name on top, the medallion layer beneath it. Click a station to filter every view to it.</span>
+  </div>
+  <div class="stages" id="rail"></div>
+</div></section>
+
+<main class="wrap" id="view"></main>
+
+<footer><div class="wrap">
+  <div>
+    <p><b>Source.</b> Jira project MIGDL on micollabhub.atlassian.net, read {{GEN}}
+    ({{NITEMS}} items). Stations, pain points and fixes transcribed from the Lucid
+    <i>MiGDL Data Journey {{MAPVER}}</i> ({{MAPDATE}}), whose own Jira state is dated
+    {{MAPASOF}}. Medallion assets and lineage from the RDF graph of
+    <code>MiGreatDataLake/amorphic-cicd @ stg</code>.</p>
+    <p><b>Provenance.</b> An assertion read from a Jira field is certain. One inferred from
+    an issue summary is marked <i>inferred</i> and is not evidence on its own.</p>
+  </div>
+  <div>
+    <p><b>Rebuild.</b> <code>build_work_graph.py</code> &rarr; <code>build_journey.py</code>
+    &rarr; <code>build_work_page.py</code>, all under <code>ontology/generator/</code>.</p>
+    <p>Vocabulary <code>migdl-work.ttl</code> &middot; instances
+    <code>migdl-work-instances.ttl</code> &middot; map <code>migdl-journey.ttl</code>
+    &middot; {{NTRIPLES}} triples with the medallion graph.</p>
+    <p><a href="{{BOARD}}" target="_blank" rel="noopener">MIGDL Jira board</a> &middot;
+    <a href="{{OPS}}" target="_blank" rel="noopener">Operations space</a></p>
+    <button class="toggle" id="theme" type="button">Switch theme</button>
+  </div>
+</div></footer>
+<script>window.WORK={{BUNDLE}};window.JOURNEY={{JOURNEY}};window.GAMEPLAN={{GAMEPLAN}};</script>
+<script>{{SCRIPT}}</script>

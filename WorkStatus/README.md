@@ -35,6 +35,22 @@ regenerate the bundles themselves.
 | Sprint planning | deliverable | What is ready against what is blocked, and who is carrying it |
 | K-12 stakeholder | district and app | Is a district's data in, how old is it, and which apps can use it |
 
+## Where district state comes from
+
+District load state is read from the **ingestion tracker**, not from Jira. Jira's
+onboarding issue types track onboarding *work*, which covers a subset: 183 districts
+appear in the tracker, 76 have an onboarding ticket, and 4 tickets name a district with
+no tracker row at all. Counting districts from Jira alone understates it by more than
+half, which is what an earlier version of this page did.
+
+Twelve of those tickets could only be joined to the tracker by a normalised name,
+because the Jira ticket carries no SD code. That is the Data Journey's own pain point 9
+in miniature — the tracker "matches districts by name" — so the join records which
+evidence it used, and the page marks a name match as the weaker one.
+
+`source-ingestion-tracker-v2.redacted.json` is the export the page is built from, with
+district names replaced by SD code and EEM codes removed.
+
 ## Why it is an ontology and not a report
 
 Three properties do the work that makes a ticket and a lineage node able to answer each

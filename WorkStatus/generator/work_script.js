@@ -641,8 +641,11 @@
 
   /* ---- view: leadership ---- */
   function vLead() {
-    var live = Object.keys(DIST).filter(function (k) { return DIST[k].stage === "complete"; }).length;
-    var nd = Object.keys(DIST).length;
+    // count districts from the tracker, which is the system of record for load state
+    var tk = Object.keys(DIST).map(function (k) { return DIST[k]; })
+      .filter(function (d) { return d.src === "tracker"; });
+    var live = tk.filter(function (d) { return d.stage === "complete"; }).length;
+    var nd = tk.length;
     var drift = J.recon.filter(function (r) { return r.state === "drifted"; }).length;
     var risk = ITEMS.filter(function (i) { return i.p === "Highest" && i.sc !== "Done"; });
     var noJira = J.fixes.filter(function (f) { return !Object.keys(f.claim).length; });
@@ -668,7 +671,7 @@
 
     return filterNote() +
       '<section class="sect"><div class="grid g3">' +
-      tile("Districts live", live + " / " + nd, "load completed") +
+      tile("Districts loaded", live + " / " + nd, "per the ingestion tracker") +
       tile("Pain points open", painRows.filter(function (r) { return r.done < r.keys.length || !r.keys.length; }).length + " / " + painRows.length, "from the Data Journey") +
       tile("Map gone stale", drift + " / " + J.recon.length, "cited tickets that moved") +
       tile("Highest priority open", risk.length, "not done") +
@@ -732,80 +735,124 @@
   /* ---- view: K-12 stakeholder ---- */
   function vStake() {
     var ds = Object.keys(DIST).map(function (k) { return DIST[k]; })
-      .sort(function (a, b) { return a.name.localeCompare(b.name); });
-    var live = ds.filter(function (d) { return d.stage === "complete"; }).length;
-    var SHOWN = ["bronze-load", "descriptor-load", "silver-load", "goldplat-load", "validation"];
+      .sort(function (a, b) { return (a.name || "").localeCompare(b.name || ""); });
+    var TK = W.tracker || {};
+    var fromTracker = ds.filter(function (d) { return d.src === "tracker"; });
+    var live = fromTracker.filter(function (d) { return d.stage === "complete"; }).length;
+    var jiraOnly = ds.filter(function (d) { return d.src === "jira-only"; });
+    var byName = ds.filter(function (d) { return d.matched_by === "name"; }).length;
+    var withTicket = ds.filter(function (d) { return d.items && d.items.length; }).length;
+    var SHOWN = ["bronze-load", "descriptor-load", "silver-load", "goldplat-load"];
+    var APPNAME = { miread: "MiRead", miewims: "MiEWIMS", misafestudent: "MiSAFEStudent",
+      "community-schools-manager": "Community Schools Manager",
+      mistrategybank: "MiStrategyBank" };
     var prodCount = {};
     ds.forEach(function (d) {
-      d.products.forEach(function (p) { prodCount[p] = (prodCount[p] || 0) + 1; });
+      (d.products || []).forEach(function (p) { prodCount[p] = (prodCount[p] || 0) + 1; });
     });
-    var APPNAME = { miread: "MiRead", miewims: "MiEWIMS", misafestudent: "MiSAFEStudent" };
-
     var worst = Math.max.apply(null, J.pipelines.map(function (p) { return p.age_all; }));
+    var sched = fromTracker.filter(function (d) { return d.scheduled; }).length;
+
     return '<section class="sect"><div class="grid g3">' +
-      tile("Districts with data in", live, "of " + ds.length + " registered") +
+      tile("Districts loaded", live, "of " + fromTracker.length + " in the tracker") +
       tile("Worst-case data age", worst + " days", "what a teacher may be looking at") +
-      tile("Registered for MiRead", prodCount.miread || 0, "districts") +
-      tile("Registered for MiEWIMS", prodCount.miewims || 0, "districts") +
+      tile("On the nightly schedule", sched, "of " + fromTracker.length) +
+      tile("With an onboarding ticket", withTicket, "Jira covers a subset") +
       "</div></section>" +
+
+      '<div class="gap"><b>Where these numbers come from.</b> District state is read from ' +
+      'the <i>' + esc(TK.spreadsheet || "ingestion tracker") + '</i> (' + esc(TK.tab || "") +
+      '), fetched ' + esc(TK.fetched || "") + ' — not from Jira. Jira’s onboarding ' +
+      'issue types track onboarding <i>work</i>, which covers ' + withTicket + ' of these ' +
+      'districts, so counting districts from Jira alone understates it. ' +
+      (byName ? byName + ' of those joined to the tracker only by a normalised name, ' +
+        'because the Jira ticket carries no SD code — which is the map’s own pain ' +
+        'point 9 in miniature.' : "") + "</div>" +
+
       freshBlock(true) +
 
+      (jiraOnly.length ? '<section class="sect"><h2>In Jira, not in the tracker</h2>' +
+        '<p class="hint">' + jiraOnly.length + ' onboarding tickets name a district that has ' +
+        'no row in the ingestion tracker and could not be matched by name either. Each is ' +
+        'either not yet loaded, or loaded but missing from the tracker.</p>' +
+        '<div class="card tscroll"><table><thead><tr><th>District</th><th>Onboarding ticket</th>' +
+        '<th class="r">Stages evidenced in Jira</th></tr></thead><tbody>' +
+        jiraOnly.map(function (d) {
+          return "<tr><td class='ttl'>" + esc(d.name) + "</td><td>" +
+            (d.items || []).map(jira).join(" ") + "</td>" +
+            "<td class='r num'>" + Object.keys(d.stages || {}).length + "</td></tr>";
+        }).join("") + "</tbody></table></div></section>" : "") +
+
       '<section class="sect"><h2>The apps that receive this data</h2>' +
-      '<p class="hint">The map\u2019s overview says four consuming applications; its components ' +
-      'list names six. Only three have a registration option in Jira, so work on the other ' +
-      'three cannot be tracked against the district that asked for it.</p>' +
-      '<div class="card tscroll"><table><thead><tr><th>Application</th><th>Receives data by</th>' +
-      '<th class="r">Districts registered</th><th>Tracked in Jira</th></tr></thead><tbody>' +
+      '<p class="hint">Per-district registration, as the tracker records it. Every app has a ' +
+      'flag here — including the three with no [MiGDL] App Registration option in Jira, ' +
+      'so work on them cannot be attributed to the district that asked for it even though ' +
+      'the district is registered.</p>' +
+      '<div class="card tscroll"><table><thead><tr><th>Application</th>' +
+      '<th class="r">Districts registered</th><th>Receives data by</th>' +
+      '<th>Attributable in Jira</th></tr></thead><tbody>' +
       J.map.apps.map(function (a) {
-        var slug = a.name.toLowerCase().replace(/[^a-z0-9]+/g, "");
-        var n = prodCount[slug.replace("communityschoolsmanager", "csm")] ||
-                prodCount[slug] || 0;
-        return "<tr><td class='ttl'>" + esc(a.name) + "</td><td>" + esc(a.via) + "</td>" +
-          "<td class='r num'>" + (a.jira ? n : "\u2014") + "</td>" +
+        var slug = a.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        var alt = a.name.toLowerCase().replace(/[^a-z0-9]+/g, "");
+        var n = prodCount[slug] || prodCount[alt] || 0;
+        return "<tr><td class='ttl'>" + esc(a.name) + "</td>" +
+          "<td class='r num'>" + n + "</td><td>" + esc(a.via) + "</td>" +
           "<td>" + (a.jira ? "<span class='pill ok'>yes</span>"
                            : "<span class='pill warn'>no registration field</span>") +
           "</td></tr>";
       }).join("") + "</tbody></table></div></section>" +
 
       '<section class="sect"><h2>What the apps show today</h2>' +
-      '<p class="hint">The Data Journey traces four kinds of change from a district’s student ' +
-      'information system through to the apps. These are the four outcomes it records, in the words ' +
-      'a district would use. They are properties of the pipeline, not of any one district.</p>' +
-      '<div class="grid g2">' +
+      '<p class="hint">The Data Journey traces four kinds of change from a district’s ' +
+      'student information system through to the apps. These are properties of the pipeline, ' +
+      'not of any one district.</p><div class="grid g2">' +
       (((J.station_detail || {}).delivery || {}).app_shows || []).map(function (a) {
         var kind = (J.change_kinds || []).filter(function (k) { return k[0] === a[0]; })[0];
-        var r = [kind ? kind[2] : a[0], a[1], a[0] === "I" ? "ok" : "crit"];
-        return '<div class="card kv"><span class="k">' + esc(r[0]) + "</span>" +
-          '<span style="font-family:var(--d);font-weight:600;font-size:15px">' + esc(r[1]) +
-          "</span><span class='n'><span class='pill " + r[2] + "'>" +
-          (r[2] === "ok" ? "Working" : "Known problem, fix in progress") + "</span></span></div>";
+        var good = a[0] === "I";
+        return '<div class="card kv"><span class="k">' + esc(kind ? kind[2] : a[0]) + "</span>" +
+          '<span style="font-family:var(--d);font-weight:600;font-size:15px">' + esc(a[1]) +
+          "</span><span class='n'><span class='pill " + (good ? "ok" : "crit") + "'>" +
+          (good ? "Working" : "Known problem, fix in progress") + "</span></span></div>";
       }).join("") + "</div>" +
-      "<p class='hint' style='margin-top:10px'>Every known problem above has an identified fix. " +
-      "The Leadership view shows which of those fixes are actually moving.</p></section>" +
+      "<p class='hint' style='margin-top:10px'>Every known problem above has an identified " +
+      "fix. The Leadership view shows which of those fixes are actually moving.</p></section>" +
 
       '<section class="sect"><h2>District by district</h2>' +
-      '<p class="hint">Where each registered district’s data has got to. The dots are the five ' +
-      'load steps in order: raw copy, codes, district cabinet, statewide model, checks. A filled dot ' +
-      'means that step finished.</p>' +
-      '<div class="card tscroll"><table><thead><tr><th>District</th><th>Code</th>' +
-      '<th>Progress</th><th>Where it is</th><th>Apps</th><th>Data in since</th>' +
-      "</tr></thead><tbody>" + ds.map(function (d) {
+      '<p class="hint">Every district in the tracker. The dots are the four load steps in ' +
+      'order: raw copy, codes, district cabinet, statewide model. A filled dot means the ' +
+      'tracker has a completion date for that step.</p>' +
+      '<div class="card tscroll"><table><thead><tr><th>District</th><th>Code</th><th>ISD</th>' +
+      '<th>SIS</th><th>Progress</th><th>Where it is</th><th>Apps</th><th>Batch</th>' +
+      '<th>Last entry</th></tr></thead><tbody>' + ds.map(function (d) {
         var dots = SHOWN.map(function (s) {
-          return '<span class="dot' + (d.stages[s] ? " on" : "") + '" title="' +
-            esc(STAGE_LABEL[s]) + (d.stages[s] ? ": " + d.stages[s] : ": not yet") + '"></span>';
+          return '<span class="dot' + ((d.stages || {})[s] ? " on" : "") + '" title="' +
+            esc(STAGE_LABEL[s] || s) +
+            ((d.stages || {})[s] ? ": " + d.stages[s] : ": not recorded") + '"></span>';
         }).join("");
-        var last = Object.keys(d.stages).map(function (k) { return d.stages[k]; }).sort().pop();
-        var cls = d.stage === "complete" ? "ok" : d.stage === "blocked" ? "warn" : "acc";
-        return "<tr><td class='ttl'>" + esc(d.name) + "</td>" +
+        var cls = d.stage === "complete" ? "ok" : d.stage ? "acc" : "warn";
+        var where = d.stage ? (STAGE_LABEL[d.stage] || d.stage)
+          : (d.src === "jira-only" ? "not in tracker" : "unknown");
+        return "<tr><td class='ttl'>" + esc(d.name) +
+          (d.matched_by === "name" ? " <span class='pill warn' title='Joined to its Jira " +
+            "ticket by name, not SD code'>name match</span>" : "") + "</td>" +
           "<td class='mono'>" + esc(d.sd || "—") + "</td>" +
+          "<td>" + esc(d.isd || "—") + "</td>" +
+          "<td>" + esc(d.sis || "—") + "</td>" +
           '<td><span class="dots">' + dots + "</span></td>" +
-          "<td><span class='pill " + cls + "'>" +
-          esc(d.stage ? STAGE_LABEL[d.stage] || d.stage : "registered") + "</span></td>" +
-          "<td>" + (d.products.map(function (p) {
+          "<td><span class='pill " + cls + "'>" + esc(where) + "</span>" +
+          (d.next_step ? "<div style='color:var(--muted);font-size:11.5px;margin-top:2px'>" +
+            esc(d.next_step) + "</div>" : "") + "</td>" +
+          "<td>" + ((d.products || []).map(function (p) {
             return "<span class='pill'>" + esc(APPNAME[p] || p) + "</span>";
           }).join(" ") || "<span style='color:var(--muted)'>—</span>") + "</td>" +
-          "<td class='mono'>" + esc(d.stage === "complete" && last ? last : "—") + "</td></tr>";
-      }).join("") + "</tbody></table></div></section>";
+          "<td class='mono'>" + esc(d.batch || "—") +
+          (d.scheduled ? "" : " <span class='pill warn'>off</span>") + "</td>" +
+          "<td class='mono'>" + esc(d.last_entry || "—") + "</td></tr>";
+      }).join("") + "</tbody></table></div>" +
+      "<p class='hint' style='margin-top:8px'>Source: " +
+      '<a href="' + esc(TK.source || "#") + '" target="_blank" rel="noopener">' +
+      esc(TK.spreadsheet || "ingestion tracker") + "</a>, tab " + esc(TK.tab || "") +
+      ", as at " + esc(TK.fetched || "") + ".</p></section>";
   }
 
   /* ---- chrome ---- */

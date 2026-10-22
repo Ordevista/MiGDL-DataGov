@@ -69,10 +69,12 @@ def not_in_jira(rows):
     for a in J.APPS:
         if not a["jira"]:
             out.append({"kind": "product", "what": a["name"],
-                        "why": "A consuming application with no [MiGDL] App Registration "
-                               "option, so no work item can be attributed to it.",
+                        "why": "Districts register for this application in the ingestion "
+                               "tracker, but Jira has no [MiGDL] App Registration option for "
+                               "it, so work on it cannot be attributed to the district that "
+                               "asked for it.",
                         "where": "delivered by " + a["via"], "owners": [],
-                        "remedy": "Add the field option, or state that this app is out of scope."})
+                        "remedy": "Add the field option so the two sources agree."})
     for i, d in enumerate(J.DECISIONS, 1):
         out.append({"kind": "decision", "what": d["head"],
                     "why": "An open decision, not an engineering task. Nothing in Jira will "

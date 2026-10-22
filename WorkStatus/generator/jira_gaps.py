@@ -15,6 +15,47 @@ The last group is deliberate: some things should NOT move into Jira, and saying 
 part of the answer.
 """
 
+# ── where district state is maintained today ───────────────────────────────
+# Four places, two of them copies of a third. Recorded here because the gap register
+# below is about collapsing them, and because the disagreement between them is itself
+# the evidence for the Data Journey's pain point 9.
+SOURCES = [
+    dict(name="Jira — MIGDL onboarding issue types", grain="onboarding work item",
+         districts=76, asof="live", role="The work of onboarding a district. Not the "
+         "district population, which is why counting districts here understates it.",
+         used=True),
+    dict(name="Ingestion Tracker Summary, V2 Results tab", grain="district × SY 2026-27",
+         districts=183, asof="2026-10-22",
+         role="Per-layer load timestamps, next step, app flags, schedule batch. The "
+              "freshest of the four, and what this page reads district state from.",
+         used=True),
+    dict(name="MAISA Connected Districts Spreadsheet", grain="district",
+         districts=None, asof="unknown",
+         role="Cited by the Confluence page as its source. A third spreadsheet, distinct "
+              "from the Ingestion Tracker Summary. Not read here.", used=False),
+    dict(name="Confluence — District Onboarding and Ingestion Tracker",
+         grain="district × school year", districts=187, asof="2026-09-22",
+         role="The product-owner and leadership view, refreshed by hand from the "
+              "Connected Districts spreadsheet. Carries two things the others do not: "
+              "SY 2025-26 history (150 districts) and the “No Active Apps” and "
+              "“Not Started” states.", used=False),
+]
+
+# measured against the tracker on 2026-10-22
+RECONCILIATION = [
+    "10 of the 16 districts the Confluence page lists as In Progress have since "
+    "reached Gold Main Load Completed.",
+    "6 of the 13 it lists as having No Active Apps are now loading, four of them "
+    "fully loaded.",
+    "5 districts it lists with an SD code have no row in the ingestion tracker "
+    "(sd45, sd71, sd98, sd128, sd174); three of those are marked “inactivated API” "
+    "under SY 2025-26.",
+    "7 of its No Active Apps districts are absent from the tracker entirely.",
+    "The tracker carries districts the page does not (sd190, sd191), so neither is a "
+    "superset of the other.",
+]
+
+
 KINDS = {
     "data": "Populate existing fields",
     "schema": "Add a field or option",
@@ -60,6 +101,36 @@ GAPS = [
          probe=lambda b: (sum(1 for d in b["districts"].values() if d.get("items") and d.get("stages")),
                           len([d for d in b["districts"].values() if d.get("src") == "tracker"]),
                           "districts with dated stages in Jira")),
+
+    dict(id="source-proliferation", kind="process", priority=1,
+         title="District state is maintained in four places, two of them copies",
+         unlocks="One answer to 'is this district loaded'. Today Jira, the ingestion "
+                 "tracker, the Connected Districts spreadsheet and the Confluence page all "
+                 "hold a version, and they disagree: when last compared, 10 of the 16 "
+                 "districts the Confluence page called In Progress had already finished.",
+         how="Pick one system of record — the Jira district item from the first row of "
+             "this register — and generate the others from it. The Confluence page is a "
+             "hand refresh of a spreadsheet, so it goes stale silently; a generated page "
+             "cannot.",
+         probe=lambda b: (1, 4, "sources holding district state")),
+    dict(id="school-year", kind="schema", priority=2,
+         title="School year is not a dimension of district state in Jira",
+         unlocks="'Which districts are loaded for which year', and the historical "
+                 "backfill the Catch-Up onboarding type exists to do. The Confluence page "
+                 "tracks SY 2025-26 (150 districts) and SY 2026-27 separately; the "
+                 "ingestion tracker holds 2026-27 only.",
+         how="Put school year on the district item so state is per district per year, and "
+             "set [MiGDL] Historical Years Needed, which is defined and never used.",
+         probe=lambda b: (sum(1 for i in _issues(b) if i.get("sy")), _n(b),
+                          "issues carrying a school year")),
+    dict(id="not-onboarding-states", kind="schema", priority=2,
+         title="“No Active Apps” and “Not Started” have no Jira equivalent",
+         unlocks="Counting the districts that are connected but not consuming. Thirteen "
+                 "districts sit in that state on the Confluence page, and four of them have "
+                 "an onboarding ticket in Jira with nowhere to say so.",
+         how="Add the two states to the onboarding workflow, or a [MiGDL] Engagement "
+             "status field, so a district can be registered without implying a load is due.",
+         probe=lambda b: (0, 13, "districts in a non-loading state")),
 
     # ── fields that exist but are empty ───────────────────────────────────
     dict(id="sprint", kind="data", priority=1,
@@ -199,7 +270,7 @@ GAPS = [
 
 
 def build(bundle):
-    """Measure every gap against the current bundle."""
+    """Measure every gap against the current bundle, and list the sources it draws on."""
     out = []
     for g in GAPS:
         row = {k: v for k, v in g.items() if k != "probe"}
@@ -211,4 +282,5 @@ def build(bundle):
         else:
             row.update(have=None, need=None, unit=None, pct=None, closed=None)
         out.append(row)
-    return {"kinds": KINDS, "gaps": out}
+    return {"kinds": KINDS, "gaps": out, "sources": SOURCES,
+            "reconciliation": RECONCILIATION}

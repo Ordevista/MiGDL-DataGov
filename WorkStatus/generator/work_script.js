@@ -669,7 +669,31 @@
         "</div></div>";
     }
 
-    return '<section class="sect"><h2>To run this from Jira alone</h2>' +
+    var SRC = G.sources || [], REC = G.reconciliation || [];
+    var srcBlock = !SRC.length ? "" :
+      '<section class="sect"><h2>Where district state is maintained today</h2>' +
+      '<p class="hint">Four places, two of them copies of a third. The disagreement ' +
+      'between them is the evidence for the Data Journey\u2019s pain point 9 \u2014 that ' +
+      'the tracking is manual and unreliable \u2014 so it is recorded rather than ' +
+      'smoothed over.</p>' +
+      '<div class="card tscroll"><table><thead><tr><th>Source</th><th>Grain</th>' +
+      '<th class="r">Districts</th><th>As at</th><th>Role</th></tr></thead><tbody>' +
+      SRC.map(function (x) {
+        return "<tr><td class='ttl'><b>" + esc(x.name) + "</b>" +
+          (x.used ? " <span class='pill ok'>read by this page</span>"
+                  : " <span class='pill'>not read</span>") + "</td>" +
+          "<td>" + esc(x.grain) + "</td>" +
+          "<td class='r num'>" + (x.districts == null ? "\u2014" : x.districts) + "</td>" +
+          "<td class='mono'>" + esc(x.asof) + "</td>" +
+          "<td class='ttl'>" + esc(x.role) + "</td></tr>";
+      }).join("") + "</tbody></table></div>" +
+      (REC.length ? '<div class="gap" style="margin-top:12px"><b>How they disagree, ' +
+        'last compared 2026-10-22.</b><ul style="margin:6px 0 0;padding-left:18px">' +
+        REC.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") +
+        "</ul></div>" : "") + "</section>";
+
+    return srcBlock +
+      '<section class="sect"><h2>To run this from Jira alone</h2>' +
       '<p class="hint">This page is built from three sources: Jira, the ingestion tracker ' +
       'spreadsheet, and two hand transcriptions of the Lucid map and the Game Plan. Below is ' +
       'what Jira would have to hold for it to be the only one. Each row is measured against ' +

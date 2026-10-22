@@ -53,8 +53,15 @@ district names replaced by SD code and EEM codes removed.
 
 ## Getting to one source
 
-The page is built from three sources today: Jira, the ingestion tracker, and two hand
-transcriptions. The Sprint planning view ends with a register of what Jira would have to
+District state alone is maintained in four places: Jira's onboarding tickets, the
+Ingestion Tracker Summary spreadsheet, the MAISA Connected Districts spreadsheet, and
+the Confluence District Onboarding and Ingestion Tracker — the last two being hand
+refreshes of each other. They disagree: when last compared, 10 of the 16 districts the
+Confluence page listed as In Progress had already finished. The Sprint planning view
+records the four and how they differ, rather than smoothing it over.
+
+Counting the maps, the page is built from three kinds of source today: Jira, a tracker
+spreadsheet, and two hand transcriptions. The Sprint planning view ends with a register of what Jira would have to
 hold for it to be the only one — split into populating existing fields, adding fields,
 project configuration, moving a dataset in, hygiene, and the things better left outside
 Jira.

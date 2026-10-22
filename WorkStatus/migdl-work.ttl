@@ -1,0 +1,341 @@
+@prefix migdl: <https://migdl.midatahub.org/ns#> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix org:   <http://www.w3.org/ns/org#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+
+<https://migdl.midatahub.org/ns/work> a owl:Ontology ;
+    dct:title "MiGDL Work Vocabulary" ;
+    dct:description "Vocabulary for describing MiGDL delivery work — Jira issues, districts, school years, operational pipeline stages, workstreams and audiences — and for tying that work to the medallion assets it changes." ;
+    dct:source "micollabhub.atlassian.net / project MIGDL" ;
+    owl:imports <https://migdl.midatahub.org/ns> .
+
+# ── work items ───────────────────────────────────────────────────────────────
+# A work item is a prov:Activity: it is the thing that *changes* the medallion
+# assets which migdl-ontology.ttl models as prov:Entity.
+migdl:WorkItem a owl:Class ; rdfs:subClassOf prov:Activity ;
+    rdfs:label "Work Item" ;
+    rdfs:comment "One Jira issue in project MIGDL." .
+
+migdl:Initiative a owl:Class ; rdfs:subClassOf migdl:WorkItem ; rdfs:label "Initiative" ;
+    rdfs:comment "Jira hierarchy level 2 — a large-scale programme of work." .
+migdl:Epic a owl:Class ; rdfs:subClassOf migdl:WorkItem ; rdfs:label "Epic" ;
+    rdfs:comment "Jira hierarchy level 1." .
+migdl:Deliverable a owl:Class ; rdfs:subClassOf migdl:WorkItem ; rdfs:label "Deliverable" ;
+    rdfs:comment "Jira hierarchy level 0 — Task, Story, Bug, Improvement, New Feature." .
+migdl:Defect a owl:Class ; rdfs:subClassOf migdl:Deliverable ; rdfs:label "Defect" ;
+    rdfs:comment "A Bug: something already built behaving wrongly." .
+migdl:SubTask a owl:Class ; rdfs:subClassOf migdl:WorkItem ; rdfs:label "Sub-task" ;
+    rdfs:comment "Jira hierarchy level -1." .
+migdl:DistrictOnboarding a owl:Class ; rdfs:subClassOf migdl:WorkItem ;
+    rdfs:label "District Onboarding" ;
+    rdfs:comment "Per-district ingestion work. Two project issue types specialise it." .
+migdl:InitialOnboarding a owl:Class ; rdfs:subClassOf migdl:DistrictOnboarding ;
+    rdfs:label "District Onboarding (Initial)" ;
+    rdfs:comment "Forward-moving onboarding for the current school year, opened from a district registration form." .
+migdl:CatchUpOnboarding a owl:Class ; rdfs:subClassOf migdl:DistrictOnboarding ;
+    rdfs:label "District Onboarding (Catch-Up)" ;
+    rdfs:comment "Historical, delta or refresh load to catch a district's school-year data up." .
+
+# ── the agents and grains work is indexed by ─────────────────────────────────
+migdl:District a owl:Class ; rdfs:subClassOf org:Organization, prov:Agent ;
+    rdfs:label "District" ;
+    rdfs:comment "A Michigan LEA or PSA whose data MiGDL ingests. Identified by SD code and EEM code." .
+migdl:SchoolYear a owl:Class ; rdfs:subClassOf skos:Concept ; rdfs:label "School Year" .
+migdl:Person a owl:Class ; rdfs:subClassOf prov:Agent, foaf:Agent ; rdfs:label "Person" .
+migdl:Workstream a owl:Class ; rdfs:subClassOf skos:Concept ; rdfs:label "Workstream" ;
+    rdfs:comment "The standing team or track that owns the work." .
+migdl:PipelineStage a owl:Class ; rdfs:subClassOf skos:Concept ;
+    rdfs:label "Pipeline Stage" ;
+    rdfs:comment "An operational stage a district's data passes through. Distinct from a MedallionLayer: the stage is the act of loading, the layer is where the data lands." .
+migdl:DataProduct a owl:Class ; rdfs:subClassOf dcat:DataService ;
+    rdfs:label "Data Product" ;
+    rdfs:comment "A consuming application a district registers for (MiRead, MiEWIMS, MiSAFEStudent)." .
+migdl:Audience a owl:Class ; rdfs:subClassOf skos:Concept ;
+    rdfs:label "Audience" ;
+    rdfs:comment "A group that needs its own read of the same work. Audiences do not change the facts, only which of them are surfaced." .
+
+# ── work item properties ─────────────────────────────────────────────────────
+migdl:issueKey a owl:DatatypeProperty ; rdfs:domain migdl:WorkItem ;
+    rdfs:comment "Jira key, e.g. MIGDL-687. Stable identifier." .
+migdl:status a owl:DatatypeProperty ; rdfs:domain migdl:WorkItem .
+migdl:statusCategory a owl:DatatypeProperty ; rdfs:domain migdl:WorkItem ;
+    rdfs:comment "To Do / In Progress / Done — the only status roll-up Jira guarantees across workflows." .
+migdl:priority a owl:DatatypeProperty ; rdfs:domain migdl:WorkItem .
+migdl:storyPoints a owl:DatatypeProperty ; rdfs:domain migdl:WorkItem ; rdfs:range xsd:decimal .
+migdl:parentWork a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:WorkItem ;
+    rdfs:comment "Jira parent link; transitive closure gives the Initiative -> Epic -> Deliverable spine." .
+migdl:blocks a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:WorkItem .
+migdl:relatesTo a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:WorkItem .
+migdl:assignedTo a owl:ObjectProperty ; rdfs:subPropertyOf prov:wasAssociatedWith ;
+    rdfs:domain migdl:WorkItem ; rdfs:range migdl:Person .
+migdl:dataIntegrator a owl:ObjectProperty ; rdfs:subPropertyOf prov:wasAssociatedWith ;
+    rdfs:domain migdl:DistrictOnboarding ; rdfs:range migdl:Person ;
+    rdfs:comment "The data integrator accountable for a catch-up load." .
+migdl:assignedEngineer a owl:ObjectProperty ; rdfs:subPropertyOf prov:wasAssociatedWith ;
+    rdfs:domain migdl:DistrictOnboarding ; rdfs:range migdl:Person .
+migdl:inWorkstream a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:Workstream .
+migdl:forDistrict a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:District .
+migdl:forSchoolYear a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:SchoolYear .
+migdl:servesDataProduct a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:DataProduct ;
+    rdfs:comment "The registered application this work delivers data for." .
+migdl:loadType a owl:DatatypeProperty ; rdfs:domain migdl:DistrictOnboarding ;
+    rdfs:comment "Delta Load or Data Refresh." .
+
+# ── where a work item sits in the journey ────────────────────────────────────
+migdl:atStage a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:PipelineStage ;
+    rdfs:comment "Current stage, derived from Jira status." .
+migdl:completedStage a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:PipelineStage ;
+    rdfs:comment "A stage this work item has finished, evidenced by its completion-date field." .
+migdl:stageCompletion a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:StageCompletion ;
+    rdfs:comment "Reified so the date of each stage can be stated." .
+migdl:StageCompletion a owl:Class ; rdfs:label "Stage Completion" ;
+    rdfs:comment "That a given work item finished a given stage on a given date." .
+migdl:ofStage a owl:ObjectProperty ; rdfs:domain migdl:StageCompletion ; rdfs:range migdl:PipelineStage .
+migdl:completedOn a owl:DatatypeProperty ; rdfs:domain migdl:StageCompletion ; rdfs:range xsd:date .
+
+# ── the bridge to the medallion graph ────────────────────────────────────────
+# These three properties are the whole point: they are what lets a Jira item be
+# drawn on the lineage map, and a lineage node answer "what work touches me?".
+migdl:targetsLayer a owl:ObjectProperty ; rdfs:domain migdl:PipelineStage ; rdfs:range migdl:MedallionLayer ;
+    rdfs:comment "The medallion layer a stage writes into. The stage-to-layer bridge." .
+migdl:touchesTable a owl:ObjectProperty ; rdfs:subPropertyOf prov:used ;
+    rdfs:domain migdl:WorkItem ; rdfs:range migdl:Table ;
+    rdfs:comment "This work item concerns this table. Asserted only on an exact table-name match in the issue summary, so it is precise and sparse." .
+migdl:touchesLayer a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:MedallionLayer ;
+    rdfs:comment "Weaker than touchesTable: the work concerns this layer, by stage or by keyword." .
+migdl:touchesDomain a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:EdFiDomain ;
+    rdfs:comment "Subject area the work concerns, by keyword over the summary." .
+migdl:evidence a owl:DatatypeProperty ;
+    rdfs:comment "How an inferred assertion was arrived at: 'field', 'status', or the matched text." .
+migdl:confidence a owl:DatatypeProperty ; rdfs:range xsd:decimal ;
+    rdfs:comment "1.0 for assertions read from a Jira field; lower for ones inferred from summary text." .
+
+# ── audience relevance ──────────────────────────────────────────────────────
+migdl:relevantTo a owl:ObjectProperty ; rdfs:domain migdl:WorkItem ; rdfs:range migdl:Audience .
+migdl:AudienceScheme a skos:ConceptScheme ; skos:prefLabel "MiGDL Audiences" .
+
+<https://migdl.midatahub.org/id/audience/developer> a migdl:Audience ;
+    skos:inScheme migdl:AudienceScheme ; skos:prefLabel "Developer" ;
+    skos:definition "Needs the asset, the defect and the blocking chain. Reads at table and column grain." .
+<https://migdl.midatahub.org/id/audience/sprint-planning> a migdl:Audience ;
+    skos:inScheme migdl:AudienceScheme ; skos:prefLabel "Sprint Planning" ;
+    skos:definition "Needs ready-vs-blocked, ownership and load. Reads at deliverable grain." .
+<https://migdl.midatahub.org/id/audience/leadership> a migdl:Audience ;
+    skos:inScheme migdl:AudienceScheme ; skos:prefLabel "Leadership" ;
+    skos:definition "Needs initiative progress, risk and districts-live counts. Reads at epic and workstream grain." .
+<https://migdl.midatahub.org/id/audience/stakeholder> a migdl:Audience ;
+    skos:inScheme migdl:AudienceScheme ; skos:prefLabel "K-12 Stakeholder" ;
+    skos:definition "Not in the day-to-day. Needs 'is my district's data in, and which apps can use it', in district and application terms, never in table or Jira terms." .
+
+# ── operational pipeline stages, and their bridge to the medallion layers ───
+migdl:StageScheme a skos:ConceptScheme ; skos:prefLabel "MiGDL Pipeline Stages" .
+
+<https://migdl.midatahub.org/id/stage/intake> a migdl:PipelineStage ;
+    skos:inScheme migdl:StageScheme ; skos:prefLabel "Intake" ; migdl:stageOrder 1 ;
+    skos:definition "Registration form received, district metadata initiated. No data has moved yet." .
+
+<https://migdl.midatahub.org/id/stage/connection-setup> a migdl:PipelineStage ;
+    skos:inScheme migdl:StageScheme ; skos:prefLabel "Connection Setup" ; migdl:stageOrder 2 ;
+    skos:definition "Credentials and connectivity to the district's Ed-Fi ODS established." ;
+    migdl:targetsLayer <https://migdl.midatahub.org/id/layer/bronze> .
+
+<https://migdl.midatahub.org/id/stage/bronze-load> a migdl:PipelineStage ;
+    skos:inScheme migdl:StageScheme ; skos:prefLabel "Bronze Load" ; migdl:stageOrder 3 ;
+    skos:definition "Raw Ed-Fi API resources pulled into Bronze." ;
+    migdl:targetsLayer <https://migdl.midatahub.org/id/layer/bronze> .
+
+<https://migdl.midatahub.org/id/stage/descriptor-load> a migdl:PipelineStage ;
+    skos:inScheme migdl:StageScheme ; skos:prefLabel "Descriptor Load" ; migdl:stageOrder 4 ;
+    skos:definition "District descriptor values loaded; prerequisite for conforming codes." ;
+    migdl:targetsLayer <https://migdl.midatahub.org/id/layer/silver> .
+
+<https://migdl.midatahub.org/id/stage/silver-load> a migdl:PipelineStage ;
+    skos:inScheme migdl:StageScheme ; skos:prefLabel "Silver Load" ; migdl:stageOrder 5 ;
+    skos:definition "Bronze JSON flattened into the district's Silver table set." ;
+    migdl:targetsLayer <https://migdl.midatahub.org/id/layer/silver> .
+
+<https://migdl.midatahub.org/id/stage/goldplat-load> a migdl:PipelineStage ;
+    skos:inScheme migdl:StageScheme ; skos:prefLabel "Gold / Platinum Load" ; migdl:stageOrder 6 ;
+    skos:definition "Silver conformed into Gold SCD2 and the star schema, then shaped into Platinum marts." ;
+    migdl:targetsLayer <https://migdl.midatahub.org/id/layer/gold-conformed> ,
+                       <https://migdl.midatahub.org/id/layer/gold-star> ,
+                       <https://migdl.midatahub.org/id/layer/platinum> .
+
+<https://migdl.midatahub.org/id/stage/validation> a migdl:PipelineStage ;
+    skos:inScheme migdl:StageScheme ; skos:prefLabel "Validation" ; migdl:stageOrder 7 ;
+    skos:definition "Row counts and business rules checked against the district's own numbers." .
+
+<https://migdl.midatahub.org/id/stage/ready-for-stage> a migdl:PipelineStage ;
+    skos:inScheme migdl:StageScheme ; skos:prefLabel "Ready for Stage" ; migdl:stageOrder 8 ;
+    skos:definition "Validated and queued for promotion to the staging environment." .
+
+<https://migdl.midatahub.org/id/stage/complete> a migdl:PipelineStage ;
+    skos:inScheme migdl:StageScheme ; skos:prefLabel "Load Completed" ; migdl:stageOrder 9 ;
+    skos:definition "District data is live and available to its registered applications." .
+
+<https://migdl.midatahub.org/id/stage/blocked> a migdl:PipelineStage ;
+    skos:inScheme migdl:StageScheme ; skos:prefLabel "Blocked / On Hold" ; migdl:stageOrder 0 ;
+    skos:definition "Waiting on the district or on an internal follow-up. Off the happy path." .
+
+migdl:stageOrder a owl:DatatypeProperty ; rdfs:domain migdl:PipelineStage ; rdfs:range xsd:integer .
+
+# ── workstreams ─────────────────────────────────────────────────────────────
+migdl:WorkstreamScheme a skos:ConceptScheme ; skos:prefLabel "MiGDL Workstreams" .
+
+<https://migdl.midatahub.org/id/workstream/tiger-team> a migdl:Workstream ;
+    skos:inScheme migdl:WorkstreamScheme ; skos:prefLabel "Tiger Team" ;
+    skos:definition "Forward-looking scaling, correctness and optimisation roadmap." .
+<https://migdl.midatahub.org/id/workstream/operations> a migdl:Workstream ;
+    skos:inScheme migdl:WorkstreamScheme ; skos:prefLabel "Operations" ;
+    skos:definition "Day-to-day steering, district by district. Escalates design work to Tiger Team via the Parking Lot." ;
+    skos:related <https://migdl.midatahub.org/id/workstream/tiger-team> .
+<https://migdl.midatahub.org/id/workstream/intake> a migdl:Workstream ;
+    skos:inScheme migdl:WorkstreamScheme ; skos:prefLabel "Intake" ;
+    skos:definition "District registration, onboarding and catch-up loads." .
+<https://migdl.midatahub.org/id/workstream/api> a migdl:Workstream ;
+    skos:inScheme migdl:WorkstreamScheme ; skos:prefLabel "API" ;
+    skos:definition "The consumption API that serves Platinum to applications." .
+<https://migdl.midatahub.org/id/workstream/shared> a migdl:Workstream ;
+    skos:inScheme migdl:WorkstreamScheme ; skos:prefLabel "Shared" .
+<https://migdl.midatahub.org/id/workstream/miread> a migdl:Workstream ;
+    skos:inScheme migdl:WorkstreamScheme ; skos:prefLabel "MiRead" .
+<https://migdl.midatahub.org/id/workstream/miewims> a migdl:Workstream ;
+    skos:inScheme migdl:WorkstreamScheme ; skos:prefLabel "MiEWIMS" .
+<https://migdl.midatahub.org/id/workstream/misafestudent> a migdl:Workstream ;
+    skos:inScheme migdl:WorkstreamScheme ; skos:prefLabel "MiSAFEStudent" .
+
+# ── data products, bridged to the Platinum marts that feed them ─────────────
+<https://migdl.midatahub.org/id/product/miread> a migdl:DataProduct ;
+    skos:prefLabel "MiRead" ;
+    dct:description "Literacy screening and intervention. Fed by the MiRead Platinum mart." ;
+    migdl:servedByDomain <https://migdl.midatahub.org/id/domain/platinum-miread> .
+<https://migdl.midatahub.org/id/product/miewims> a migdl:DataProduct ;
+    skos:prefLabel "MiEWIMS" ;
+    dct:description "Early Warning Intervention and Monitoring. Fed by the EWIMS Platinum mart." ;
+    migdl:servedByDomain <https://migdl.midatahub.org/id/domain/platinum-ewims> .
+<https://migdl.midatahub.org/id/product/misafestudent> a migdl:DataProduct ;
+    skos:prefLabel "MiSAFEStudent" ;
+    dct:description "Registered by districts in MIGDL, but no Platinum mart is modelled for it in the medallion graph yet." .
+
+migdl:servedByDomain a owl:ObjectProperty ; rdfs:domain migdl:DataProduct ; rdfs:range migdl:EdFiDomain ;
+    rdfs:comment "The Platinum mart domain that feeds this product." .
+
+# ── the Data Journey map as first-class objects ─────────────────────────────
+# The Lucid "MiGDL Data Journey" is the shared picture everyone already reads. Making
+# its stations, pain points and fixes resources — rather than shapes in a drawing —
+# is what lets a Jira ticket be placed on the map, and lets the map be checked
+# against Jira instead of being redrawn by hand.
+migdl:Station a owl:Class ; rdfs:subClassOf skos:Concept ;
+    rdfs:label "Station" ;
+    rdfs:comment "One of the seven stops on the Data Journey. A station is the plain-language name for a place data passes through; the medallion layer beneath it is the technical one." .
+migdl:PainPoint a owl:Class ;
+    rdfs:label "Pain Point" ;
+    rdfs:comment "A place the map records that a change is lost or degraded." .
+migdl:Fix a owl:Class ; rdfs:subClassOf prov:Plan ;
+    rdfs:label "Fix" ;
+    rdfs:comment "The intervention the map proposes for a pain point. Realised by work items." .
+migdl:Decision a owl:Class ;
+    rdfs:label "Open Decision" ;
+    rdfs:comment "A question the map raises that is not an engineering task: someone has to decide." .
+
+migdl:stationNumber a owl:DatatypeProperty ; rdfs:domain migdl:Station ; rdfs:range xsd:integer .
+migdl:plainName a owl:DatatypeProperty ;
+    rdfs:comment "The name used with people who are not in the day-to-day." .
+migdl:technicalName a owl:DatatypeProperty .
+migdl:atStation a owl:ObjectProperty ; rdfs:range migdl:Station ;
+    rdfs:comment "Which station a pain point, stage or layer belongs to." .
+migdl:stationLayer a owl:ObjectProperty ; rdfs:domain migdl:Station ; rdfs:range migdl:MedallionLayer ;
+    rdfs:comment "The medallion layers that sit under a station — the station-to-asset bridge." .
+migdl:stationStage a owl:ObjectProperty ; rdfs:domain migdl:Station ; rdfs:range migdl:PipelineStage .
+migdl:addressedBy a owl:ObjectProperty ; rdfs:domain migdl:PainPoint ; rdfs:range migdl:Fix .
+migdl:realisedBy a owl:ObjectProperty ; rdfs:domain migdl:Fix ; rdfs:range migdl:WorkItem ;
+    rdfs:comment "A work item the map cites as delivering this fix." .
+migdl:gapGroup a owl:DatatypeProperty ; rdfs:comment "Delta Change Handling gap group, e.g. G1." .
+migdl:mapChip a owl:DatatypeProperty ; rdfs:domain migdl:Fix ;
+    rdfs:comment "The status chip the map draws: Complete, Building, Designing, Partly done, Not yet in Jira." .
+migdl:claimedStatus a owl:DatatypeProperty ; rdfs:domain migdl:TicketClaim ;
+    rdfs:comment "The status the map asserts for a cited ticket, as drawn." .
+migdl:TicketClaim a owl:Class ;
+    rdfs:label "Ticket Claim" ;
+    rdfs:comment "That a version of the map asserted a given status for a given work item. Reified so the map can be compared with Jira without either overwriting the other." .
+migdl:claimsAbout a owl:ObjectProperty ; rdfs:domain migdl:TicketClaim ; rdfs:range migdl:WorkItem .
+migdl:claimedBy a owl:ObjectProperty ; rdfs:domain migdl:TicketClaim ;
+    rdfs:comment "The map version that made the claim." .
+migdl:agreesWithJira a owl:DatatypeProperty ; rdfs:domain migdl:TicketClaim ; rdfs:range xsd:boolean ;
+    rdfs:comment "False where Jira's live status differs from the claim — the map has gone stale for that ticket." .
+migdl:evidenceRef a owl:DatatypeProperty ;
+    rdfs:comment "The source the map cites, e.g. 'Sec 4.4, CR-7, G1'." .
+migdl:userQuestion a owl:DatatypeProperty ; rdfs:domain migdl:PainPoint ;
+    rdfs:comment "The question a lake user would ask, in their own words. The stakeholder view reads from this." .
+
+# ── pipelines, jobs and callouts (Engineering layer of the map) ────────────
+# The freshness properties are the ones a district actually asks about: not "is the
+# pipeline healthy" but "how old is what my teachers are looking at".
+migdl:Pipeline a owl:Class ; rdfs:subClassOf prov:Activity ;
+    rdfs:label "Pipeline" ;
+    rdfs:comment "One of the three nightly runs (A Bronze-to-Silver, B Silver-to-Gold-and-Platinum, C Platinum-to-apps). The pipeline that is the binding constraint sets the data age of everything downstream of it." .
+migdl:EtlJob a owl:Class ; rdfs:subClassOf prov:Activity ;
+    rdfs:label "ETL Job" ;
+    rdfs:comment "A named Glue job, Lambda or workflow that moves data between stations." .
+migdl:Callout a owl:Class ;
+    rdfs:label "Callout" ;
+    rdfs:comment "An engineering callout on the map: a structural constraint at an arrow between stations, as distinct from a pain point at a station." .
+
+migdl:runsInWindow a owl:DatatypeProperty ; rdfs:domain migdl:Pipeline ;
+    rdfs:comment "Clock window the run occupies, e.g. '7 pm to 5 am'." .
+migdl:districtsPerRun a owl:DatatypeProperty ; rdfs:domain migdl:Pipeline ;
+    rdfs:comment "Measured throughput, as drawn." .
+migdl:maxDataAgeDays a owl:DatatypeProperty ; rdfs:domain migdl:Pipeline ; rdfs:range xsd:integer ;
+    rdfs:comment "Worst-case age in days of the data a consumer sees after this pipeline, across all districts." .
+migdl:maxDataAgeDaysApp a owl:DatatypeProperty ; rdfs:domain migdl:Pipeline ; rdfs:range xsd:integer ;
+    rdfs:comment "The same for the 122 districts on MiRead and MiEWIMS, which are prioritised." .
+migdl:bindingConstraint a owl:DatatypeProperty ; rdfs:domain migdl:Pipeline ; rdfs:range xsd:boolean ;
+    rdfs:comment "True for the pipeline that sets the pace for everything downstream." .
+migdl:runsJob a owl:ObjectProperty ; rdfs:domain migdl:Pipeline ; rdfs:range migdl:EtlJob .
+migdl:jobTech a owl:DatatypeProperty ; rdfs:domain migdl:EtlJob .
+migdl:deliveredVia a owl:DatatypeProperty ; rdfs:domain migdl:DataProduct ;
+    rdfs:comment "How the app receives data: API, API + QuickSight, or manual entry." .
+migdl:hasJiraRegistration a owl:DatatypeProperty ; rdfs:domain migdl:DataProduct ; rdfs:range xsd:boolean ;
+    rdfs:comment "False where no [MiGDL] App Registration option exists, so no work item can be attributed to that product." .
+
+# ── the Delta Operations Game Plan ─────────────────────────────────────────
+# The Data Journey says where change is lost today; the Game Plan says in what order
+# that gets fixed and what the pipeline looks like at each step. They share the gap
+# groups, which is what lets a gate carry a live Jira status.
+migdl:OperatingStage a owl:Class ; rdfs:subClassOf skos:Concept ;
+    rdfs:label "Operating Stage" ;
+    rdfs:comment "One step of the Game Plan: a state the nightly operation moves into once its gates are met." .
+migdl:Gate a owl:Class ;
+    rdfs:label "Gate" ;
+    rdfs:comment "The technical milestone that unlocks an operating stage. A gate tied to a gap group inherits that group's work items, and so has a live status." .
+migdl:JobBar a owl:Class ; rdfs:subClassOf prov:Plan ;
+    rdfs:label "Job Bar" ;
+    rdfs:comment "One independent job trigger drawn on the Game Plan, for one pipeline at one stage." .
+migdl:OpenQuestion a owl:Class ;
+    rdfs:label "Open Question" ;
+    rdfs:comment "Something the Game Plan lists as still being decided." .
+
+migdl:stageNumber a owl:DatatypeProperty ; rdfs:domain migdl:OperatingStage ; rdfs:range xsd:integer .
+migdl:unlockedBy a owl:ObjectProperty ; rdfs:domain migdl:OperatingStage ; rdfs:range migdl:Gate .
+migdl:gateFor a owl:ObjectProperty ; owl:inverseOf migdl:unlockedBy .
+migdl:dependsOnFix a owl:ObjectProperty ; rdfs:domain migdl:Gate ; rdfs:range migdl:Fix ;
+    rdfs:comment "The Data Journey fix whose tickets must land for this gate to open." .
+migdl:eta a owl:DatatypeProperty ;
+    rdfs:comment "Estimate as drawn, verbatim, including 'TBD'." .
+migdl:hasBar a owl:ObjectProperty ; rdfs:domain migdl:OperatingStage ; rdfs:range migdl:JobBar .
+migdl:forPipeline a owl:ObjectProperty ; rdfs:domain migdl:JobBar ; rdfs:range migdl:Pipeline .
+migdl:districtsPerTrigger a owl:DatatypeProperty ; rdfs:domain migdl:JobBar .
+migdl:triggerKind a owl:DatatypeProperty ; rdfs:domain migdl:JobBar ;
+    rdfs:comment "Delta, Full load, Batched delta, Batched full load, Full projection rebuild." .
+migdl:appliesInsert a owl:DatatypeProperty ; rdfs:domain migdl:JobBar .
+migdl:appliesUpdate a owl:DatatypeProperty ; rdfs:domain migdl:JobBar ;
+    rdfs:comment "yes, partial (parent rows only), or no." .
+migdl:appliesDelete a owl:DatatypeProperty ; rdfs:domain migdl:JobBar .
+migdl:figureUnreadable a owl:DatatypeProperty ; rdfs:range xsd:boolean ;
+    rdfs:comment "True where the source PDF's text layer could not yield a figure, so none is asserted. The Game Plan PDF maps only the digits 2, 3, 5, 6 and 9 to Unicode." .

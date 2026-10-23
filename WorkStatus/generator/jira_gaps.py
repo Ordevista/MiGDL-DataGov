@@ -15,6 +15,60 @@ The last group is deliberate: some things should NOT move into Jira, and saying 
 part of the answer.
 """
 
+# ── can Jira show this on its own, and should Confluence host it? ──────────
+# Asked because the obvious reading of "get everything into Jira" is "then Jira can
+# draw it", and that is not quite true. Jira is very good at holding the facts and
+# poor at laying them out; Confluence is the reverse, and its Jira macros close most
+# of the gap. What neither can do is the part that joins work to the medallion graph.
+PLATFORM = [
+    dict(tier="Jira", role="System of record for the facts",
+         can=["Hold every field in the register above, at district and work-item grain",
+              "Boards, JQL filters and saved searches over all of it",
+              "Dashboard gadgets: filter results, two-dimensional, pie, created-vs-resolved",
+              "Advanced Roadmaps timeline, on Premium, for the Initiative to Epic spine"],
+         cannot=["Lay out a seven-station map with a cell per station per change class",
+                 "Show one issue's position on a journey alongside its blast radius",
+                 "Join a ticket to the lineage graph, which lives in the repository",
+                 "Render the stage-and-gate timeline of the Game Plan"],
+         verdict="Put the facts here. Do not expect it to draw the map."),
+    dict(tier="Confluence", role="Where people read it",
+         can=["The narrative: stations, pain points, fixes, the target state",
+              "Live Jira Issues macros, so a fix's tickets and their current status render "
+              "in place and never go stale",
+              "Jira Charts macros for the status roll-ups",
+              "Tables that are really filtered lists: fixes by gap group, districts by "
+              "stage, everything untracked"],
+         cannot=["The station grid with a mark per change class per station",
+                 "The blast-radius join to the medallion graph",
+                 "Anything computed across Jira and the repository together"],
+         verdict="Host the narrative and the live tables here. This replaces the "
+                 "hand-refreshed pages, which is what goes stale today."),
+    dict(tier="Generated page", role="The part neither can do",
+         can=["The seven-station map with its change-class grid",
+              "Blast radius: a defect's downstream table count, from the lineage graph",
+              "The four audience projections over one set of facts",
+              "The map-against-Jira reconciliation itself"],
+         cannot=["Be edited by the people who read it",
+                 "Update itself without a rebuild"],
+         verdict="Keep, but shrink it. Once Jira holds the facts, this is three or four "
+                 "views rather than the whole picture."),
+]
+
+# What a Confluence move actually replaces, as opposed to duplicating.
+CONFLUENCE_PLAN = [
+    "Replace the hand-refreshed District Onboarding and Ingestion Tracker page with a "
+    "page whose district tables are Jira Issues macros over the district items. Same "
+    "page, same audience, but it cannot be a month stale.",
+    "Give each of the ten fixes a Confluence section whose ticket list is a live Jira "
+    "macro filtered on its gap group. That removes the per-ticket status transcription "
+    "that this page exists to check.",
+    "Keep the Data Journey in Lucid as the drawing, and embed it. Lucid has a Confluence "
+    "macro; the drawing is authored artwork and does not belong in a wiki table.",
+    "Publish the target state as its own page, since it is the thing leadership asks "
+    "about and it changes only when the plan changes.",
+]
+
+
 # ── where district state is maintained today ───────────────────────────────
 # Four places, two of them copies of a third. Recorded here because the gap register
 # below is about collapsing them, and because the disagreement between them is itself
@@ -269,11 +323,26 @@ GAPS = [
 ]
 
 
+ASSIST = {'district-state': ('after-decision', 'Create the district items in bulk from the tracker once the grain is agreed, and set every field on them.', 'createJiraIssue, editJiraIssue'), 'stage-dates-all': ('after-decision', 'Populate the six load-date fields on those items from the tracker export.', 'editJiraIssue'), 'source-proliferation': ('partly', 'Build the replacement Confluence page with live Jira macros. Cannot retire the spreadsheets for you.', 'createConfluencePage'), 'sprint': ('no', 'Assigning work to sprints is a planning decision, not a data fix.', None), 'resolution': ('admin', 'Adding a Resolution screen to the done transitions is a project-configuration change in the Jira admin UI.', None), 'sd-code': ('yes', "Backfill the 69 missing SD codes by matching each ticket's district name against the tracker, and flag any that cannot be matched rather than guessing.", 'editJiraIssue'), 'story-points': ('admin', 'Retiring one of the two fields is a field-configuration change.', None), 'workstream': ('partly', 'Can set Workstream where the labels or the summary prefix already imply it (MiGDL-TT-1, MiGDL-ETL); the remainder need a human.', 'editJiraIssue'), 'gap-group': ('admin', 'The field has to exist first. Once it does, setting it on all 50 cited tickets is a single pass.', 'editJiraIssue'), 'layer-field': ('admin', 'Needs the field, or Components enabled. Then populate from the stage where it is field-derived, and leave the rest for a human.', 'editJiraIssue'), 'table-field': ('admin', 'Needs the field. Then seed the 12 tickets whose summary already names a table.', 'editJiraIssue'), 'app-options': ('admin', 'Adding select options is a field-configuration change.', None), 'isd-sis': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'schedule': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'school-year': ('admin', 'Needs school year on the district item; [MiGDL] Historical Years Needed already exists and can be populated.', 'editJiraIssue'), 'not-onboarding-states': ('admin', 'Adding workflow states or an engagement field is a configuration change.', None), 'decision-type': ('partly', "Can raise the two decisions as issues with a 'decision' label and a due date today; a proper Decision issue type is a configuration change.", 'createJiraIssue'), 'untracked-fixes': ('yes', "Raise an epic for fix 1 and for the runtime and error logging item, with the map's own wording as the description, and link them to the right gap group.", 'createJiraIssue, createIssueLink'), 'broken-ref': ('yes', 'Closed in v5.0 of the map — MIGDL-230 is no longer cited. Nothing to do.', None), 'status-vocab': ('partly', "Can publish the mapping between the tracker's statuses and Jira's as a Confluence page; aligning the workflow itself is configuration.", 'createConfluencePage'), 'keep-throughput': ('no', None, None), 'keep-lineage': ('no', None, None)}
+
+
+ASSIST_LABEL = {
+    "yes": "I can do this with your access",
+    "partly": "I can do part of this",
+    "after-decision": "I can do this once the grain is decided",
+    "admin": "Needs a Jira admin first",
+    "no": "Not mine to do",
+}
+
+
 def build(bundle):
     """Measure every gap against the current bundle, and list the sources it draws on."""
     out = []
     for g in GAPS:
         row = {k: v for k, v in g.items() if k != "probe"}
+        a = ASSIST.get(g["id"])
+        if a:
+            row["assist"] = {"level": a[0], "how": a[1], "tool": a[2]}
         if g["probe"]:
             have, need, unit = g["probe"](bundle)
             row.update(have=have, need=need, unit=unit,
@@ -283,4 +352,5 @@ def build(bundle):
             row.update(have=None, need=None, unit=None, pct=None, closed=None)
         out.append(row)
     return {"kinds": KINDS, "gaps": out, "sources": SOURCES,
-            "reconciliation": RECONCILIATION}
+            "reconciliation": RECONCILIATION, "platform": PLATFORM,
+            "confluence_plan": CONFLUENCE_PLAN, "assist_label": ASSIST_LABEL}

@@ -36,6 +36,9 @@ def reconcile(live):
                 state = "unstated"      # the map names the ticket but asserts no status
             elif claim == cur["st"]:
                 state = "agrees"
+            elif cur["st"] in getattr(J, "STATUS_EQUIVALENT", {}).get(claim, ()):
+                # the map's chip vocabulary and Jira's status vocabulary differ; same meaning
+                state = "equivalent"
             else:
                 state = "drifted"
             rows.append({"fix": f["n"], "gap": f.get("epic", ""), "key": key,
@@ -153,9 +156,9 @@ def ttl(rows):
              'migdl:claimedBy <%s>' % MAPID]
         if r["claim"]:
             p.append('migdl:claimedStatus "%s"' % esc(r["claim"]))
-        if r["state"] in ("agrees", "drifted"):
+        if r["state"] in ("agrees", "drifted", "equivalent"):
             p.append('migdl:agreesWithJira %s'
-                     % ("true" if r["state"] == "agrees" else "false"))
+                     % ("false" if r["state"] == "drifted" else "true"))
         L.append('<%sclaim/%s-fix%d> %s .' % (ID, r["key"], r["fix"], ' ;\n    '.join(p)))
     L.append('')
 
@@ -222,6 +225,7 @@ def main():
     (OUT / "migdl-journey.ttl").write_text(ttl(rows))
 
     bundle = {
+        "target_state": J.TARGET_STATE,
         "map": {"version": J.MAP_VERSION, "dated": J.MAP_DATED,
                 "jira_asof": J.MAP_JIRA_ASOF, "apps": J.APPS, "sequence": J.SEQUENCE,
                 "fresh_asof": J.FRESHNESS_ASOF, "fresh_target": J.FRESHNESS_TARGET},
@@ -236,7 +240,7 @@ def main():
     from collections import Counter
     c = Counter(r["state"] for r in rows)
     print("cited tickets      %d" % len(rows))
-    for k in ("agrees", "drifted", "unstated", "missing"):
+    for k in ("agrees", "equivalent", "drifted", "unstated", "missing"):
         print("  %-16s %3d" % (k, c[k]))
     print("fixes with no Jira ticket at all: %s"
           % [f["n"] for f in J.FIXES if not f["claim"]])

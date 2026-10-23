@@ -92,14 +92,17 @@
   }
 
   function reconTable(only) {
-    var rows = J.recon.filter(function (r) { return !only || r.state === only; });
+    var rows = J.recon.filter(function (r) {
+      return !only || r.state === only || (only === "drifted" && r.state === "equivalent");
+    });
     if (!rows.length) return "<p class='hint'>Nothing to reconcile.</p>";
     return '<div class="card tscroll"><table><thead><tr>' +
       "<th>Fix</th><th>Ticket</th><th>Map says</th><th>Jira says now</th><th>Work item</th>" +
       "</tr></thead><tbody>" + rows.map(function (r) {
         var cls = r.state === "drifted" ? "warn" : r.state === "missing" ? "crit"
-          : r.state === "agrees" ? "ok" : "";
-        var now = r.state === "missing" ? "<i>no such issue in Jira</i>" : esc(r.now);
+          : (r.state === "agrees" || r.state === "equivalent") ? "ok" : "";
+        var now = r.state === "missing" ? "<i>no such issue in Jira</i>"
+          : esc(r.now) + (r.state === "equivalent" ? " <i>(same meaning)</i>" : "");
         return "<tr><td class='r mono'>" + r.fix + "</td><td>" + jira(r.key) + "</td>" +
           "<td>" + (r.claim ? esc(r.claim) : "<span class='pill'>not stated</span>") + "</td>" +
           "<td><span class='pill " + cls + "'>" + now + "</span></td>" +
@@ -324,6 +327,29 @@
           "<div style='font-size:11px;color:var(--muted);margin-top:4px'>" +
           esc(fixWhole.epic || "") + "</div></div>" : "") +
         "</div></section>" : "") +
+
+      (J.target_state ? '<section class="sect"><h2>Target state</h2>' +
+        '<p class="hint">' + esc(J.target_state.head) + '. ' + esc(J.target_state.note) +
+        ' New in map ' + esc(J.map.version) + '.</p>' +
+        '<div class="card tscroll"><table><thead><tr><th>Shift</th><th>Window</th>' +
+        '<th>What it does</th><th>Rate</th><th>Data age</th><th>Needs</th>' +
+        '</tr></thead><tbody>' + J.target_state.shifts.map(function (sh) {
+          return "<tr><td class='ttl'><b>" + esc(sh.name) + "</b></td>" +
+            "<td class='mono'>" + esc(sh.window) + "</td>" +
+            "<td class='ttl'>" + esc(sh.does) + "</td>" +
+            "<td>" + esc(sh.rate) + "</td>" +
+            "<td><span class='pill ok'>" + esc(sh.age) + "</span></td>" +
+            "<td>" + sh.needs.map(function (n) {
+              return "<span class='pill acc'>fix " + n + "</span>";
+            }).join(" ") + "</td></tr>";
+        }).join("") + "</tbody></table></div>" +
+        '<div class="gap" style="margin-top:12px;border-left-color:var(--ok);' +
+        'background:var(--ok-soft)"><b>' + esc(J.target_state.promise) + '.</b> ' +
+        esc(J.target_state.why) + "</div>" +
+        '<div class="grid g2"><div class="card kv"><span class="k">Connector</span>' +
+        "<span class='n'>" + esc(J.target_state.connector) + "</span></div>" +
+        '<div class="card kv"><span class="k">Logbook</span>' +
+        "<span class='n'>" + esc(J.target_state.logbook) + "</span></div></div></section>" : "") +
 
       '<section class="sect"><h2>Recommended sequence</h2>' +
       '<p class="hint">' + esc(J.map.sequence) + "</p>" +
@@ -692,7 +718,60 @@
         REC.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") +
         "</ul></div>" : "") + "</section>";
 
-    return srcBlock +
+    var P = G.platform || [], CP = G.confluence_plan || [], AL = G.assist_label || {};
+    var platBlock = !P.length ? "" :
+      '<section class="sect"><h2>Could Jira show this on its own?</h2>' +
+      '<p class="hint">Short answer: no, and it does not need to. Jira is good at holding ' +
+      'the facts and poor at laying them out; Confluence is the reverse, and its live Jira ' +
+      'macros close most of the gap. What neither can do is join a ticket to the lineage ' +
+      'graph. So the target is three tiers, not one.</p>' +
+      '<div class="grid g3">' + P.map(function (t) {
+        return '<div class="card kv"><span class="k">' + esc(t.tier) + "</span>" +
+          '<span style="font-family:var(--d);font-weight:600;font-size:14px">' +
+          esc(t.role) + "</span>" +
+          "<div style='margin-top:7px;font-size:12.5px'><b style='color:var(--ok)'>Can</b>" +
+          "<ul style='margin:3px 0 0;padding-left:16px;color:var(--fg-2)'>" +
+          t.can.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" +
+          "<div style='margin-top:6px;font-size:12.5px'><b style='color:var(--crit)'>Cannot</b>" +
+          "<ul style='margin:3px 0 0;padding-left:16px;color:var(--fg-2)'>" +
+          t.cannot.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" +
+          "<div style='margin-top:7px;font-size:12.5px;color:var(--fg)'><b>" +
+          esc(t.verdict) + "</b></div></div>";
+      }).join("") + "</div>" +
+      (CP.length ? '<h3 style="font-size:13.5px;margin:16px 0 6px">What moving to Confluence ' +
+        'would actually replace</h3><div class="card">' + CP.map(function (x) {
+          return "<div class='nj'><span class='pill acc'>replaces</span><span>" +
+            esc(x) + "</span></div>";
+        }).join("") + "</div>" : "") + "</section>";
+
+    var byAssist = {};
+    G.gaps.forEach(function (g) {
+      var lv = (g.assist || {}).level;
+      if (lv && lv !== "no") (byAssist[lv] = byAssist[lv] || []).push(g);
+    });
+    var assistOrder = ["yes", "partly", "after-decision", "admin"];
+    var assistBlock = '<section class="sect"><h2>What I could move for you</h2>' +
+      '<p class="hint">The Atlassian connector now has write access, so some of the register ' +
+      'above is work I could do with your access rather than hand you. Nothing below has been ' +
+      'done. Ten of the rows need a Jira administrator to create a field, add an option or ' +
+      'change a workflow before anything can be populated — that part is not something ' +
+      'these tools can reach.</p>' +
+      assistOrder.map(function (lv) {
+        var rows = byAssist[lv] || [];
+        if (!rows.length) return "";
+        var cls = lv === "yes" ? "ok" : lv === "admin" ? "warn" : "acc";
+        return "<h3 style='font-size:13.5px;margin:16px 0 6px'><span class='pill " + cls +
+          "'>" + esc(AL[lv] || lv) + "</span> <span class='gapsub' style='font-weight:400'>" +
+          rows.length + "</span></h3><div class='card'>" + rows.map(function (g) {
+            return "<div class='nj'><span class='w' style='min-width:0'>" + esc(g.title) +
+              "</span><span><div style='color:var(--fg-2);font-size:12.5px'>" +
+              esc((g.assist || {}).how || "") + "</div>" +
+              ((g.assist || {}).tool ? "<div class='gapsub mono' style='margin-top:3px'>" +
+                esc(g.assist.tool) + "</div>" : "") + "</span></div>";
+          }).join("") + "</div>";
+      }).join("") + "</section>";
+
+    return platBlock + assistBlock + srcBlock +
       '<section class="sect"><h2>To run this from Jira alone</h2>' +
       '<p class="hint">This page is built from three sources: Jira, the ingestion tracker ' +
       'spreadsheet, and two hand transcriptions of the Lucid map and the Game Plan. Below is ' +

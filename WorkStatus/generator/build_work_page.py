@@ -14,6 +14,10 @@ work = json.loads((SRC / "work.json").read_text())
 jrny = json.loads((SRC / "journey.json").read_text())
 gplan = json.loads((SRC / "gameplan.json").read_text())
 
+sys.path.insert(0, str(HERE))
+import jira_gaps  # noqa: E402
+gaps = jira_gaps.build(work)
+
 # triple count across the whole union graph, so the footer figure is real
 try:
     from rdflib import Graph
@@ -35,6 +39,7 @@ sub = {
     "{{BUNDLE}}": json.dumps(work, separators=(",", ":")),
     "{{JOURNEY}}": json.dumps(jrny, separators=(",", ":")),
     "{{GAMEPLAN}}": json.dumps(gplan, separators=(",", ":")),
+    "{{GAPS}}": json.dumps(gaps, separators=(",", ":")),
     "{{SCRIPT}}": (HERE / "work_script.js").read_text(),
     "{{NITEMS}}": "{:,}".format(work["coverage"]["issues"]),
     "{{NDIST}}": str(work["coverage"]["districts"]),

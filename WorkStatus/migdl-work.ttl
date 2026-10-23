@@ -339,3 +339,23 @@ migdl:appliesUpdate a owl:DatatypeProperty ; rdfs:domain migdl:JobBar ;
 migdl:appliesDelete a owl:DatatypeProperty ; rdfs:domain migdl:JobBar .
 migdl:figureUnreadable a owl:DatatypeProperty ; rdfs:range xsd:boolean ;
     rdfs:comment "True where the source PDF's text layer could not yield a figure, so none is asserted. The Game Plan PDF maps only the digits 2, 3, 5, 6 and 9 to Unicode." .
+
+# ── the ingestion tracker ──────────────────────────────────────────────────
+# The operational system of record for where a district's data has got to. Jira's
+# onboarding issue types track onboarding *work*, which covers a subset of the
+# districts the pipeline loads, so district state is asserted from the tracker and
+# Jira work items are joined onto it.
+migdl:inISD a owl:DatatypeProperty ; rdfs:domain migdl:District ;
+    rdfs:comment "The Intermediate School District the district belongs to." .
+migdl:sisVendor a owl:DatatypeProperty ; rdfs:domain migdl:District ;
+    rdfs:comment "Student information system the district runs (PowerSchool, Skyward, Infinite Campus, MiStar-Q, Synergy)." .
+migdl:trackerStatus a owl:DatatypeProperty ; rdfs:domain migdl:District ;
+    rdfs:comment "Last entry status as the ingestion tracker records it, verbatim." .
+migdl:nextStep a owl:DatatypeProperty ; rdfs:domain migdl:District ;
+    rdfs:comment "The operator's next action for this district, where the tracker names one." .
+migdl:scheduleBatch a owl:DatatypeProperty ; rdfs:domain migdl:District ;
+    rdfs:comment "Nightly schedule batch the district is assigned to." .
+migdl:scheduleEnabled a owl:DatatypeProperty ; rdfs:domain migdl:District ; rdfs:range xsd:boolean ;
+    rdfs:comment "Whether the district is on the automated nightly schedule." .
+migdl:matchedBy a owl:DatatypeProperty ; rdfs:domain migdl:District ;
+    rdfs:comment "How a Jira onboarding ticket was joined to this district: 'sd-code' (reliable) or 'name' (normalised name match, weaker — the Data Journey's pain point 9 is precisely that this tracking matches districts by name)." .

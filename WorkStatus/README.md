@@ -32,8 +32,42 @@ regenerate the bundles themselves.
 | **The map** | station | The Data Journey's own layout, with every cited ticket showing live Jira status, plus a register of what the map commits to that Jira cannot track |
 | **Game plan** | operating stage | Which stage the operation is in, and whether each gate's tickets have actually landed |
 | Developer | table and column | Which asset is affected, how far a change propagates, what blocks what |
-| Sprint planning | deliverable | What is ready against what is blocked, and who is carrying it |
+| Sprint planning | deliverable | What is ready against what is blocked, who is carrying it, and what Jira would need to hold for this page to run from Jira alone |
 | K-12 stakeholder | district and app | Is a district's data in, how old is it, and which apps can use it |
+
+## Where district state comes from
+
+District load state is read from the **ingestion tracker**, not from Jira. Jira's
+onboarding issue types track onboarding *work*, which covers a subset: 183 districts
+appear in the tracker, 76 have an onboarding ticket, and 4 tickets name a district with
+no tracker row at all. Counting districts from Jira alone understates it by more than
+half, which is what an earlier version of this page did.
+
+Twelve of those tickets could only be joined to the tracker by a normalised name,
+because the Jira ticket carries no SD code. That is the Data Journey's own pain point 9
+in miniature — the tracker "matches districts by name" — so the join records which
+evidence it used, and the page marks a name match as the weaker one.
+
+`source-ingestion-tracker-v2.redacted.json` is the export the page is built from, with
+district names replaced by SD code and EEM codes removed.
+
+## Getting to one source
+
+District state alone is maintained in four places: Jira's onboarding tickets, the
+Ingestion Tracker Summary spreadsheet, the MAISA Connected Districts spreadsheet, and
+the Confluence District Onboarding and Ingestion Tracker — the last two being hand
+refreshes of each other. They disagree: when last compared, 10 of the 16 districts the
+Confluence page listed as In Progress had already finished. The Sprint planning view
+records the four and how they differ, rather than smoothing it over.
+
+Counting the maps, the page is built from three kinds of source today: Jira, a tracker
+spreadsheet, and two hand transcriptions. The Sprint planning view ends with a register of what Jira would have to
+hold for it to be the only one — split into populating existing fields, adding fields,
+project configuration, moving a dataset in, hygiene, and the things better left outside
+Jira.
+
+Each row is measured against live data by `generator/jira_gaps.py`, so the register
+closes itself: populate a field and its coverage moves without anyone editing the list.
 
 ## Why it is an ontology and not a report
 

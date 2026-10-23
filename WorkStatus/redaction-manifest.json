@@ -1,8 +1,8 @@
 {
  "note": "What was removed from this public copy. Counts only: naming the individuals here would defeat the redaction.",
- "individuals_replaced_by_role": 29,
- "districts_identified_by_sd_code_only": 76,
- "defect_summaries_withheld": 104,
+ "individuals_replaced_by_role": 37,
+ "districts_identified_by_sd_code_only": 187,
+ "defect_descriptions": "kept \u2014 they name no district or person",
  "quantitative_defect_evidence_removed": [
   "Per-district runtime measurement removed.",
   "Zombie-row counts for a single district removed."
@@ -16,7 +16,13 @@
   "issue keys and statuses",
   "counts and totals",
   "the map-against-Jira reconciliation",
-  "medallion table names",
-  "pipeline structure, stages and gates"
- ]
+  "medallion table and entity names",
+  "the description of each concern (it names no district or person)",
+  "pipeline structure, stages and gates",
+  "ISD and SIS vendor per district"
+ ],
+ "retained_deliberately": {
+  "isd_names": "ISDs are named. They are public bodies and the regional roll-up is the point of the view, but combined with an SD code they do narrow which district a row is, especially for a small ISD. Flagged rather than assumed.",
+  "table_names_and_concerns": "Kept at the author's instruction: they identify no district or person, and table-level findings are already public in pipeline/MiGDL-SQL-Review.html."
+ }
 }

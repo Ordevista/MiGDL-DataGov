@@ -92,14 +92,17 @@
   }
 
   function reconTable(only) {
-    var rows = J.recon.filter(function (r) { return !only || r.state === only; });
+    var rows = J.recon.filter(function (r) {
+      return !only || r.state === only || (only === "drifted" && r.state === "equivalent");
+    });
     if (!rows.length) return "<p class='hint'>Nothing to reconcile.</p>";
     return '<div class="card tscroll"><table><thead><tr>' +
       "<th>Fix</th><th>Ticket</th><th>Map says</th><th>Jira says now</th><th>Work item</th>" +
       "</tr></thead><tbody>" + rows.map(function (r) {
         var cls = r.state === "drifted" ? "warn" : r.state === "missing" ? "crit"
-          : r.state === "agrees" ? "ok" : "";
-        var now = r.state === "missing" ? "<i>no such issue in Jira</i>" : esc(r.now);
+          : (r.state === "agrees" || r.state === "equivalent") ? "ok" : "";
+        var now = r.state === "missing" ? "<i>no such issue in Jira</i>"
+          : esc(r.now) + (r.state === "equivalent" ? " <i>(same meaning)</i>" : "");
         return "<tr><td class='r mono'>" + r.fix + "</td><td>" + jira(r.key) + "</td>" +
           "<td>" + (r.claim ? esc(r.claim) : "<span class='pill'>not stated</span>") + "</td>" +
           "<td><span class='pill " + cls + "'>" + now + "</span></td>" +
@@ -324,6 +327,29 @@
           "<div style='font-size:11px;color:var(--muted);margin-top:4px'>" +
           esc(fixWhole.epic || "") + "</div></div>" : "") +
         "</div></section>" : "") +
+
+      (J.target_state ? '<section class="sect"><h2>Target state</h2>' +
+        '<p class="hint">' + esc(J.target_state.head) + '. ' + esc(J.target_state.note) +
+        ' New in map ' + esc(J.map.version) + '.</p>' +
+        '<div class="card tscroll"><table><thead><tr><th>Shift</th><th>Window</th>' +
+        '<th>What it does</th><th>Rate</th><th>Data age</th><th>Needs</th>' +
+        '</tr></thead><tbody>' + J.target_state.shifts.map(function (sh) {
+          return "<tr><td class='ttl'><b>" + esc(sh.name) + "</b></td>" +
+            "<td class='mono'>" + esc(sh.window) + "</td>" +
+            "<td class='ttl'>" + esc(sh.does) + "</td>" +
+            "<td>" + esc(sh.rate) + "</td>" +
+            "<td><span class='pill ok'>" + esc(sh.age) + "</span></td>" +
+            "<td>" + sh.needs.map(function (n) {
+              return "<span class='pill acc'>fix " + n + "</span>";
+            }).join(" ") + "</td></tr>";
+        }).join("") + "</tbody></table></div>" +
+        '<div class="gap" style="margin-top:12px;border-left-color:var(--ok);' +
+        'background:var(--ok-soft)"><b>' + esc(J.target_state.promise) + '.</b> ' +
+        esc(J.target_state.why) + "</div>" +
+        '<div class="grid g2"><div class="card kv"><span class="k">Connector</span>' +
+        "<span class='n'>" + esc(J.target_state.connector) + "</span></div>" +
+        '<div class="card kv"><span class="k">Logbook</span>' +
+        "<span class='n'>" + esc(J.target_state.logbook) + "</span></div></div></section>" : "") +
 
       '<section class="sect"><h2>Recommended sequence</h2>' +
       '<p class="hint">' + esc(J.map.sequence) + "</p>" +
@@ -634,15 +660,143 @@
           "</span></div>";
       }).join("") + "</div>" + SBAR_LEGEND + "</section>" +
 
+      gapSection() +
+
       '<section class="sect"><h2>Who is carrying it</h2>' +
       '<p class="hint">Count of plannable items per person. Not a capacity model — there are no ' +
       'estimates on most of these items.</p>' + barList(aPairs, P.length, 14) + "</section>";
   }
 
+
+  /* ---- the Jira gap register, rendered in Sprint planning ---- */
+  var PRIOLBL = { 1: "Do first", 2: "Next", 3: "Later" };
+
+  function gapSection() {
+    var G = window.GAPS, kinds = G.kinds;
+    var order = ["process", "data", "setting", "schema", "hygiene", "keep-out"];
+    var actionable = G.gaps.filter(function (g) { return g.kind !== "keep-out"; });
+    var closed = actionable.filter(function (g) { return g.closed; }).length;
+
+    function row(g) {
+      var pctTxt = g.pct == null ? "" : g.pct + "%";
+      var cls = g.pct == null ? "" : g.pct >= 100 ? "full" : g.pct === 0 ? "none" : "";
+      return '<div class="gapitem' + (g.closed ? " done" : "") + '">' +
+        "<div><span class='pill " + (g.priority === 1 ? "crit" : g.priority === 2 ? "warn" : "") +
+        "'>" + PRIOLBL[g.priority] + "</span>" +
+        (g.closed ? " <span class='pill ok'>done</span>" : "") + "</div>" +
+        '<div><span class="t">' + esc(g.title) + "</span>" +
+        (g.unlocks ? '<div class="u"><b>Unlocks.</b> ' + esc(g.unlocks) + "</div>" : "") +
+        '<div class="h"><b>Do.</b> ' + esc(g.how) + "</div></div>" +
+        "<div>" + (g.pct == null ? "<span class='gapsub'>no measure — judgement call</span>"
+          : '<span class="gapnum">' + g.have + " / " + g.need + " " + pctTxt + "</span>" +
+            '<div class="meter"><i class="' + cls + '" style="width:' +
+            Math.max(g.pct, 1) + '%"></i></div>' +
+            '<div class="gapsub">' + esc(g.unit) + "</div>") +
+        "</div></div>";
+    }
+
+    var SRC = G.sources || [], REC = G.reconciliation || [];
+    var srcBlock = !SRC.length ? "" :
+      '<section class="sect"><h2>Where district state is maintained today</h2>' +
+      '<p class="hint">Four places, two of them copies of a third. The disagreement ' +
+      'between them is the evidence for the Data Journey\u2019s pain point 9 \u2014 that ' +
+      'the tracking is manual and unreliable \u2014 so it is recorded rather than ' +
+      'smoothed over.</p>' +
+      '<div class="card tscroll"><table><thead><tr><th>Source</th><th>Grain</th>' +
+      '<th class="r">Districts</th><th>As at</th><th>Role</th></tr></thead><tbody>' +
+      SRC.map(function (x) {
+        return "<tr><td class='ttl'><b>" + esc(x.name) + "</b>" +
+          (x.used ? " <span class='pill ok'>read by this page</span>"
+                  : " <span class='pill'>not read</span>") + "</td>" +
+          "<td>" + esc(x.grain) + "</td>" +
+          "<td class='r num'>" + (x.districts == null ? "\u2014" : x.districts) + "</td>" +
+          "<td class='mono'>" + esc(x.asof) + "</td>" +
+          "<td class='ttl'>" + esc(x.role) + "</td></tr>";
+      }).join("") + "</tbody></table></div>" +
+      (REC.length ? '<div class="gap" style="margin-top:12px"><b>How they disagree, ' +
+        'last compared 2026-10-22.</b><ul style="margin:6px 0 0;padding-left:18px">' +
+        REC.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") +
+        "</ul></div>" : "") + "</section>";
+
+    var P = G.platform || [], CP = G.confluence_plan || [], AL = G.assist_label || {};
+    var platBlock = !P.length ? "" :
+      '<section class="sect"><h2>Could Jira show this on its own?</h2>' +
+      '<p class="hint">Short answer: no, and it does not need to. Jira is good at holding ' +
+      'the facts and poor at laying them out; Confluence is the reverse, and its live Jira ' +
+      'macros close most of the gap. What neither can do is join a ticket to the lineage ' +
+      'graph. So the target is three tiers, not one.</p>' +
+      '<div class="grid g3">' + P.map(function (t) {
+        return '<div class="card kv"><span class="k">' + esc(t.tier) + "</span>" +
+          '<span style="font-family:var(--d);font-weight:600;font-size:14px">' +
+          esc(t.role) + "</span>" +
+          "<div style='margin-top:7px;font-size:12.5px'><b style='color:var(--ok)'>Can</b>" +
+          "<ul style='margin:3px 0 0;padding-left:16px;color:var(--fg-2)'>" +
+          t.can.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" +
+          "<div style='margin-top:6px;font-size:12.5px'><b style='color:var(--crit)'>Cannot</b>" +
+          "<ul style='margin:3px 0 0;padding-left:16px;color:var(--fg-2)'>" +
+          t.cannot.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" +
+          "<div style='margin-top:7px;font-size:12.5px;color:var(--fg)'><b>" +
+          esc(t.verdict) + "</b></div></div>";
+      }).join("") + "</div>" +
+      (CP.length ? '<h3 style="font-size:13.5px;margin:16px 0 6px">What moving to Confluence ' +
+        'would actually replace</h3><div class="card">' + CP.map(function (x) {
+          return "<div class='nj'><span class='pill acc'>replaces</span><span>" +
+            esc(x) + "</span></div>";
+        }).join("") + "</div>" : "") + "</section>";
+
+    var byAssist = {};
+    G.gaps.forEach(function (g) {
+      var lv = (g.assist || {}).level;
+      if (lv && lv !== "no") (byAssist[lv] = byAssist[lv] || []).push(g);
+    });
+    var assistOrder = ["yes", "partly", "after-decision", "admin"];
+    var assistBlock = '<section class="sect"><h2>What I could move for you</h2>' +
+      '<p class="hint">The Atlassian connector now has write access, so some of the register ' +
+      'above is work I could do with your access rather than hand you. Nothing below has been ' +
+      'done. Ten of the rows need a Jira administrator to create a field, add an option or ' +
+      'change a workflow before anything can be populated — that part is not something ' +
+      'these tools can reach.</p>' +
+      assistOrder.map(function (lv) {
+        var rows = byAssist[lv] || [];
+        if (!rows.length) return "";
+        var cls = lv === "yes" ? "ok" : lv === "admin" ? "warn" : "acc";
+        return "<h3 style='font-size:13.5px;margin:16px 0 6px'><span class='pill " + cls +
+          "'>" + esc(AL[lv] || lv) + "</span> <span class='gapsub' style='font-weight:400'>" +
+          rows.length + "</span></h3><div class='card'>" + rows.map(function (g) {
+            return "<div class='nj'><span class='w' style='min-width:0'>" + esc(g.title) +
+              "</span><span><div style='color:var(--fg-2);font-size:12.5px'>" +
+              esc((g.assist || {}).how || "") + "</div>" +
+              ((g.assist || {}).tool ? "<div class='gapsub mono' style='margin-top:3px'>" +
+                esc(g.assist.tool) + "</div>" : "") + "</span></div>";
+          }).join("") + "</div>";
+      }).join("") + "</section>";
+
+    return platBlock + assistBlock + srcBlock +
+      '<section class="sect"><h2>To run this from Jira alone</h2>' +
+      '<p class="hint">This page is built from three sources: Jira, the ingestion tracker ' +
+      'spreadsheet, and two hand transcriptions of the Lucid map and the Game Plan. Below is ' +
+      'what Jira would have to hold for it to be the only one. Each row is measured against ' +
+      'live data, so the list closes itself as fields get populated — ' + closed +
+      ' of ' + actionable.length + ' are done today.</p>' +
+      order.map(function (k) {
+        var rows = G.gaps.filter(function (g) { return g.kind === k; });
+        if (!rows.length) return "";
+        rows.sort(function (a, b) { return a.priority - b.priority; });
+        return "<h3 style='font-size:13.5px;margin:16px 0 6px'>" + esc(kinds[k]) +
+          " <span class='gapsub' style='font-weight:400'>" + rows.length + "</span></h3>" +
+          (k === "keep-out" ? "<p class='hint' style='margin-bottom:8px'>Not everything " +
+            "belongs in Jira. These are better left where they are.</p>" : "") +
+          '<div class="card">' + rows.map(row).join("") + "</div>";
+      }).join("") + "</section>";
+  }
+
   /* ---- view: leadership ---- */
   function vLead() {
-    var live = Object.keys(DIST).filter(function (k) { return DIST[k].stage === "complete"; }).length;
-    var nd = Object.keys(DIST).length;
+    // count districts from the tracker, which is the system of record for load state
+    var tk = Object.keys(DIST).map(function (k) { return DIST[k]; })
+      .filter(function (d) { return d.src === "tracker"; });
+    var live = tk.filter(function (d) { return d.stage === "complete"; }).length;
+    var nd = tk.length;
     var drift = J.recon.filter(function (r) { return r.state === "drifted"; }).length;
     var risk = ITEMS.filter(function (i) { return i.p === "Highest" && i.sc !== "Done"; });
     var noJira = J.fixes.filter(function (f) { return !Object.keys(f.claim).length; });
@@ -668,7 +822,7 @@
 
     return filterNote() +
       '<section class="sect"><div class="grid g3">' +
-      tile("Districts live", live + " / " + nd, "load completed") +
+      tile("Districts loaded", live + " / " + nd, "per the ingestion tracker") +
       tile("Pain points open", painRows.filter(function (r) { return r.done < r.keys.length || !r.keys.length; }).length + " / " + painRows.length, "from the Data Journey") +
       tile("Map gone stale", drift + " / " + J.recon.length, "cited tickets that moved") +
       tile("Highest priority open", risk.length, "not done") +
@@ -732,80 +886,124 @@
   /* ---- view: K-12 stakeholder ---- */
   function vStake() {
     var ds = Object.keys(DIST).map(function (k) { return DIST[k]; })
-      .sort(function (a, b) { return a.name.localeCompare(b.name); });
-    var live = ds.filter(function (d) { return d.stage === "complete"; }).length;
-    var SHOWN = ["bronze-load", "descriptor-load", "silver-load", "goldplat-load", "validation"];
+      .sort(function (a, b) { return (a.name || "").localeCompare(b.name || ""); });
+    var TK = W.tracker || {};
+    var fromTracker = ds.filter(function (d) { return d.src === "tracker"; });
+    var live = fromTracker.filter(function (d) { return d.stage === "complete"; }).length;
+    var jiraOnly = ds.filter(function (d) { return d.src === "jira-only"; });
+    var byName = ds.filter(function (d) { return d.matched_by === "name"; }).length;
+    var withTicket = ds.filter(function (d) { return d.items && d.items.length; }).length;
+    var SHOWN = ["bronze-load", "descriptor-load", "silver-load", "goldplat-load"];
+    var APPNAME = { miread: "MiRead", miewims: "MiEWIMS", misafestudent: "MiSAFEStudent",
+      "community-schools-manager": "Community Schools Manager",
+      mistrategybank: "MiStrategyBank" };
     var prodCount = {};
     ds.forEach(function (d) {
-      d.products.forEach(function (p) { prodCount[p] = (prodCount[p] || 0) + 1; });
+      (d.products || []).forEach(function (p) { prodCount[p] = (prodCount[p] || 0) + 1; });
     });
-    var APPNAME = { miread: "MiRead", miewims: "MiEWIMS", misafestudent: "MiSAFEStudent" };
-
     var worst = Math.max.apply(null, J.pipelines.map(function (p) { return p.age_all; }));
+    var sched = fromTracker.filter(function (d) { return d.scheduled; }).length;
+
     return '<section class="sect"><div class="grid g3">' +
-      tile("Districts with data in", live, "of " + ds.length + " registered") +
+      tile("Districts loaded", live, "of " + fromTracker.length + " in the tracker") +
       tile("Worst-case data age", worst + " days", "what a teacher may be looking at") +
-      tile("Registered for MiRead", prodCount.miread || 0, "districts") +
-      tile("Registered for MiEWIMS", prodCount.miewims || 0, "districts") +
+      tile("On the nightly schedule", sched, "of " + fromTracker.length) +
+      tile("With an onboarding ticket", withTicket, "Jira covers a subset") +
       "</div></section>" +
+
+      '<div class="gap"><b>Where these numbers come from.</b> District state is read from ' +
+      'the <i>' + esc(TK.spreadsheet || "ingestion tracker") + '</i> (' + esc(TK.tab || "") +
+      '), fetched ' + esc(TK.fetched || "") + ' — not from Jira. Jira’s onboarding ' +
+      'issue types track onboarding <i>work</i>, which covers ' + withTicket + ' of these ' +
+      'districts, so counting districts from Jira alone understates it. ' +
+      (byName ? byName + ' of those joined to the tracker only by a normalised name, ' +
+        'because the Jira ticket carries no SD code — which is the map’s own pain ' +
+        'point 9 in miniature.' : "") + "</div>" +
+
       freshBlock(true) +
 
+      (jiraOnly.length ? '<section class="sect"><h2>In Jira, not in the tracker</h2>' +
+        '<p class="hint">' + jiraOnly.length + ' onboarding tickets name a district that has ' +
+        'no row in the ingestion tracker and could not be matched by name either. Each is ' +
+        'either not yet loaded, or loaded but missing from the tracker.</p>' +
+        '<div class="card tscroll"><table><thead><tr><th>District</th><th>Onboarding ticket</th>' +
+        '<th class="r">Stages evidenced in Jira</th></tr></thead><tbody>' +
+        jiraOnly.map(function (d) {
+          return "<tr><td class='ttl'>" + esc(d.name) + "</td><td>" +
+            (d.items || []).map(jira).join(" ") + "</td>" +
+            "<td class='r num'>" + Object.keys(d.stages || {}).length + "</td></tr>";
+        }).join("") + "</tbody></table></div></section>" : "") +
+
       '<section class="sect"><h2>The apps that receive this data</h2>' +
-      '<p class="hint">The map\u2019s overview says four consuming applications; its components ' +
-      'list names six. Only three have a registration option in Jira, so work on the other ' +
-      'three cannot be tracked against the district that asked for it.</p>' +
-      '<div class="card tscroll"><table><thead><tr><th>Application</th><th>Receives data by</th>' +
-      '<th class="r">Districts registered</th><th>Tracked in Jira</th></tr></thead><tbody>' +
+      '<p class="hint">Per-district registration, as the tracker records it. Every app has a ' +
+      'flag here — including the three with no [MiGDL] App Registration option in Jira, ' +
+      'so work on them cannot be attributed to the district that asked for it even though ' +
+      'the district is registered.</p>' +
+      '<div class="card tscroll"><table><thead><tr><th>Application</th>' +
+      '<th class="r">Districts registered</th><th>Receives data by</th>' +
+      '<th>Attributable in Jira</th></tr></thead><tbody>' +
       J.map.apps.map(function (a) {
-        var slug = a.name.toLowerCase().replace(/[^a-z0-9]+/g, "");
-        var n = prodCount[slug.replace("communityschoolsmanager", "csm")] ||
-                prodCount[slug] || 0;
-        return "<tr><td class='ttl'>" + esc(a.name) + "</td><td>" + esc(a.via) + "</td>" +
-          "<td class='r num'>" + (a.jira ? n : "\u2014") + "</td>" +
+        var slug = a.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        var alt = a.name.toLowerCase().replace(/[^a-z0-9]+/g, "");
+        var n = prodCount[slug] || prodCount[alt] || 0;
+        return "<tr><td class='ttl'>" + esc(a.name) + "</td>" +
+          "<td class='r num'>" + n + "</td><td>" + esc(a.via) + "</td>" +
           "<td>" + (a.jira ? "<span class='pill ok'>yes</span>"
                            : "<span class='pill warn'>no registration field</span>") +
           "</td></tr>";
       }).join("") + "</tbody></table></div></section>" +
 
       '<section class="sect"><h2>What the apps show today</h2>' +
-      '<p class="hint">The Data Journey traces four kinds of change from a district’s student ' +
-      'information system through to the apps. These are the four outcomes it records, in the words ' +
-      'a district would use. They are properties of the pipeline, not of any one district.</p>' +
-      '<div class="grid g2">' +
+      '<p class="hint">The Data Journey traces four kinds of change from a district’s ' +
+      'student information system through to the apps. These are properties of the pipeline, ' +
+      'not of any one district.</p><div class="grid g2">' +
       (((J.station_detail || {}).delivery || {}).app_shows || []).map(function (a) {
         var kind = (J.change_kinds || []).filter(function (k) { return k[0] === a[0]; })[0];
-        var r = [kind ? kind[2] : a[0], a[1], a[0] === "I" ? "ok" : "crit"];
-        return '<div class="card kv"><span class="k">' + esc(r[0]) + "</span>" +
-          '<span style="font-family:var(--d);font-weight:600;font-size:15px">' + esc(r[1]) +
-          "</span><span class='n'><span class='pill " + r[2] + "'>" +
-          (r[2] === "ok" ? "Working" : "Known problem, fix in progress") + "</span></span></div>";
+        var good = a[0] === "I";
+        return '<div class="card kv"><span class="k">' + esc(kind ? kind[2] : a[0]) + "</span>" +
+          '<span style="font-family:var(--d);font-weight:600;font-size:15px">' + esc(a[1]) +
+          "</span><span class='n'><span class='pill " + (good ? "ok" : "crit") + "'>" +
+          (good ? "Working" : "Known problem, fix in progress") + "</span></span></div>";
       }).join("") + "</div>" +
-      "<p class='hint' style='margin-top:10px'>Every known problem above has an identified fix. " +
-      "The Leadership view shows which of those fixes are actually moving.</p></section>" +
+      "<p class='hint' style='margin-top:10px'>Every known problem above has an identified " +
+      "fix. The Leadership view shows which of those fixes are actually moving.</p></section>" +
 
       '<section class="sect"><h2>District by district</h2>' +
-      '<p class="hint">Where each registered district’s data has got to. The dots are the five ' +
-      'load steps in order: raw copy, codes, district cabinet, statewide model, checks. A filled dot ' +
-      'means that step finished.</p>' +
-      '<div class="card tscroll"><table><thead><tr><th>District</th><th>Code</th>' +
-      '<th>Progress</th><th>Where it is</th><th>Apps</th><th>Data in since</th>' +
-      "</tr></thead><tbody>" + ds.map(function (d) {
+      '<p class="hint">Every district in the tracker. The dots are the four load steps in ' +
+      'order: raw copy, codes, district cabinet, statewide model. A filled dot means the ' +
+      'tracker has a completion date for that step.</p>' +
+      '<div class="card tscroll"><table><thead><tr><th>District</th><th>Code</th><th>ISD</th>' +
+      '<th>SIS</th><th>Progress</th><th>Where it is</th><th>Apps</th><th>Batch</th>' +
+      '<th>Last entry</th></tr></thead><tbody>' + ds.map(function (d) {
         var dots = SHOWN.map(function (s) {
-          return '<span class="dot' + (d.stages[s] ? " on" : "") + '" title="' +
-            esc(STAGE_LABEL[s]) + (d.stages[s] ? ": " + d.stages[s] : ": not yet") + '"></span>';
+          return '<span class="dot' + ((d.stages || {})[s] ? " on" : "") + '" title="' +
+            esc(STAGE_LABEL[s] || s) +
+            ((d.stages || {})[s] ? ": " + d.stages[s] : ": not recorded") + '"></span>';
         }).join("");
-        var last = Object.keys(d.stages).map(function (k) { return d.stages[k]; }).sort().pop();
-        var cls = d.stage === "complete" ? "ok" : d.stage === "blocked" ? "warn" : "acc";
-        return "<tr><td class='ttl'>" + esc(d.name) + "</td>" +
+        var cls = d.stage === "complete" ? "ok" : d.stage ? "acc" : "warn";
+        var where = d.stage ? (STAGE_LABEL[d.stage] || d.stage)
+          : (d.src === "jira-only" ? "not in tracker" : "unknown");
+        return "<tr><td class='ttl'>" + esc(d.name) +
+          (d.matched_by === "name" ? " <span class='pill warn' title='Joined to its Jira " +
+            "ticket by name, not SD code'>name match</span>" : "") + "</td>" +
           "<td class='mono'>" + esc(d.sd || "—") + "</td>" +
+          "<td>" + esc(d.isd || "—") + "</td>" +
+          "<td>" + esc(d.sis || "—") + "</td>" +
           '<td><span class="dots">' + dots + "</span></td>" +
-          "<td><span class='pill " + cls + "'>" +
-          esc(d.stage ? STAGE_LABEL[d.stage] || d.stage : "registered") + "</span></td>" +
-          "<td>" + (d.products.map(function (p) {
+          "<td><span class='pill " + cls + "'>" + esc(where) + "</span>" +
+          (d.next_step ? "<div style='color:var(--muted);font-size:11.5px;margin-top:2px'>" +
+            esc(d.next_step) + "</div>" : "") + "</td>" +
+          "<td>" + ((d.products || []).map(function (p) {
             return "<span class='pill'>" + esc(APPNAME[p] || p) + "</span>";
           }).join(" ") || "<span style='color:var(--muted)'>—</span>") + "</td>" +
-          "<td class='mono'>" + esc(d.stage === "complete" && last ? last : "—") + "</td></tr>";
-      }).join("") + "</tbody></table></div></section>";
+          "<td class='mono'>" + esc(d.batch || "—") +
+          (d.scheduled ? "" : " <span class='pill warn'>off</span>") + "</td>" +
+          "<td class='mono'>" + esc(d.last_entry || "—") + "</td></tr>";
+      }).join("") + "</tbody></table></div>" +
+      "<p class='hint' style='margin-top:8px'>Source: " +
+      '<a href="' + esc(TK.source || "#") + '" target="_blank" rel="noopener">' +
+      esc(TK.spreadsheet || "ingestion tracker") + "</a>, tab " + esc(TK.tab || "") +
+      ", as at " + esc(TK.fetched || "") + ".</p></section>";
   }
 
   /* ---- chrome ---- */

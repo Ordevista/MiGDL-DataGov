@@ -359,3 +359,46 @@ migdl:scheduleEnabled a owl:DatatypeProperty ; rdfs:domain migdl:District ; rdfs
     rdfs:comment "Whether the district is on the automated nightly schedule." .
 migdl:matchedBy a owl:DatatypeProperty ; rdfs:domain migdl:District ;
     rdfs:comment "How a Jira onboarding ticket was joined to this district: 'sd-code' (reliable) or 'name' (normalised name match, weaker — the Data Journey's pain point 9 is precisely that this tracking matches districts by name)." .
+
+# ── personas within the K-12 stakeholder audience ──────────────────────────
+# Leadership asked for the stakeholder view to speak to three named groups rather
+# than to "stakeholders" in general. They are narrower than an Audience: each is a
+# role that reads the same district facts at a different grain and in different
+# words. A persona changes what is surfaced and how it is worded, never the facts.
+migdl:Persona a owl:Class ; rdfs:subClassOf migdl:Audience ;
+    rdfs:label "Persona" ;
+    rdfs:comment "A named group within an audience, with its own question and its own grain." .
+migdl:withinAudience a owl:ObjectProperty ; rdfs:domain migdl:Persona ; rdfs:range migdl:Audience .
+migdl:readsAtGrain a owl:DatatypeProperty ; rdfs:domain migdl:Persona ;
+    rdfs:comment "ISD, district or work queue." .
+migdl:asksQuestion a owl:DatatypeProperty ; rdfs:domain migdl:Persona ;
+    rdfs:comment "The question this persona opens the page to answer, in their own words." .
+migdl:omits a owl:DatatypeProperty ; rdfs:domain migdl:Persona ;
+    rdfs:comment "What is deliberately kept off this persona's view, and why." .
+
+<https://migdl.midatahub.org/id/persona/isd-superintendent> a migdl:Persona ;
+    skos:inScheme migdl:AudienceScheme ;
+    migdl:withinAudience <https://migdl.midatahub.org/id/audience/stakeholder> ;
+    skos:prefLabel "ISD Superintendent" ;
+    migdl:readsAtGrain "ISD" ;
+    migdl:asksQuestion "Are the districts in my ISD in the lake, and what will my schools see?" ;
+    skos:definition "Accountable for a region, not for a load. Reads a roll-up across the districts in one ISD, weighted by students." ;
+    migdl:omits "Jira keys, table names and batch numbers: none of them are actionable at this grain." .
+
+<https://migdl.midatahub.org/id/persona/district-administrator> a migdl:Persona ;
+    skos:inScheme migdl:AudienceScheme ;
+    migdl:withinAudience <https://migdl.midatahub.org/id/audience/stakeholder> ;
+    skos:prefLabel "District Administrator" ;
+    migdl:readsAtGrain "district" ;
+    migdl:asksQuestion "Is my district's data in, how current is it, and what are my teachers seeing?" ;
+    skos:definition "Reads one row, their own, and needs the plain-language consequence of the pipeline's known problems." ;
+    migdl:omits "The regional roll-up and anything about other districts' status." .
+
+<https://migdl.midatahub.org/id/persona/data-integrator> a migdl:Persona ;
+    skos:inScheme migdl:AudienceScheme ;
+    migdl:withinAudience <https://migdl.midatahub.org/id/audience/stakeholder> ;
+    skos:prefLabel "Data Integrator" ;
+    migdl:readsAtGrain "work queue" ;
+    migdl:asksQuestion "Which districts need me today, and what is the next action on each?" ;
+    skos:definition "The one operational persona in this audience: it is a working queue, not a status read, so it keeps the Jira keys and the stage detail the other two drop." ;
+    migdl:omits "Nothing, except the leadership framing: this persona is in the day-to-day." .

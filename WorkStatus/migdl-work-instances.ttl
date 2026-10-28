@@ -57,7 +57,7 @@
 <https://migdl.midatahub.org/id/district/sd10> a migdl:District ;
     skos:prefLabel "sd10" ;
     dct:identifier "sd10" ;
-    migdl:inISD "unassigned-3" ;
+    migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
     migdl:scheduleBatch "13" ;
@@ -114,7 +114,7 @@
     skos:prefLabel "sd104" ;
     dct:identifier "sd104" ;
     migdl:inISD "Ionia ISD" ;
-    migdl:sisVendor "PowerSchool" ;
+    migdl:sisVendor "Skyward" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
     migdl:scheduleBatch "14" ;
     migdl:scheduleEnabled false ;
@@ -158,7 +158,7 @@
     skos:prefLabel "sd108" ;
     dct:identifier "sd108" ;
     migdl:inISD "Ionia ISD" ;
-    migdl:sisVendor "PowerSchool" ;
+    migdl:sisVendor "Skyward" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
     migdl:scheduleBatch "8" ;
     migdl:scheduleEnabled true ;
@@ -305,7 +305,7 @@
 <https://migdl.midatahub.org/id/district/sd12> a migdl:District ;
     skos:prefLabel "sd12" ;
     dct:identifier "sd12" ;
-    migdl:inISD "unassigned-3" ;
+    migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
     migdl:scheduleBatch "10" ;
@@ -403,6 +403,13 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
+<https://migdl.midatahub.org/id/district/sd128> a migdl:District ;
+    skos:prefLabel "sd128" ;
+    dct:identifier "sd128" ;
+    migdl:inISD "Muskegon Area ISD" ;
+    migdl:sisVendor "PowerSchool" ;
+    migdl:scheduleEnabled false ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> .
 <https://migdl.midatahub.org/id/district/sd129> a migdl:District ;
     skos:prefLabel "sd129" ;
     dct:identifier "sd129" ;
@@ -419,7 +426,7 @@
 <https://migdl.midatahub.org/id/district/sd13> a migdl:District ;
     skos:prefLabel "sd13" ;
     dct:identifier "sd13" ;
-    migdl:inISD "unassigned-3" ;
+    migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
     migdl:scheduleBatch "16" ;
@@ -560,7 +567,7 @@
 <https://migdl.midatahub.org/id/district/sd140> a migdl:District ;
     skos:prefLabel "sd140" ;
     dct:identifier "sd140" ;
-    migdl:inISD "unassigned-3" ;
+    migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "Skyward" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
     migdl:scheduleBatch "3" ;
@@ -674,7 +681,7 @@
 <https://migdl.midatahub.org/id/district/sd15> a migdl:District ;
     skos:prefLabel "sd15" ;
     dct:identifier "sd15" ;
-    migdl:inISD "unassigned-3" ;
+    migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "20" ;
@@ -909,7 +916,7 @@
 <https://migdl.midatahub.org/id/district/sd17> a migdl:District ;
     skos:prefLabel "sd17" ;
     dct:identifier "sd17" ;
-    migdl:inISD "unassigned-3" ;
+    migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "Skyward SMS" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
     migdl:scheduleBatch "7" ;
@@ -963,6 +970,13 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
+<https://migdl.midatahub.org/id/district/sd174> a migdl:District ;
+    skos:prefLabel "sd174" ;
+    dct:identifier "sd174" ;
+    migdl:inISD "Dickinson-Iron ISD" ;
+    migdl:sisVendor "PowerSchool" ;
+    migdl:scheduleEnabled false ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> .
 <https://migdl.midatahub.org/id/district/sd175> a migdl:District ;
     skos:prefLabel "sd175" ;
     dct:identifier "sd175" ;
@@ -1022,7 +1036,7 @@
 <https://migdl.midatahub.org/id/district/sd18> a migdl:District ;
     skos:prefLabel "sd18" ;
     dct:identifier "sd18" ;
-    migdl:inISD "unassigned-3" ;
+    migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
     migdl:scheduleBatch "9" ;
@@ -1074,6 +1088,13 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
+<https://migdl.midatahub.org/id/district/sd184> a migdl:District ;
+    skos:prefLabel "unassigned-1" ;
+    dct:identifier "sd184" ;
+    migdl:inISD "Huron ISD" ;
+    migdl:sisVendor "Skyward" ;
+    migdl:scheduleEnabled false ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> .
 <https://migdl.midatahub.org/id/district/sd185> a migdl:District ;
     skos:prefLabel "sd185" ;
     dct:identifier "sd185" ;
@@ -1085,6 +1106,13 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
+<https://migdl.midatahub.org/id/district/sd186> a migdl:District ;
+    skos:prefLabel "unassigned-2" ;
+    dct:identifier "sd186" ;
+    migdl:inISD "Huron ISD" ;
+    migdl:sisVendor "Skyward" ;
+    migdl:scheduleEnabled false ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> .
 <https://migdl.midatahub.org/id/district/sd187> a migdl:District ;
     skos:prefLabel "sd187" ;
     dct:identifier "sd187" ;
@@ -1096,6 +1124,13 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
+<https://migdl.midatahub.org/id/district/sd188> a migdl:District ;
+    skos:prefLabel "sd188" ;
+    dct:identifier "sd188" ;
+    migdl:inISD "Huron ISD" ;
+    migdl:sisVendor "Skyward" ;
+    migdl:scheduleEnabled false ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> .
 <https://migdl.midatahub.org/id/district/sd189> a migdl:District ;
     skos:prefLabel "sd189" ;
     dct:identifier "sd189" ;
@@ -1481,6 +1516,13 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
+<https://migdl.midatahub.org/id/district/sd45> a migdl:District ;
+    skos:prefLabel "sd45" ;
+    dct:identifier "sd45" ;
+    migdl:inISD "Mecosta-Osceola ISD" ;
+    migdl:sisVendor "Skyward" ;
+    migdl:scheduleEnabled false ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> .
 <https://migdl.midatahub.org/id/district/sd46> a migdl:District ;
     skos:prefLabel "sd46" ;
     dct:identifier "sd46" ;
@@ -1660,7 +1702,7 @@
 <https://migdl.midatahub.org/id/district/sd6> a migdl:District ;
     skos:prefLabel "sd6" ;
     dct:identifier "sd6" ;
-    migdl:inISD "unassigned-3" ;
+    migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
     migdl:scheduleBatch "12" ;
@@ -1789,7 +1831,7 @@
 <https://migdl.midatahub.org/id/district/sd7> a migdl:District ;
     skos:prefLabel "sd7" ;
     dct:identifier "sd7" ;
-    migdl:inISD "unassigned-3" ;
+    migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
     migdl:scheduleBatch "12" ;
@@ -1809,6 +1851,13 @@
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
+<https://migdl.midatahub.org/id/district/sd71> a migdl:District ;
+    skos:prefLabel "sd71" ;
+    dct:identifier "sd71" ;
+    migdl:inISD "Mecosta-Osceola ISD" ;
+    migdl:sisVendor "Skyward" ;
+    migdl:scheduleEnabled false ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> .
 <https://migdl.midatahub.org/id/district/sd72> a migdl:District ;
     skos:prefLabel "sd72" ;
     dct:identifier "sd72" ;
@@ -2030,7 +2079,7 @@
 <https://migdl.midatahub.org/id/district/sd9> a migdl:District ;
     skos:prefLabel "sd9" ;
     dct:identifier "sd9" ;
-    migdl:inISD "unassigned-3" ;
+    migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
     migdl:scheduleBatch "8" ;
@@ -2087,7 +2136,7 @@
 <https://migdl.midatahub.org/id/district/sd94> a migdl:District ;
     skos:prefLabel "sd94" ;
     dct:identifier "sd94" ;
-    migdl:inISD "St. Joseph County ISD" ;
+    migdl:inISD "St Joseph County ISD" ;
     migdl:sisVendor "PowerSchool" ;
     migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "4" ;
@@ -2130,6 +2179,13 @@
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/community-schools-manager> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
+<https://migdl.midatahub.org/id/district/sd98> a migdl:District ;
+    skos:prefLabel "sd98" ;
+    dct:identifier "sd98" ;
+    migdl:inISD "Allegan Area ESA" ;
+    migdl:sisVendor "PowerSchool" ;
+    migdl:scheduleEnabled false ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> .
 <https://migdl.midatahub.org/id/district/sd99> a migdl:District ;
     skos:prefLabel "sd99" ;
     dct:identifier "sd99" ;
@@ -2912,7 +2968,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> .
 <https://migdl.midatahub.org/id/work/MIGDL-74> a migdl:Defect ;
     migdl:issueKey "MIGDL-74" ;
-    dct:title "MiRead - Dollar Bay-Tamarack City Area Schools - No Staff" ;
+    dct:title "MiRead - sd10 - No Staff" ;
     migdl:status "Closed-MiGDL" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -3162,7 +3218,7 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> .
 <https://migdl.midatahub.org/id/work/MIGDL-95> a migdl:Defect ;
     migdl:issueKey "MIGDL-95" ;
-    dct:title "MiGDL-ETL: Westwood Community Schools (MiStar-Q) showing 100+ schools in gold and platinum datasets incorrectly" ;
+    dct:title "MiGDL-ETL: sd151 (MiStar-Q) showing 100+ schools in gold and platinum datasets incorrectly" ;
     migdl:status "Backlog" ;
     migdl:statusCategory "To Do" ;
     migdl:priority "High" ;
@@ -3294,7 +3350,7 @@
     migdl:relatesTo <https://migdl.midatahub.org/id/work/MIGDL-662> .
 <https://migdl.midatahub.org/id/work/MIGDL-111> a migdl:Defect ;
     migdl:issueKey "MIGDL-111" ;
-    dct:title "MiGDL-MiRead: Byron Area Schools has no buildings or teachers associated with students" ;
+    dct:title "MiGDL-MiRead: sd157 has no buildings or teachers associated with students" ;
     migdl:status "Done" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -3496,7 +3552,7 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> .
 <https://migdl.midatahub.org/id/work/MIGDL-128> a migdl:Defect ;
     migdl:issueKey "MIGDL-128" ;
-    dct:title "MiGDL-ETL: Incorrect EEM Code for Reese Public Schools" ;
+    dct:title "MiGDL-ETL: Incorrect EEM Code for sd143" ;
     migdl:status "Closed-MiGDL" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -4839,7 +4895,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> .
 <https://migdl.midatahub.org/id/work/MIGDL-324> a migdl:Defect ;
     migdl:issueKey "MIGDL-324" ;
-    dct:title "MiEWIMS: Reese Public Schools - Dashboard Errors" ;
+    dct:title "MiEWIMS: sd143 - Dashboard Errors" ;
     migdl:status "Closed-MiGDL" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -4852,7 +4908,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-325> a migdl:Defect ;
     migdl:issueKey "MIGDL-325" ;
-    dct:title "Sd104 Ionia Public Schools switched from Skyward to PowerSchool for SY 2027" ;
+    dct:title "Sd104 sd104 switched from Skyward to PowerSchool for SY 2027" ;
     migdl:status "Closed-MiGDL" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Low" ;
@@ -5617,7 +5673,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-390> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-390" ;
-    dct:title "Carsonville-Port Sanilac School District : sd176" ;
+    dct:title "sd176 : sd176" ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -5625,7 +5681,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/carsonville-port-sanilac-school-district> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd176> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
@@ -6016,7 +6072,7 @@
     migdl:relatesTo <https://migdl.midatahub.org/id/work/MIGDL-394> .
 <https://migdl.midatahub.org/id/work/MIGDL-425> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-425" ;
-    dct:title "New Buffalo Area Schools : sd78" ;
+    dct:title "sd78 : sd78" ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6031,7 +6087,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-426> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-426" ;
-    dct:title "Marlette Community Schools : sd177" ;
+    dct:title "sd177 : sd177" ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6039,14 +6095,14 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/marlette-community-schools> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd177> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-427> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-427" ;
-    dct:title "Brown City Community Schools : sd178" ;
+    dct:title "sd178 : sd178" ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6054,7 +6110,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/brown-city-community-schools> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd178> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
@@ -6072,7 +6128,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> .
 <https://migdl.midatahub.org/id/work/MIGDL-430> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-430" ;
-    dct:title "Mayville Community School District : sd2" ;
+    dct:title "sd2 : sd2" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6121,7 +6177,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-430> .
 <https://migdl.midatahub.org/id/work/MIGDL-431> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-431" ;
-    dct:title "Kingston Community School District : sd122" ;
+    dct:title "sd122 : sd122" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -6169,7 +6225,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-431> .
 <https://migdl.midatahub.org/id/work/MIGDL-432> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-432" ;
-    dct:title "Caro Community Schools : sd1" ;
+    dct:title "sd1 : sd1" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6218,7 +6274,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-432> .
 <https://migdl.midatahub.org/id/work/MIGDL-433> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-433" ;
-    dct:title "Tri County Area Schools : sd30" ;
+    dct:title "sd30s : sd30" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -6265,7 +6321,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-433> .
 <https://migdl.midatahub.org/id/work/MIGDL-435> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-435" ;
-    dct:title "Cadillac Area Public Schools : sd113" ;
+    dct:title "sd113 : sd113" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -6337,7 +6393,7 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> .
 <https://migdl.midatahub.org/id/work/MIGDL-440> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-440" ;
-    dct:title "Escanaba Area Public Schools : sd115" ;
+    dct:title "sd115 : sd115" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -6400,7 +6456,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-442> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-442" ;
-    dct:title "Hamilton Community Schools : sd48" ;
+    dct:title "sd48 : sd48" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -6447,7 +6503,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-442> .
 <https://migdl.midatahub.org/id/work/MIGDL-443> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-443" ;
-    dct:title "Elkton-Pigeon-Bay Port Laker Schools : sd181" ;
+    dct:title "sd181 : sd181" ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -6455,14 +6511,14 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/elkton-pigeon-bay-port-laker-schools> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd181> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> ;
     migdl:relatesTo <https://migdl.midatahub.org/id/work/MIGDL-602> .
 <https://migdl.midatahub.org/id/work/MIGDL-444> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-444" ;
-    dct:title "Kent City Community Schools : sd171" ;
+    dct:title "sd171 : sd171" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6511,7 +6567,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-444> .
 <https://migdl.midatahub.org/id/work/MIGDL-445> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-445" ;
-    dct:title "Escanaba Area Public Schools : sd115" ;
+    dct:title "sd115 : sd115" ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -6537,7 +6593,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-447> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-447" ;
-    dct:title "Onaway Area Community School District : sd175" ;
+    dct:title "sd175 : sd175" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6548,7 +6604,7 @@
     migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p9> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/onaway-area-community-school-district> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd175> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
@@ -6586,7 +6642,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-447> .
 <https://migdl.midatahub.org/id/work/MIGDL-448> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-448" ;
-    dct:title "Inland Lake Schools : sd52" ;
+    dct:title "sd52 : sd52" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6635,7 +6691,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-448> .
 <https://migdl.midatahub.org/id/work/MIGDL-449> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-449" ;
-    dct:title "Walkerville Public Schools : sd89" ;
+    dct:title "sd89 : sd89" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6684,7 +6740,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-449> .
 <https://migdl.midatahub.org/id/work/MIGDL-450> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-450" ;
-    dct:title "Gateway to Success Academy : sd47" ;
+    dct:title "sd47 : sd47" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6733,7 +6789,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-450> .
 <https://migdl.midatahub.org/id/work/MIGDL-451> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-451" ;
-    dct:title "Ludington Area School District : sd61" ;
+    dct:title "sd61 : sd61" ;
     migdl:status "On Hold - DI Follow-Up (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -6778,7 +6834,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-451> .
 <https://migdl.midatahub.org/id/work/MIGDL-452> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-452" ;
-    dct:title "Hart Public School District : sd49" ;
+    dct:title "sd49 : sd49" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6827,7 +6883,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-452> .
 <https://migdl.midatahub.org/id/work/MIGDL-453> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-453" ;
-    dct:title "Pentwater Public School District : sd80" ;
+    dct:title "sd80 : sd80" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6876,7 +6932,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-453> .
 <https://migdl.midatahub.org/id/work/MIGDL-454> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-454" ;
-    dct:title "Baldwin Community Schools : sd23" ;
+    dct:title "sd23 : sd23" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6925,7 +6981,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-454> .
 <https://migdl.midatahub.org/id/work/MIGDL-455> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-455" ;
-    dct:title "Shelby Public Schools : sd85" ;
+    dct:title "sd85 : sd85" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -6974,7 +7030,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-455> .
 <https://migdl.midatahub.org/id/work/MIGDL-456> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-456" ;
-    dct:title "Mason County Central Schools : sd68" ;
+    dct:title "sd68 : sd68" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -7023,7 +7079,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-456> .
 <https://migdl.midatahub.org/id/work/MIGDL-457> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-457" ;
-    dct:title "Mason County Eastern Schools : sd69" ;
+    dct:title "sd69 : sd69" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -7072,7 +7128,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-457> .
 <https://migdl.midatahub.org/id/work/MIGDL-458> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-458" ;
-    dct:title "Cadillac Area Public Schools : sd113" ;
+    dct:title "sd113 : sd113" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -7121,7 +7177,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-458> .
 <https://migdl.midatahub.org/id/work/MIGDL-459> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-459" ;
-    dct:title "Harbor Beach Community Schools : " ;
+    dct:title "sd183 : " ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -7129,7 +7185,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/harbor-beach-community-schools> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd183> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
@@ -7149,7 +7205,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-461> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-461" ;
-    dct:title "Creative Montessori Academy : sd3" ;
+    dct:title "sd3 : sd3" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -7197,7 +7253,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-461> .
 <https://migdl.midatahub.org/id/work/MIGDL-463> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-463" ;
-    dct:title "Lake Linden-Hubbell School District : sd15" ;
+    dct:title "sd15 : sd15" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -7245,7 +7301,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-463> .
 <https://migdl.midatahub.org/id/work/MIGDL-464> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-464" ;
-    dct:title "Vassar Public Schools : sd133" ;
+    dct:title "sd133 : sd133" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -7293,7 +7349,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-464> .
 <https://migdl.midatahub.org/id/work/MIGDL-465> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-465" ;
-    dct:title "Croswell-Lexington Community Schools : sd179" ;
+    dct:title "sd179 : sd179" ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -7301,7 +7357,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/croswell-lexington-community-schools> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd179> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
@@ -7333,7 +7389,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-469> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-469" ;
-    dct:title "Benton Harbor Area Schools : sd110" ;
+    dct:title "sd110 : sd110" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -7381,7 +7437,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-469> .
 <https://migdl.midatahub.org/id/work/MIGDL-470> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-470" ;
-    dct:title "Bessemer Area School District : sd8" ;
+    dct:title "sd8 : sd8" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -7429,7 +7485,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-470> .
 <https://migdl.midatahub.org/id/work/MIGDL-471> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-471" ;
-    dct:title "Bronson Community School District : sd20" ;
+    dct:title "sd20 : sd20" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -7477,7 +7533,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-471> .
 <https://migdl.midatahub.org/id/work/MIGDL-472> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-472" ;
-    dct:title "Delton Kellogg Schools : sd43" ;
+    dct:title "sd43 : sd43" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -7525,7 +7581,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-472> .
 <https://migdl.midatahub.org/id/work/MIGDL-473> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-473" ;
-    dct:title "Jonesville Community Schools : sd55" ;
+    dct:title "sd55 : sd55" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -7573,7 +7629,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-473> .
 <https://migdl.midatahub.org/id/work/MIGDL-474> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-474" ;
-    dct:title "Mesick Consolidated Schools : sd72" ;
+    dct:title "sd72 : sd72" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -7621,7 +7677,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-474> .
 <https://migdl.midatahub.org/id/work/MIGDL-475> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-475" ;
-    dct:title "Midland Public Schools : sd22" ;
+    dct:title "sd22 : sd22" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -7669,7 +7725,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-475> .
 <https://migdl.midatahub.org/id/work/MIGDL-476> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-476" ;
-    dct:title "Milan Area Schools : sd125" ;
+    dct:title "sd125 : sd125" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -7717,7 +7773,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-476> .
 <https://migdl.midatahub.org/id/work/MIGDL-477> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-477" ;
-    dct:title "Montabella Community Schools : sd29" ;
+    dct:title "sd29 : sd29" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -7765,7 +7821,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-477> .
 <https://migdl.midatahub.org/id/work/MIGDL-478> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-478" ;
-    dct:title "Niles Community Schools : sd147" ;
+    dct:title "sd147 : sd147" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -7813,7 +7869,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-478> .
 <https://migdl.midatahub.org/id/work/MIGDL-479> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-479" ;
-    dct:title "Union City Community Schools : sd88" ;
+    dct:title "sd88 : sd88" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -7910,7 +7966,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-480> .
 <https://migdl.midatahub.org/id/work/MIGDL-481> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-481" ;
-    dct:title "Vassar Public Schools : sd133" ;
+    dct:title "sd133 : sd133" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -7958,7 +8014,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-481> .
 <https://migdl.midatahub.org/id/work/MIGDL-482> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-482" ;
-    dct:title "White Pigeon Community Schools : sd94" ;
+    dct:title "sd94 : sd94" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -8006,7 +8062,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-482> .
 <https://migdl.midatahub.org/id/work/MIGDL-483> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-483" ;
-    dct:title "Gaylord Community Schools : sd154" ;
+    dct:title "sd154 : sd154" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "High" ;
@@ -8074,7 +8130,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-486> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-486" ;
-    dct:title "Adams Township School District : sd6" ;
+    dct:title "sd6 : sd6" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -8148,7 +8204,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-489> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-489" ;
-    dct:title "Houghton-Portage Township School District : sd13 Need Delta on 10/7/26" ;
+    dct:title "sd13 : sd13 Need Delta on 10/7/26" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -8197,7 +8253,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-489> .
 <https://migdl.midatahub.org/id/work/MIGDL-490> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-490" ;
-    dct:title "West Branch-Rose City Area Schools : sd140-Need Delta on 10/1/26" ;
+    dct:title "sd140 : sd140-Need Delta on 10/1/26" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -8246,7 +8302,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-490> .
 <https://migdl.midatahub.org/id/work/MIGDL-492> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-492" ;
-    dct:title "Brandywine Community Schools : sd155" ;
+    dct:title "sd155 : sd155" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -8295,7 +8351,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-492> .
 <https://migdl.midatahub.org/id/work/MIGDL-493> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-493" ;
-    dct:title "Delton Kellogg Schools" ;
+    dct:title "sd43" ;
     migdl:status "Duplicate (Cancelled)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -8307,7 +8363,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-494> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-494" ;
-    dct:title "Dollar Bay-Tamarack City Area Schools : sd10" ;
+    dct:title "sd10 : sd10" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -8382,7 +8438,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-497> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-497" ;
-    dct:title "Reed City Area Public Schools : sd148" ;
+    dct:title "sd148 : sd148" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -8430,7 +8486,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-497> .
 <https://migdl.midatahub.org/id/work/MIGDL-498> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-498" ;
-    dct:title "Caro Community Schools" ;
+    dct:title "sd1" ;
     migdl:status "Duplicate (Cancelled)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -8492,7 +8548,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-499> .
 <https://migdl.midatahub.org/id/work/MIGDL-500> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-500" ;
-    dct:title "Cass City Public Schools : sd40" ;
+    dct:title "sd40 : sd40" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -8541,7 +8597,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-500> .
 <https://migdl.midatahub.org/id/work/MIGDL-501> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-501" ;
-    dct:title "Kingston Community School District : sd122" ;
+    dct:title "sd122 : sd122" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -8590,7 +8646,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-501> .
 <https://migdl.midatahub.org/id/work/MIGDL-502> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-502" ;
-    dct:title "Millington Community Schools : sd126" ;
+    dct:title "sd126 : sd126" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -8639,7 +8695,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-502> .
 <https://migdl.midatahub.org/id/work/MIGDL-503> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-503" ;
-    dct:title "Reese Public Schools : sd143" ;
+    dct:title "sd143 : sd143" ;
     migdl:status "On Hold - DI Follow-Up (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -8729,7 +8785,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-504> .
 <https://migdl.midatahub.org/id/work/MIGDL-505> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-505" ;
-    dct:title "Vassar Public Schools" ;
+    dct:title "sd133" ;
     migdl:status "Duplicate (Cancelled)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -8744,7 +8800,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-506> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-506" ;
-    dct:title "Kingston Community School District" ;
+    dct:title "sd122" ;
     migdl:status "Duplicate (Cancelled)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -8811,7 +8867,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-511> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-511" ;
-    dct:title "Marlette Community Schools : " ;
+    dct:title "sd177 : " ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -8822,7 +8878,7 @@
     migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p9> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/marlette-community-schools> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd177> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
@@ -8889,7 +8945,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-514> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-514" ;
-    dct:title "West Branch-Rose City Area Schools : sd140" ;
+    dct:title "sd140 : sd140" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -8966,7 +9022,7 @@
     migdl:relatesTo <https://migdl.midatahub.org/id/work/MIGDL-8> .
 <https://migdl.midatahub.org/id/work/MIGDL-517> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-517" ;
-    dct:title "Founders Grove Classical Academy : " ;
+    dct:title "sd182 : " ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -8974,13 +9030,13 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/founders-grove-classical-academy> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd182> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-518> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-518" ;
-    dct:title "Sandusky Community School District : " ;
+    dct:title "sd185 : " ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -8988,7 +9044,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/sandusky-community-school-district> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd185> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
@@ -9010,7 +9066,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-520> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-520" ;
-    dct:title "St Joseph Public Schools : sd150" ;
+    dct:title "sd150 : sd150" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9059,7 +9115,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-520> .
 <https://migdl.midatahub.org/id/work/MIGDL-521> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-521" ;
-    dct:title "Peck Community School District : " ;
+    dct:title "sd187 : " ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -9067,13 +9123,13 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/peck-community-school-district> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd187> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-522> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-522" ;
-    dct:title "Roscommon Area Public Schools : " ;
+    dct:title "sd180 : " ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -9081,13 +9137,13 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/roscommon-area-public-schools> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd180> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-523> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-523" ;
-    dct:title "Kenowa Hills Public Schools : sd120" ;
+    dct:title "sd120 : sd120" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -9148,7 +9204,7 @@
     migdl:relatesTo <https://migdl.midatahub.org/id/work/MIGDL-660> .
 <https://migdl.midatahub.org/id/work/MIGDL-525> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-525" ;
-    dct:title "Engadine Consolidated Schools" ;
+    dct:title "sd173" ;
     migdl:status "Duplicate (Cancelled)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -9157,12 +9213,12 @@
     migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/engadine-consolidated-schools> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd173> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-ewims> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-526> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-526" ;
-    dct:title "Engadine Consolidated Schools : " ;
+    dct:title "sd173 : " ;
     migdl:status "On Hold - DI Follow-Up (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -9173,7 +9229,7 @@
     migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p9> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/engadine-consolidated-schools> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd173> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/blocked> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
@@ -9247,7 +9303,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-530> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-530" ;
-    dct:title "Lake Linden-Hubbell School District-Need 10/7 Data Refresh" ;
+    dct:title "sd15-Need 10/7 Data Refresh" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9296,7 +9352,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-530> .
 <https://migdl.midatahub.org/id/work/MIGDL-531> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-531" ;
-    dct:title "New Branches Charter Academy : sd77" ;
+    dct:title "sd77 : sd77" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9345,7 +9401,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-531> .
 <https://migdl.midatahub.org/id/work/MIGDL-532> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-532" ;
-    dct:title "Will Carleton Charter School Academy : sd96" ;
+    dct:title "sd96 : sd96" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9394,7 +9450,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-532> .
 <https://migdl.midatahub.org/id/work/MIGDL-533> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-533" ;
-    dct:title "West MI Academy of Environmental Science : sd31" ;
+    dct:title "sd31 : sd31" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9443,7 +9499,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-533> .
 <https://migdl.midatahub.org/id/work/MIGDL-534> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-534" ;
-    dct:title "Battle Creek Montessori Academy : sd33" ;
+    dct:title "sd33 : sd33" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9492,7 +9548,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-534> .
 <https://migdl.midatahub.org/id/work/MIGDL-535> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-535" ;
-    dct:title "Benton Harbor Charter School : sd35" ;
+    dct:title "sd35 : sd35" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9541,7 +9597,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-535> .
 <https://migdl.midatahub.org/id/work/MIGDL-536> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-536" ;
-    dct:title "Bradford Academy : sd24" ;
+    dct:title "sd24 : sd24" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9590,7 +9646,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-536> .
 <https://migdl.midatahub.org/id/work/MIGDL-537> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-537" ;
-    dct:title "Dove Academy of Detroit : sd4" ;
+    dct:title "sd4 : sd4" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9620,7 +9676,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-537> .
 <https://migdl.midatahub.org/id/work/MIGDL-538> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-538" ;
-    dct:title "Livingston Classical Academy : sd60" ;
+    dct:title "sd60 : sd60" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9669,7 +9725,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-538> .
 <https://migdl.midatahub.org/id/work/MIGDL-539> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-539" ;
-    dct:title "Macomb Montessori Academy : sd62" ;
+    dct:title "sd62 : sd62" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9718,7 +9774,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-539> .
 <https://migdl.midatahub.org/id/work/MIGDL-540> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-540" ;
-    dct:title "Muskegon Montessori Academy for Environmental Change : sd76" ;
+    dct:title "sd76 : sd76" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9767,7 +9823,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-540> .
 <https://migdl.midatahub.org/id/work/MIGDL-541> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-541" ;
-    dct:title "Coloma Community Schools : sd42" ;
+    dct:title "sd42 : sd42" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9816,19 +9872,19 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-541> .
 <https://migdl.midatahub.org/id/work/MIGDL-542> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-542" ;
-    dct:title "Harbor Beach Community Schools" ;
+    dct:title "sd183" ;
     migdl:status "Duplicate (Cancelled)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
     prov:startedAtTime "2026-10-07T13:52:59"^^xsd:dateTime ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/harbor-beach-community-schools> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd183> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-543> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-543" ;
-    dct:title "Midland Public Schools : sd22" ;
+    dct:title "sd22 : sd22" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9980,7 +10036,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-548> .
 <https://migdl.midatahub.org/id/work/MIGDL-549> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-549" ;
-    dct:title "Onaway Area Community School District : " ;
+    dct:title "sd175 : " ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -9991,7 +10047,7 @@
     migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p18> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/onaway-area-community-school-district> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd175> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
@@ -10054,7 +10110,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-552> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-552" ;
-    dct:title "White Pigeon Community Schools : sd94" ;
+    dct:title "sd94 : sd94" ;
     migdl:status "On Hold - DE Follow-Up (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -10721,7 +10777,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-601> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-601" ;
-    dct:title "Reeths-Puffer Schools : sd163" ;
+    dct:title "sd163 : sd163" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -10731,7 +10787,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-602> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-602" ;
-    dct:title "Elkton-Pigeon-Bay Port Laker Schools : " ;
+    dct:title "sd181 : " ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -10788,7 +10844,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-608> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-608" ;
-    dct:title "Wolverine Community School District : sd152" ;
+    dct:title "sd152 : sd152" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -10818,7 +10874,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-611> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-611" ;
-    dct:title "New Branches Charter Academy: sd77" ;
+    dct:title "sd77: sd77" ;
     migdl:status "On Hold - DE Follow-Up (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -10829,7 +10885,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-612> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-612" ;
-    dct:title "Johannesburg-Lewiston Area Schools : sd54" ;
+    dct:title "sd54 : sd54" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -10839,7 +10895,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-613> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-613" ;
-    dct:title "Creative Montessori Academy : sd3" ;
+    dct:title "sd3 : sd3" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -10849,7 +10905,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-614> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-614" ;
-    dct:title "Will Carleton Charter School Academy : sd96" ;
+    dct:title "sd96 : sd96" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -10883,7 +10939,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-618> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-618" ;
-    dct:title "Tahquamenon Area Schools : " ;
+    dct:title "sd190 : " ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -10920,7 +10976,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-622> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-622" ;
-    dct:title "Gateway to Success Academy : sd47" ;
+    dct:title "sd47 : sd47" ;
     migdl:status "On Hold - DI Follow-Up (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "High" ;
@@ -10930,7 +10986,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-623> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-623" ;
-    dct:title "New Buffalo Area Schools : sd78" ;
+    dct:title "sd78 : sd78" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -10940,7 +10996,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-624> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-624" ;
-    dct:title "Caro Community Schools : sd1" ;
+    dct:title "sd1 : sd1" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11013,7 +11069,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-631> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-631" ;
-    dct:title "Deckerville Community School District : " ;
+    dct:title "sd191 : " ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -11046,7 +11102,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-634> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-634" ;
-    dct:title "Buchanan Community Schools : sd38" ;
+    dct:title "sd38 : sd38" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11056,7 +11112,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-635> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-635" ;
-    dct:title "Croswell-Lexington Community Schools : " ;
+    dct:title "sd179 : " ;
     migdl:status "On Hold - DI Follow-Up (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -11067,7 +11123,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-636> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-636" ;
-    dct:title "Brandywine Community Schools : sd155" ;
+    dct:title "sd155 : sd155" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11077,7 +11133,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-637> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-637" ;
-    dct:title "Four Corners Montessori Academy : sd46" ;
+    dct:title "sd46 : sd46" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11097,7 +11153,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-639> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-639" ;
-    dct:title "Kingston Community School District : sd122" ;
+    dct:title "sd122 : sd122" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11119,7 +11175,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-641> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-641" ;
-    dct:title "New Buffalo Area Schools : sd78" ;
+    dct:title "sd78 : sd78" ;
     migdl:status "On Hold - DI Follow-Up (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "High" ;
@@ -11129,7 +11185,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-642> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-642" ;
-    dct:title "River Valley School District : sd149" ;
+    dct:title "sd149 : sd149" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11171,7 +11227,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-646> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-646" ;
-    dct:title "Inland Lake Schools : sd52" ;
+    dct:title "sd52 : sd52" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11181,7 +11237,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-647> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-647" ;
-    dct:title "Livingston Classical Academy : sd60" ;
+    dct:title "sd60 : sd60" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11203,7 +11259,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-649> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-649" ;
-    dct:title "Hastings Area School District : sd50" ;
+    dct:title "sd50 : sd50" ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11213,7 +11269,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-650> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-650" ;
-    dct:title "Lake Linden-Hubbell School District : sd15" ;
+    dct:title "sd15 : sd15" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11223,7 +11279,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-651> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-651" ;
-    dct:title "Coloma Community Schools : sd42" ;
+    dct:title "sd42 : sd42" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11233,7 +11289,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-652> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-652" ;
-    dct:title "Howell Public Schools : sd161" ;
+    dct:title "sd161 : sd161" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11243,7 +11299,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-653> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-653" ;
-    dct:title "Engadine Consolidated Schools : " ;
+    dct:title "sd173 : " ;
     migdl:status "Validate (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -11263,7 +11319,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-655> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-655" ;
-    dct:title "Caro Community Schools : sd1" ;
+    dct:title "sd1 : sd1" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11282,7 +11338,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-657> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-657" ;
-    dct:title "Muskegon Montessori Academy for Environmental Change : sd76" ;
+    dct:title "sd76 : sd76" ;
     migdl:status "Validate (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -11338,7 +11394,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-663> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-663" ;
-    dct:title "Midland Public Schools : sd22" ;
+    dct:title "sd22 : sd22" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -11347,7 +11403,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-664> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-664" ;
-    dct:title "Brandywine Community Schools : sd155" ;
+    dct:title "sd155 : sd155" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11357,7 +11413,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-665> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-665" ;
-    dct:title "West Branch-Rose City Area Schools : sd140" ;
+    dct:title "sd140 : sd140" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11387,7 +11443,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-668> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-668" ;
-    dct:title "Kingston Community School District" ;
+    dct:title "sd122" ;
     migdl:status "Duplicate (Cancelled)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -11395,7 +11451,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-669> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-669" ;
-    dct:title "Rogers City Area Schools : " ;
+    dct:title "sd192 : " ;
     migdl:status "Bronze Load (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -11408,7 +11464,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-670> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-670" ;
-    dct:title "Mackinaw City Public Schools : sd124" ;
+    dct:title "sd124 : sd124" ;
     migdl:status "Bronze Load (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -11429,7 +11485,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-672> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-672" ;
-    dct:title "Vanderbilt Area Schools : sd144" ;
+    dct:title "sd144 : sd144" ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11439,7 +11495,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-673> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-673" ;
-    dct:title "Wolverine Community School District : sd152" ;
+    dct:title "sd152 : sd152" ;
     migdl:status "Bronze Load (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -11452,7 +11508,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-674> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-674" ;
-    dct:title "Onaway Area Community School District" ;
+    dct:title "sd175" ;
     migdl:status "Duplicate (Cancelled)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -11460,7 +11516,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-675> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-675" ;
-    dct:title "Marlette Community Schools : " ;
+    dct:title "sd177 : " ;
     migdl:status "Load Completed" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
@@ -11479,7 +11535,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-677> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-677" ;
-    dct:title "Brown City Community Schools : " ;
+    dct:title "sd178 : " ;
     migdl:status "Bronze Load (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -11492,7 +11548,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-678> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-678" ;
-    dct:title "Escanaba Area Public Schools : sd115" ;
+    dct:title "sd115 : sd115" ;
     migdl:status "Validate (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -11575,7 +11631,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-687> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-687" ;
-    dct:title "Four Corners Montessori Academy : sd46" ;
+    dct:title "sd46 : sd46" ;
     migdl:status "Bronze Load (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;

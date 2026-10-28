@@ -61,11 +61,12 @@ def card(item, today, warnings):
                 f'alt="" width="240" height="72" loading="lazy">')
     domain = f'<p class="domain">{esc(item["domain"])}</p>' if item.get("domain") else ""
     badge_html = f'<span class="badge badge-{state}">{esc(badge)}</span>' if badge else ""
-    external = href and href.startswith("http")
-    ext_attr = ' rel="noopener noreferrer"' if external else ""
-    ext_hint = '<span class="sr-only"> (opens external site)</span>' if external else ""
+    # Every resource link (external sites and our own PDFs) opens in a new tab,
+    # so the resource list stays open behind it.
+    link_attr = ' target="_blank" rel="noopener noreferrer"'
+    link_hint = '<span class="sr-only"> (opens in a new tab)</span>'
 
-    heading = (f'<a href="{esc(href)}"{ext_attr}>{title}{ext_hint}</a>' if href
+    heading = (f'<a href="{esc(href)}"{link_attr}>{title}{link_hint}</a>' if href
                else f"<span>{title}</span>")
     classes = "card" + (" featured" if item.get("featured") else "") + f" state-{state}"
     search = esc(" ".join(str(item.get(k, "")) for k in

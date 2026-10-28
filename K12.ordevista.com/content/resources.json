@@ -18,9 +18,35 @@
           "description": "Four domains, three questions each, one 1–4 confidence scale. Returns your Confidence Index, three prioritized next steps, and a shareable version with names stripped out.",
           "url": "https://forms.gle/9w6arL6jcmE3VYZFA",
           "type": "Form",
-          "badge": "Open until Oct 31, 2026",
-          "expires": "2026-10-31",
+          "badge": "Open until Nov 30, 2026",
+          "expires": "2026-11-30",
           "featured": true
+        }
+      ]
+    },
+    {
+      "id": "mvg",
+      "title": "Minimum Viable Governance",
+      "intro": "Materials and references to help you implement the recommendations from the self-assessment.",
+      "items": [
+        {
+          "title": "Education Data Governance Framework",
+          "description": "A complete, reusable model for governing education data — built on four domains that together hold up one goal: trust.",
+          "url": "https://docs.google.com/document/d/1nzkJiV9xHFa0IAyPBekgpAeAyzlJszuII_1z91oxdug/edit?usp=sharing",
+          "type": "Slides",
+          "date": "2026-08-20"
+        },        {
+          "title": "Attachment A - MVG Checklist",
+          "description": "This is a verification instrument, not a to-do list. The Workbook (Attachment B) is where the work happens; this checklist is where you prove it happened.",
+          "url": "https://docs.google.com/document/d/15PFnW7e2HJDHpXZp7Ov67zSSrXlrY6vjYgF71ZToNaw/edit?usp=sharing",
+          "type": "Document",
+          "date": "2026-08-20"
+        },        {
+          "title": "Attachment B - MVG Workbook",
+          "description": "Nine worksheets. Fill them in as a team across 90 days; what you produce here is the evidence Attachment A verifies and the artifact set you hand the board at Day 90.",
+          "url": "https://docs.google.com/document/d/1cYskylgwcVXof_Z9aJ7piBchakp7OUYTUI3QgnbihYY/edit?usp=sharing",
+          "type": "Document",
+          "date": "2026-08-20"
         }
       ]
     },
@@ -30,25 +56,20 @@
       "intro": "Slides and handouts from each presentation, posted after each session.",
       "items": [
         {
-          "title": "METL — Data Governance Self-Assessment (slides)",
-          "description": "September 17, 2026. The building analogy, the four domains, what you get back, and the three asks.",
-          "file": "metl-2026-09-self-assessment-slides.pdf",
-          "type": "PDF",
-          "date": "2026-09-17"
-        },
-        {
-          "title": "ISD collaboration handout",
-          "description": "Two-page handout: six parallel data privacy action options, with a discussion guide on the back.",
-          "file": "isd-collaboration-handout.pdf",
-          "type": "PDF",
-          "date": "2026-09-17"
-        },
-        {
-          "title": "MAEDS #62 — session materials",
-          "description": "October 28–30, 2026, Grand Traverse Resort. Slides will be posted here after the session.",
-          "type": "Upcoming",
-          "badge": "Coming after MAEDS",
+          "title": "Securing District Data Through MVG: A 90-Day Cyber Defense & Data Governance Blueprint (slides)",
+          "description": "As K-12 cyber threats and data complexity increase, technology leaders need a practical, integrated approach to safeguard district assets without overburdening IT staff. This session merges cybersecurity defenses with the METL Minimum Viable Governance (MVG) framework into an actionable 90-day blueprint.",
+          "url": "https://docs.google.com/presentation/d/17J7RITLbQDgCdJinFD8HwG4O8jlR37tJRLPDdoqiYrs/edit?usp=sharing",
+          "type": "Slides",
+          "badge": "MAEDS #62",
           "date": "2026-10-29"
+        },
+        {
+          "title": "MiGreatDataLake: Data Best Practices & Data Governance (slides)",
+          "description": "Pre-conference session.The MiGreatDataLake (MiGDL) is guided by the P-26 Data Trust—a legal and ethical framework that shifts oversight perspective from managing static data 'ownership' to active data 'stewardship' on behalf of districts.  This session will gather your feedback on your district’s data governance, data use, and data collection practices to best inform the oversight of the statewide educational data trust solution.",
+          "url": "https://docs.google.com/presentation/d/1bPf9uFEpjHwOSQKr5wBW0I7IcFdjLuTA6zWvKlCTR7Y/edit?usp=sharing",
+          "type": "Slides",
+          "badge": "MAEDS #62",
+          "date": "2026-10-28"
         }
       ]
     },

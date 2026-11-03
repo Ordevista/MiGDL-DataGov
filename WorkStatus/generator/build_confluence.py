@@ -30,9 +30,14 @@ def e(s):
     return "".join(ESC.get(c, c) for c in str(s if s is not None else ""))
 
 
+# Column order is the author's, applied to every table so the seven read alike.
+COLUMNS = "type,key,summary,assignee,priority,status,created,updated"
+
+
 def jira_macro(jql, label):
     """A live Jira issues macro. jqlQuery is evaluated on every page view."""
     params = {"macroParams": {"jqlQuery": {"value": jql},
+                              "columns": {"value": COLUMNS},
                               "showSummary": {"value": "true"}},
               "macroMetadata": {"schemaVersion": {"value": "1"},
                                 "title": "Jira Legacy"}}

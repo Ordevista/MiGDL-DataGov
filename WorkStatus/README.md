@@ -135,6 +135,13 @@ python3 generator/build_work_page.py
 Reads the three bundles in this folder and rewrites the HTML. The full chain — reading
 Jira, transcribing the two maps, reconciling and redacting — runs from the private copy.
 
+`generator/build_confluence.py` emits the same data as a Confluence page body instead of
+an HTML page. It is a narrower cut, written for a team that reads Confluence rather than
+this repo: the tables that Jira can answer today become live Jira macros, and the
+district tables are emitted as a dated snapshot because Jira holds no per-district work
+item to query yet. Its output names districts, so it is generated from the private copy
+and is not published here.
+
 ## Two things the views deliberately say out loud
 
 **The maps go stale, and the page shows by how much.** The Data Journey cites Jira

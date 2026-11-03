@@ -20,6 +20,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from load_jira import load  # noqa: E402
 import load_tracker  # noqa: E402
+import load_master  # noqa: E402
 
 OUT = HERE.parent              # work-ontology/
 ROOT = OUT.parent              # the project root, which holds rdf/
@@ -133,6 +134,30 @@ CLASS_OF_TYPE = {
 }
 # the project's own track labels
 TRACK = re.compile(r"^TT-\d+$")
+
+
+# ── personas within the K-12 stakeholder audience ──────────────────────────
+# Requested by leadership. A persona changes what is surfaced and how it is worded,
+# never the underlying facts.
+PERSONAS = [
+    {"id": "isd", "label": "ISD Superintendent", "grain": "ISD",
+     "asks": "Are the districts in my ISD in the lake, and what will my schools see?",
+     "note": "Accountable for a region, not for a load. Reads a roll-up across one ISD, "
+             "weighted by students.",
+     "omits": "Jira keys, table names and batch numbers \u2014 none of them are actionable "
+              "at this grain."},
+    {"id": "district", "label": "District Administrator", "grain": "district",
+     "asks": "Is my district's data in, how current is it, and what are my teachers seeing?",
+     "note": "Reads one row, their own, and needs the plain-language consequence of the "
+             "pipeline's known problems.",
+     "omits": "The regional roll-up and anything about other districts' status."},
+    {"id": "integrator", "label": "Data Integrator", "grain": "work queue",
+     "asks": "Which districts need me today, and what is the next action on each?",
+     "note": "The one operational persona in this audience: a working queue rather than a "
+             "status read, so it keeps the Jira keys and stage detail the other two drop.",
+     "omits": "Nothing, except the leadership framing \u2014 this persona is in the "
+              "day-to-day."},
+]
 
 
 def slug(s):
@@ -346,10 +371,68 @@ def slim(r):
         "a": r.get("assignee"), "au": r["audiences"],
         "par": r.get("parent"), "tr": r["tracks"],
         "cr": (r.get("created") or "")[:10],
+        # any school-year information the ticket carries: the SY begin date or the
+        # historical years it still needs
+        "sy": r.get("sy_begin") or (r.get("historical_years") or None),
         "sp": r.get("story_points") or r.get("story_point_estimate"),
         "bl": sorted({l["to"] for l in r["links"]
                       if l["to"] and l["type"] == "Blocks" and l["dir"] == "out"}),
     }
+
+
+def sd_backfill(rows, master):
+    """The onboarding tickets with no [MiGDL] SD Code, each with a suggested value.
+
+    Two independent kinds of evidence: the code is often already written into the
+    issue summary ("Some District : sd42"), and the district name usually matches the
+    master. Where both exist they are compared rather than merged, so a disagreement
+    would surface instead of being averaged away.
+    """
+    by_name = {}
+    for sd, m in master["districts"].items():
+        by_name[re.sub(r"[^a-z0-9]", "", (m["name"] or "").lower())] = sd
+    SUF = ("schooldistrict", "publicschools", "communityschools", "schools",
+           "academy", "isd")
+
+    def by_district_name(n):
+        k = re.sub(r"[^a-z0-9]", "", (n or "").lower())
+        if k in by_name:
+            return by_name[k]
+        for suf in SUF:
+            if k.endswith(suf) and k[:-len(suf)] in by_name:
+                return by_name[k[:-len(suf)]]
+        return None
+
+    out = []
+    for r in rows:
+        if r["class"] not in ("InitialOnboarding", "CatchUpOnboarding"):
+            continue
+        if (r.get("district") or {}).get("sd"):
+            continue
+        summary = r.get("summary") or ""
+        m = re.search(r"\b(sd\d+)\b", summary)
+        in_summary = m.group(1) if m else None
+        named = (r.get("district") or {}).get("name") or summary.split(":")[0]
+        by_nm = by_district_name(named)
+        if in_summary and by_nm:
+            agree = in_summary == by_nm
+            evidence, conf = ("summary and name agree" if agree
+                              else "summary and name DISAGREE"), (1.0 if agree else 0.0)
+            suggest = in_summary if agree else None
+        elif in_summary:
+            evidence, conf, suggest = "code written in the summary", 0.9, in_summary
+        elif by_nm:
+            evidence, conf, suggest = "district name matches the master", 0.8, by_nm
+        else:
+            evidence, conf, suggest = "no evidence \u2014 needs a human", 0.0, None
+        out.append({
+            "key": r["key"], "type": r["class"], "status": r["status"],
+            "assignee": r.get("assignee"), "district": named,
+            "suggested_sd": suggest, "evidence": evidence, "confidence": conf,
+            "url": r.get("url"),
+        })
+    return sorted(out, key=lambda x: (-x["confidence"], x["key"]))
+
 
 
 def main():
@@ -359,9 +442,35 @@ def main():
     # record. Jira onboarding tickets are laid on top where they exist; they cover a
     # subset, so counting districts from Jira alone understates the estimate badly.
     tracker = load_tracker.load()
+    master = load_master.load()
     dj = {}
     for sd, t in tracker["districts"].items():
         dj[sd] = dict(t, items=[], src="tracker")
+
+    # The master is the authority for who a district is; the tracker for where its load
+    # has got to. Districts in the master with no tracker row are real too: they are
+    # registered but not yet ingesting, which is the state the Confluence page calls
+    # "No Active Apps" and which Jira has no way to record.
+    for sd, m in master["districts"].items():
+        cur = dj.get(sd)
+        if cur is None:
+            cur = dj[sd] = {"sd": sd, "status": "", "stage": None, "next_step": "",
+                            "stages": {}, "products": [], "batch": "", "scheduled": False,
+                            "items": [], "src": "master-only"}
+        cur["name"] = m["name"] or cur.get("name") or sd
+        cur["isd"] = m["isd"] or cur.get("isd") or ""
+        cur["sis"] = m["sis"] or cur.get("sis") or ""
+        cur["eem"] = m["eem"] or cur.get("eem")
+        cur["students"] = m["students"]
+        cur["agreement_note"] = m["agreement_note"]
+        cur["ods_blocked"] = m["ods_blocked"]
+        cur["app_ready"] = m["app_ready"]
+        cur["historical_needed"] = m["historical_needed"]
+        cur["validation"] = m["validation"]
+        # app registration by school year, which the tracker records only as a flag
+        cur["app_sy"] = m["apps"]
+        if not cur["products"]:
+            cur["products"] = sorted(m["apps"])
 
     # Jira often carries the district name but no SD code, so fall back to matching on
     # a normalised name. The map's own pain point 9 is that this tracking matches
@@ -383,6 +492,16 @@ def main():
             if n.endswith(suf) and n[:-len(suf)] in by_name:
                 return by_name[n[:-len(suf)]]
         return None
+
+    # A district whose Bronze or Descriptor load is newer than its Gold load has been
+    # re-ingested and is waiting on Pipeline B. That is the normal mid-cycle state, not
+    # lost ground, and without it a drop in "students covered" reads as data loss.
+    for d in dj.values():
+        st = d.get("stages") or {}
+        upstream = max([v for k, v in st.items()
+                        if k in ("bronze-load", "descriptor-load", "silver-load")] or [""])
+        gold = st.get("goldplat-load", "")
+        d["awaiting_gold"] = bool(upstream and (not gold or upstream > gold))
 
     jira_only = {}
     for r in rows:
@@ -434,8 +553,19 @@ def main():
             "districts_jira_only": len(jira_only),
             "districts_matched_by_name": sum(
                 1 for v in dj.values() if v.get("matched_by") == "name"),
+            "districts_master": len(master["districts"]),
+            "districts_master_only": sum(1 for v in dj.values() if v["src"] == "master-only"),
+            "students_covered": sum(v.get("students") or 0 for v in dj.values()
+                                    if v.get("stage") == "complete"),
+            "students_total": sum(v.get("students") or 0 for v in dj.values()),
+            "districts_awaiting_gold": sum(1 for v in dj.values() if v.get("awaiting_gold")),
+            "students_awaiting_gold": sum(v.get("students") or 0 for v in dj.values()
+                                          if v.get("awaiting_gold")),
         },
+        "personas": PERSONAS,
+        "sd_backfill": sd_backfill(rows, master),
         "tracker": {k: tracker[k] for k in ("source", "spreadsheet", "tab", "fetched")},
+        "master": {k: master[k] for k in ("source", "spreadsheet", "tab", "fetched")},
         # the companion documents a reader jumps to from here
         "companions": {
             "lineage": "https://claude.ai/artifact/PubbBRF6Z77y7VsFYHDTkF",
@@ -454,10 +584,19 @@ def main():
     for k in ("with_stage", "with_table", "with_layer", "with_domain",
               "with_workstream", "with_district", "with_product"):
         print("  %-16s %4d  %5.1f%%" % (k, c[k], 100 * c[k] / c["issues"]))
-    print("districts         %d  (tracker %d, with a Jira ticket %d of which %d matched "
+    print("students          %s of %s in a district through Gold; %s awaiting Gold "
+          "promotion (%d districts)"
+          % (format(c["students_covered"], ","), format(c["students_total"], ","),
+             format(c["students_awaiting_gold"], ","), c["districts_awaiting_gold"]))
+    _bf = bundle["sd_backfill"]
+    print("sd backfill       %d tickets, %d with a confident suggestion, %d need a human"
+          % (len(_bf), sum(1 for x in _bf if x["confidence"] >= 0.8),
+             sum(1 for x in _bf if not x["suggested_sd"])))
+    print("districts         %d  (master %d, tracker %d, with a Jira ticket %d of which %d matched "
           "only by name, in Jira but not the tracker %d)"
-          % (c["districts"], c["districts_tracker"], c["districts_with_jira_ticket"],
-             c["districts_matched_by_name"], c["districts_jira_only"]))
+          % (c["districts"], c["districts_master"], c["districts_tracker"],
+             c["districts_with_jira_ticket"], c["districts_matched_by_name"],
+             c["districts_jira_only"]))
     print("audiences        ", dict(Counter(a for r in rows for a in r["audiences"])))
     print("ttl               %.0f KB" % ((OUT / "migdl-work-instances.ttl").stat().st_size / 1024))
     print("json              %.0f KB" % ((OUT / "work.json").stat().st_size / 1024))

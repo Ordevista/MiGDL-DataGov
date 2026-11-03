@@ -25,7 +25,7 @@
     validation: "Validation", "ready-for-stage": "Ready for stage", complete: "Live",
     blocked: "Blocked" };
 
-  var state = { aud: "map", station: null };
+  var state = { aud: "map", station: null, persona: "district" };
 
   /* ---- helpers ---- */
   function esc(s) {
@@ -35,6 +35,47 @@
   }
   function el(h) { var d = document.createElement("div"); d.innerHTML = h; return d; }
   function jira(k) { return '<a class="mono" href="' + C.jira + k + '" target="_blank" rel="noopener">' + k + "</a>"; }
+
+  /* ---- JQL links for groups of tickets ----
+     Every group link is built from the keys the page actually rendered, as
+     `key in (...)`, so the query can never drift from what is on screen the way a
+     re-derived field filter would. A set too large for a URL gets no link rather
+     than an approximate one. */
+  var JIRA_BASE = (C.jira || "").replace(/\/browse\/?$/, "");
+  var JQL_MAX_KEYS = 280;        // ~3.6k of URL; well inside browser limits
+
+  function jqlUrl(jql) {
+    return JIRA_BASE + "/issues/?jql=" + encodeURIComponent(jql);
+  }
+
+  /* A link over an explicit key list. Returns the label unlinked when there is
+     nothing to show or the set is too big to express exactly. */
+  function keysLink(keys, label, title) {
+    keys = (keys || []).filter(Boolean);
+    var uniq = keys.filter(function (k, i) { return keys.indexOf(k) === i; });
+    if (!uniq.length || uniq.length > JQL_MAX_KEYS) return esc(label);
+    var jql = "key in (" + uniq.join(", ") + ") ORDER BY key ASC";
+    return '<a href="' + esc(jqlUrl(jql)) + '" target="_blank" rel="noopener" title="' +
+      esc(title || ("Open these " + uniq.length + " tickets in Jira")) + '">' +
+      esc(label) + "</a>";
+  }
+
+  /* A link over a JQL expression, for sets a key list cannot express. */
+  function jqlLink(jql, label, title) {
+    return '<a href="' + esc(jqlUrl(jql)) + '" target="_blank" rel="noopener" title="' +
+      esc(title || jql) + '">' + esc(label) + "</a>";
+  }
+
+  /* Link a number quoted in prose to the live query behind it. */
+  function proseN(id, n) {
+    var P = (window.GAPS || {}).prose_jql || {};
+    return P[id] ? jqlLink(P[id][0], String(n),
+      "Live Jira query for " + P[id][1] + " \u2014 adapts as issues change") : String(n);
+  }
+
+  function keysOf(items) {
+    return (items || []).map(function (i) { return i.k || i.key || i; });
+  }
   function catPill(c) {
     var m = { "To Do": "", "In Progress": "acc", Done: "ok" };
     return '<span class="pill ' + (m[c] || "") + '">' + esc(c) + "</span>";
@@ -115,7 +156,7 @@
     return '<div class="card">' + pairs.slice(0, limit || 99).map(function (p) {
       return '<div class="bar-row"><span class="lbl">' + esc(p[0]) + "</span>" +
         '<span><i class="hbar" style="width:' + Math.max(2, (p[1] / max) * 100) + '%"></i></span>' +
-        '<span class="num">' + p[1] + "</span></div>";
+        '<span class="num">' + (p[2] ? keysLink(p[2], String(p[1]), "Open these tickets in Jira") : p[1]) + "</span></div>";
     }).join("") + "</div>";
   }
 
@@ -164,6 +205,12 @@
   function tile(k, v, n) {
     return '<div class="card kv"><span class="k">' + k + '</span><span class="v">' + v +
       "</span>" + (n ? '<span class="n">' + n + "</span>" : "") + "</div>";
+  }
+
+  /* A tile whose number opens the tickets behind it. */
+  function tileK(k, items, n, title) {
+    var keys = keysOf(items);
+    return tile(k, keysLink(keys, String(keys.length), title), n);
   }
 
 
@@ -261,8 +308,11 @@
           '<span class="pill ' + (/Not yet/.test(f.chip) ? "crit" : /Complete|Partly/.test(f.chip) ? "ok" : "acc") +
           '" style="margin-top:5px">' + esc(f.chip) + "</span>" +
           (keys.length
-            ? ' <span class="pill ok">' + done + " / " + keys.length + " done</span>" +
-              (moved ? ' <span class="pill warn">' + moved + " moved</span>" : "") +
+            ? ' <span class="pill ok">' + keysLink(keys, done + " / " + keys.length + " done",
+                  "Open fix " + f.n + " tickets in Jira") + "</span>" +
+              (moved ? ' <span class="pill warn">' + keysLink(keys.filter(function (k) {
+                  return J.recon.some(function (r) { return r.key === k && r.state === "drifted"; });
+                }), moved + " moved", "Open the tickets whose status moved") + "</span>" : "") +
               '<div class="tix">' + keys.map(ticketChip).join("") + "</div>"
             : '<div class="tix"><span class="pill crit">no Jira ticket</span></div>') +
           (f.owners && f.owners.length
@@ -327,6 +377,43 @@
           "<div style='font-size:11px;color:var(--muted);margin-top:4px'>" +
           esc(fixWhole.epic || "") + "</div></div>" : "") +
         "</div></section>" : "") +
+
+      (J.road ? '<section class="sect"><h2>The road to nightly</h2>' +
+        '<p class="hint">Five stages, new in map ' + esc(J.map.version) + '. Each stage\u2019s ' +
+        'state is not read off the drawing \u2014 it is derived from the Jira tickets of the ' +
+        'fixes the stage depends on, so it stays true as the board moves. Order of operations ' +
+        'as of ' + esc(J.road_asof) + ': ' + esc(J.road_sequence) + '</p>' +
+        '<div class="card tscroll"><table><thead><tr><th>Stage</th><th>What changes</th>' +
+        '<th>Needs</th><th class="r">Tickets</th><th>Jira says</th><th>For a teacher</th>' +
+        '</tr></thead><tbody>' + J.road.map(function (r) {
+          var cls = r.state === "done" ? "ok" : r.state === "moving" ? "acc"
+            : r.state === "current" ? "" : "crit";
+          return "<tr><td class='ttl'><b>Stage " + r.n + ". " + esc(r.name) + "</b>" +
+            (r.scope ? "<div class='gapsub'>" + esc(r.scope) + "</div>" : "") +
+            (r.eta ? "<div class='gapsub'>" + esc(r.eta) + "</div>" : "") + "</td>" +
+            "<td class='ttl'>" + esc(r.body) + "</td>" +
+            "<td>" + (r.fixes.length ? r.fixes.map(function (f) {
+              return "<span class='pill acc'>fix " + f + "</span>"; }).join(" ")
+              : "<span class='gapsub'>none yet</span>") + "</td>" +
+            "<td class='r num'>" + (r.tickets ? keysLink(r.keys, r.done + " / " + r.tickets, "Open stage " + r.n + " tickets in Jira") : "\u2014") + "</td>" +
+            "<td><span class='pill " + cls + "'>" + esc(r.chip || r.state) + "</span></td>" +
+            "<td class='ttl'>" + esc(r.teacher) + "</td></tr>";
+        }).join("") + "</tbody></table></div>" +
+        (function () {
+          var stalled = J.road.filter(function (r) {
+            return r.state === "not started" && r.tickets; });
+          var moving = J.road.filter(function (r) { return r.state === "moving"; });
+          if (!stalled.length) return "";
+          return '<div class="gap" style="margin-top:12px;border-left-color:var(--crit);' +
+            'background:var(--crit-soft)"><b>Out of order.</b> ' +
+            stalled.map(function (r) {
+              return "Stage " + r.n + " has " + r.tickets +
+                " tickets and not one has started"; }).join("; ") +
+            (moving.length ? ", while stage" + (moving.length > 1 ? "s " : " ") +
+              moving.map(function (r) { return r.n; }).join(" and ") +
+              " " + (moving.length > 1 ? "are" : "is") + " already moving" : "") +
+            ". The stated order runs the other way.</div>";
+        })() + "</section>" : "") +
 
       (J.target_state ? '<section class="sect"><h2>Target state</h2>' +
         '<p class="hint">' + esc(J.target_state.head) + '. ' + esc(J.target_state.note) +
@@ -446,7 +533,7 @@
           "<td>" + (g.fixes.length
             ? g.fixes.map(function (n) { return "fix " + n; }).join(", ")
             : "<span class='pill crit'>nothing in Jira</span>") + "</td>" +
-          "<td class='r num'>" + (st.tracked ? st.done + " / " + st.total : "—") + "</td>" +
+          "<td class='r num'>" + (st.tracked ? keysLink(st.tickets.map(function (t) { return t.k; }), st.done + " / " + st.total, "Open this gate's tickets in Jira") : "\u2014") + "</td>" +
           "<td>" + (items.length ? statusBar(items)
             : "<span class='pill crit'>untracked</span>") + "</td>" +
           '<td><div class="tix">' + st.tickets.map(function (t) {
@@ -496,8 +583,12 @@
     /* layers */
     var lay = {};
     P.forEach(function (i) { i.ly.forEach(function (l) { lay[l] = (lay[l] || 0) + 1; }); });
+    var layKeys = {};
+    P.forEach(function (i) {
+      i.ly.forEach(function (l) { (layKeys[l] = layKeys[l] || []).push(i.k); });
+    });
     var layPairs = Object.keys(lay).sort(function (a, b) { return lay[b] - lay[a]; })
-      .map(function (l) { return [LAYLABEL[l] || l, lay[l]]; });
+      .map(function (l) { return [LAYLABEL[l] || l, lay[l], layKeys[l]]; });
 
     /* blocking */
     var blocking = ITEMS.filter(function (i) { return i.bl && i.bl.length; })
@@ -519,7 +610,7 @@
       tile("Broken reference", miss, "MIGDL-230 — no such issue") +
       "</div>" + reconTable("drifted") + "</section>" +
 
-      '<section class="sect"><h2>Blast radius</h2>' +
+      '<section class="sect"><h2>Blast radius "+ keysLink(blast.map(function (b) { return b.i.k; }), "\u2197", "Open these tickets in Jira") +"</h2>' +
       '<p class="hint">Work items whose summary names a real table, with the number of tables ' +
       'downstream of it in the lineage graph. A defect in a table with 40 descendants is not the ' +
       'same size of problem as one with none, and Jira cannot tell you which it is.</p>' +
@@ -540,7 +631,9 @@
       '<a href="' + C.lineage + '" target="_blank" rel="noopener">Pipeline Lineage</a> viewer or the ' +
       '<a href="' + C.atlas + '" target="_blank" rel="noopener">Atlas</a>.</p></section>' +
 
-      '<section class="sect"><h2>Open work blocking other work</h2>' +
+      '<section class="sect"><h2>Open work blocking other work ' +
+      keysLink(blocking.map(function (x) { return x.i.k; }), "\u2197",
+        "Open the blocking tickets in Jira") + '</h2>' +
       '<p class="hint">' + blocking.length + ' items block at least one unfinished item. ' +
       'The map notes its own ordering: ' + esc(J.map.sequence) + '.</p>' +
       '<div class="card tscroll"><table><thead><tr><th>Blocker</th><th>Status</th>' +
@@ -603,9 +696,9 @@
       });
     });
     var byA = {};
-    P.forEach(function (i) { var a = i.a || "— unassigned"; (byA[a] = byA[a] || []).push(i); });
+    P.forEach(function (i) { var a = i.a || UNASSIGNED; (byA[a] = byA[a] || []).push(i); });
     var aPairs = Object.keys(byA).sort(function (a, b) { return byA[b].length - byA[a].length; })
-      .map(function (a) { return [a, byA[a].length]; });
+      .map(function (a) { return [a, byA[a].length, keysOf(byA[a])]; });
 
     /* fix queue: the cited tickets, live */
     var fixRows = J.fixes.map(function (f) {
@@ -617,18 +710,19 @@
 
     return filterNote() +
       '<div class="gap"><b>Jira holds no sprint data for this project.</b> The Sprint field is ' +
-      'empty on all ' + W.coverage.issues + ' items, and the [MiGDL-OPS] sprint fields are set on ' +
+      'empty on all ' + proseN("nosprint", W.coverage.issues) +
+      ' items, and the [MiGDL-OPS] sprint fields are set on ' +
       'fewer than five. Story points are set on ' +
-      ITEMS.filter(function (i) { return i.sp; }).length + '. So this view cannot show velocity or ' +
+      proseN("estimated", ITEMS.filter(function (i) { return i.sp; }).length) + '. So this view cannot show velocity or ' +
       'commitment — it shows what is plannable right now: ready against blocked, and who is ' +
       'already carrying work. Populate Sprint and the same ontology gives you burndown with no ' +
       'change here.</div>' +
 
       '<section class="sect"><div class="grid g3">' +
-      tile("Plannable", P.length, "not done, deliverable grain") +
-      tile("Ready", ready.length, "nothing unfinished blocks it") +
-      tile("Blocked", blocked.length, "waiting on another item") +
-      tile("Unassigned", (byA["— unassigned"] || []).length, "no assignee") +
+      tileK("Plannable", P, "not done, deliverable grain") +
+      tileK("Ready", ready, "nothing unfinished blocks it") +
+      tileK("Blocked", blocked, "waiting on another item") +
+      tileK("Unassigned", byA[UNASSIGNED] || [], "no assignee") +
       "</div></section>" +
 
       '<section class="sect"><h2>The nine fixes, as Jira holds them now</h2>' +
@@ -656,7 +750,10 @@
         var b = items.filter(function (i) { return blocked.indexOf(i) >= 0; }).length;
         return '<div class="bar-row"><span class="lbl">' + esc(w) + "</span>" +
           "<span>" + statusBar(items) + "</span>" +
-          '<span class="num">' + items.length + (b ? " <span class='pill warn'>" + b + " blocked</span>" : "") +
+          '<span class="num">' + keysLink(keysOf(items), String(items.length), "Open this workstream's plannable tickets") +
+          (b ? " <span class='pill warn'>" + keysLink(keysOf(items.filter(function (i) {
+              return blocked.indexOf(i) >= 0; })), b + " blocked",
+              "Open the blocked tickets here") + "</span>" : "") +
           "</span></div>";
       }).join("") + "</div>" + SBAR_LEGEND + "</section>" +
 
@@ -668,8 +765,64 @@
   }
 
 
+  /* ---- sprints: what to enable, and over which work ---- */
+  function sprintBlock() {
+    var G = window.GAPS;
+    var WK = G.work_kinds || [], C = G.work_counts || {};
+    if (!WK.length) return "";
+    return '<section class="sect"><h2>Should sprints be enabled, and over what?</h2>' +
+      '<p class="hint">Raised in review: the Initial and Catch-Up Kanban boards work, and ' +
+      'a blanket “create a Scrum board” would impose sprints on work that is ' +
+      'correctly flow-shaped. The data settles it — the two kinds of work share ' +
+      '<b>no statuses at all</b>, so a board filter separates them exactly and nothing ' +
+      'lands on both boards.</p>' +
+      '<div class="grid g2">' + WK.map(function (w) {
+        var n = C[w.count_key];
+        var keep = /Leave alone/.test(w.verdict);
+        return '<div class="card kv" style="border-top:3px solid var(--' +
+          (keep ? "ok" : "accent") + ')">' +
+          '<span class="k">' + esc(w.kind) + "</span>" +
+          '<span class="v">' + (n == null ? "" :
+            proseN(w.count_key === "onboarding" ? "onboarding" : "delivery", n)) +
+          ' <span class="gapsub" style="font-weight:400">issues</span></span>' +
+          "<div style='font-size:12.5px;color:var(--fg-2);margin-top:4px'><b>Shape.</b> " +
+          esc(w.shape) + "</div>" +
+          "<div style='font-size:12.5px;color:var(--fg-2);margin-top:4px'><b>Board.</b> " +
+          esc(w.board) + "</div>" +
+          "<div style='font-size:12.5px;color:var(--fg-2);margin-top:4px'><b>Cadence.</b> " +
+          esc(w.cadence) + "</div>" +
+          "<div style='margin-top:7px'><span class='pill " + (keep ? "ok" : "acc") + "'>" +
+          esc(w.verdict) + "</span></div></div>";
+      }).join("") + "</div>" +
+
+      '<div class="grid g2" style="margin-top:14px">' +
+      '<div class="card"><div class="nj" style="border-bottom:1px solid var(--line)">' +
+      "<span class='pill ok'>Reward</span><span class='w'>What enabling sprints buys</span>" +
+      "</div>" + (G.sprint_reward || []).map(function (x) {
+        return "<div class='nj'><span class='pill ok'>+</span><span>" + esc(x) + "</span></div>";
+      }).join("") + "</div>" +
+      '<div class="card"><div class="nj" style="border-bottom:1px solid var(--line)">' +
+      "<span class='pill warn'>Precondition</span><span class='w'>Do these first, or the " +
+      "numbers will mislead</span></div>" + (G.sprint_precondition || []).map(function (x) {
+        return "<div class='nj'><span class='pill warn'>!</span><span>" + esc(x) + "</span></div>";
+      }).join("") + "</div></div>" +
+
+      "<h3 style='font-size:13.5px;margin:16px 0 6px'>Risks, and what each needs</h3>" +
+      '<div class="card">' + (G.sprint_risk || []).map(function (r) {
+        return "<div class='nj'><span class='pill crit'>risk</span><span>" +
+          "<span class='w'>" + esc(r.risk) + "</span>" +
+          "<div style='color:var(--fg-2);margin-top:2px;font-size:12.5px'>" + esc(r.why) + "</div>" +
+          "<div style='color:var(--muted);margin-top:3px;font-size:12.5px'><b>Mitigation.</b> " +
+          esc(r.fix) + "</div></span></div>";
+      }).join("") + "</div>" +
+      '<div class="gap" style="margin-top:12px;border-left-color:var(--ok);' +
+      'background:var(--ok-soft)"><b>Recommendation.</b> ' +
+      esc(G.sprint_recommendation || "") + "</div></section>";
+  }
+
   /* ---- the Jira gap register, rendered in Sprint planning ---- */
   var PRIOLBL = { 1: "Do first", 2: "Next", 3: "Later" };
+  var UNASSIGNED = "\u2014 unassigned";
 
   function gapSection() {
     var G = window.GAPS, kinds = G.kinds;
@@ -684,11 +837,16 @@
         "<div><span class='pill " + (g.priority === 1 ? "crit" : g.priority === 2 ? "warn" : "") +
         "'>" + PRIOLBL[g.priority] + "</span>" +
         (g.closed ? " <span class='pill ok'>done</span>" : "") + "</div>" +
-        '<div><span class="t">' + esc(g.title) + "</span>" +
+        '<div><span class="t">' + esc(g.title) +
+        "</span>" +
         (g.unlocks ? '<div class="u"><b>Unlocks.</b> ' + esc(g.unlocks) + "</div>" : "") +
         '<div class="h"><b>Do.</b> ' + esc(g.how) + "</div></div>" +
         "<div>" + (g.pct == null ? "<span class='gapsub'>no measure — judgement call</span>"
-          : '<span class="gapnum">' + g.have + " / " + g.need + " " + pctTxt + "</span>" +
+          : '<span class="gapnum">' +
+            (g.jql_have ? jqlLink(g.jql_have, String(g.have),
+                "Live Jira query \u2014 adapts as issues change") : g.have) + " / " +
+            (g.jql_total ? jqlLink(g.jql_total, String(g.need),
+                "Live Jira query for the whole set") : g.need) + " " + pctTxt + "</span>" +
             '<div class="meter"><i class="' + cls + '" style="width:' +
             Math.max(g.pct, 1) + '%"></i></div>' +
             '<div class="gapsub">' + esc(g.unit) + "</div>") +
@@ -749,29 +907,39 @@
       var lv = (g.assist || {}).level;
       if (lv && lv !== "no") (byAssist[lv] = byAssist[lv] || []).push(g);
     });
-    var assistOrder = ["yes", "partly", "after-decision", "admin"];
+    var assistOrder = ["done", "yes", "partly", "after-decision", "admin"];
     var assistBlock = '<section class="sect"><h2>What I could move for you</h2>' +
       '<p class="hint">The Atlassian connector now has write access, so some of the register ' +
-      'above is work I could do with your access rather than hand you. Nothing below has been ' +
-      'done. Ten of the rows need a Jira administrator to create a field, add an option or ' +
+      'above is work I could do with your access rather than hand you. Anything marked done ' +
+      'has been applied to Jira; nothing else below has. Ten of the rows need a Jira ' +
+      'administrator to create a field, add an option or ' +
       'change a workflow before anything can be populated — that part is not something ' +
       'these tools can reach.</p>' +
       assistOrder.map(function (lv) {
         var rows = byAssist[lv] || [];
         if (!rows.length) return "";
-        var cls = lv === "yes" ? "ok" : lv === "admin" ? "warn" : "acc";
+        var cls = (lv === "yes" || lv === "done") ? "ok" : lv === "admin" ? "warn" : "acc";
         return "<h3 style='font-size:13.5px;margin:16px 0 6px'><span class='pill " + cls +
           "'>" + esc(AL[lv] || lv) + "</span> <span class='gapsub' style='font-weight:400'>" +
           rows.length + "</span></h3><div class='card'>" + rows.map(function (g) {
+            var t = (g.assist || {}).target;
+            var look = !t ? "<span class='gapsub'>nothing to look at yet \u2014 this one " +
+                "creates issues rather than changing them</span>"
+              : t.kind === "jql"
+                ? jqlLink(t.jql, "Show me " + t.label,
+                    "Live Jira query \u2014 the set this would act on")
+                : keysLink(t.keys, "Show me " + t.label + " (" + t.count + ")",
+                    "The " + t.count + " tickets this would act on");
             return "<div class='nj'><span class='w' style='min-width:0'>" + esc(g.title) +
               "</span><span><div style='color:var(--fg-2);font-size:12.5px'>" +
               esc((g.assist || {}).how || "") + "</div>" +
+              "<div style='margin-top:4px;font-size:12.5px'>" + look + "</div>" +
               ((g.assist || {}).tool ? "<div class='gapsub mono' style='margin-top:3px'>" +
                 esc(g.assist.tool) + "</div>" : "") + "</span></div>";
           }).join("") + "</div>";
       }).join("") + "</section>";
 
-    return platBlock + assistBlock + srcBlock +
+    return sprintBlock() + platBlock + assistBlock + srcBlock +
       '<section class="sect"><h2>To run this from Jira alone</h2>' +
       '<p class="hint">This page is built from three sources: Jira, the ingestion tracker ' +
       'spreadsheet, and two hand transcriptions of the Lucid map and the Game Plan. Below is ' +
@@ -825,7 +993,7 @@
       tile("Districts loaded", live + " / " + nd, "per the ingestion tracker") +
       tile("Pain points open", painRows.filter(function (r) { return r.done < r.keys.length || !r.keys.length; }).length + " / " + painRows.length, "from the Data Journey") +
       tile("Map gone stale", drift + " / " + J.recon.length, "cited tickets that moved") +
-      tile("Highest priority open", risk.length, "not done") +
+      tileK("Highest priority open", risk, "not done") +
       tile("Worst-case data age", Math.max.apply(null, J.pipelines.map(function (p) {
         return p.age_all; })) + " days", "set by the binding pipeline") +
       "</div></section>" +
@@ -845,7 +1013,7 @@
           "</td><td>" + (stn ? esc(stn.n + ". " + stn.name.replace(/^MiGDL /, "")) :
             "<span class='pill warn'>whole route</span>") + "</td>" +
           "<td class='mono'>" + esc(r.p.gap || "—") + "</td>" +
-          "<td class='r num'>" + (r.keys.length ? r.done + " / " + r.keys.length : "—") + "</td>" +
+          "<td class='r num'>" + (r.keys.length ? keysLink(r.keys, r.done + " / " + r.keys.length, "Open the tickets behind this fix") : "\u2014") + "</td>" +
           "<td>" + (r.live.length ? statusBar(r.live) :
             "<span class='pill crit'>no ticket</span>") + "</td></tr>";
       }).join("") + "</tbody></table></div>" + SBAR_LEGEND + "</section>" +
@@ -869,7 +1037,10 @@
         var done = e.ch.filter(function (c) { return c.sc === "Done"; }).length;
         return "<tr><td class='ttl'>" + jira(e.t.k) + " " +
           esc(e.t.s.replace(/^MiGDL-[A-Za-z0-9-]+: /, "")) + "</td>" +
-          "<td class='r num'>" + e.ch.length + "</td><td class='r num'>" + done + "</td>" +
+          "<td class='r num'>" + keysLink(keysOf(e.ch), String(e.ch.length),
+              "Open this epic's children in Jira") + "</td>" +
+          "<td class='r num'>" + keysLink(keysOf(e.ch.filter(function (c) {
+              return c.sc === "Done"; })), String(done), "Open the completed children") + "</td>" +
           "<td>" + statusBar(e.ch) + " <span class='num' style='font-size:12px;color:var(--muted)'>" +
           pct(done, e.ch.length) + "%</span></td></tr>";
       }).join("") + "</tbody></table></div>" + SBAR_LEGEND + "</section>" +
@@ -884,76 +1055,304 @@
   }
 
   /* ---- view: K-12 stakeholder ---- */
+
+  /* ---- CSV export, via the downloads capability ---- */
+  // Resolved once, after first paint; null means this view cannot save, so the
+  // button stays hidden rather than failing when pressed.
+  var downloadsNS = null;
+  if (window.claude && window.claude.use) {
+    window.claude.use("downloads").then(function (d) {
+      downloadsNS = d;
+      document.querySelectorAll("[data-export]").forEach(function (b) { b.hidden = !d; });
+    }, function () { downloadsNS = null; });
+  }
+
+  function csv(rows) {
+    return rows.map(function (r) {
+      return r.map(function (c) {
+        c = c == null ? "" : String(c);
+        return /[",\n]/.test(c) ? '"' + c.replace(/"/g, '""') + '"' : c;
+      }).join(",");
+    }).join("\r\n");
+  }
+
+  function exportCsv(btn, filename, rows) {
+    if (!downloadsNS) return;
+    var note = btn.nextElementSibling;
+    function say(t) { if (note) note.textContent = t; }
+    btn.disabled = true; say("Waiting for you to confirm\u2026");
+    downloadsNS.save({ filename: filename, data: csv(rows) }).then(function (r) {
+      say(r.status === "saved" ? "Saved." : "Sent.");
+    }).catch(function (e) {
+      var c = (e && e.code) || "unavailable";
+      say(c === "declined" ? "Not saved."
+        : c === "rate_limited" ? "A prompt is already open \u2014 try again in a moment."
+        : c === "extension_not_enabled" || c === "rejected_extension"
+          ? "CSV downloads are not available in this view."
+        : "Could not save (" + c + ").");
+    }).then(function () { btn.disabled = false; });
+  }
+
+  /* ---- view: K-12 stakeholder, segmented by persona ---- */
+  var APPNAME = { miread: "MiRead", miewims: "MiEWIMS", misafestudent: "MiSAFEStudent",
+    "community-schools-manager": "Community Schools Manager",
+    mistrategybank: "MiStrategyBank" };
+  var SHOWN_STEPS = ["bronze-load", "descriptor-load", "silver-load", "goldplat-load"];
+
+  function personaBar() {
+    var P = W.personas || [];
+    return '<div class="audwrap" style="border:1px solid var(--line);border-radius:4px;' +
+      'margin-bottom:14px"><div style="display:flex;gap:4px;flex-wrap:wrap;padding:0 8px">' +
+      P.map(function (p) {
+        return '<button class="tab" type="button" data-p="' + p.id + '" aria-selected="' +
+          (state.persona === p.id) + '">' + esc(p.label) +
+          "<small>" + esc(p.grain) + " grain</small></button>";
+      }).join("") + "</div></div>";
+  }
+
+  function num(n) { return n == null ? "—" : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
+
+  /* A fresh Bronze/Descriptor sweep leaves districts with older Gold data. Without
+     saying so, "students covered" falling reads as data loss rather than a queue. */
+  function awaitingGoldNote() {
+    var c = W.coverage || {};
+    if (!c.districts_awaiting_gold) return "";
+    return '<div class="gap" style="border-left-color:var(--warn);background:var(--warn-soft)">' +
+      "<b>" + c.districts_awaiting_gold + " districts are waiting on Gold.</b> Their raw copy " +
+      "and codes have been refreshed more recently than their statewide model, so the apps " +
+      "are serving older data for them while the night shift catches up. That is " +
+      num(c.students_awaiting_gold) + " students whose data is in the lake but not yet " +
+      "through to the apps. It is a queue, not a loss — and it is the Pipeline B " +
+      "bottleneck the Data Journey describes, showing up in the numbers.</div>";
+  }
+
   function vStake() {
-    var ds = Object.keys(DIST).map(function (k) { return DIST[k]; })
+    var all = Object.keys(DIST).map(function (k) { return DIST[k]; });
+    var ds = all.filter(function (d) { return d.src !== "jira-only"; })
       .sort(function (a, b) { return (a.name || "").localeCompare(b.name || ""); });
-    var TK = W.tracker || {};
-    var fromTracker = ds.filter(function (d) { return d.src === "tracker"; });
-    var live = fromTracker.filter(function (d) { return d.stage === "complete"; }).length;
-    var jiraOnly = ds.filter(function (d) { return d.src === "jira-only"; });
-    var byName = ds.filter(function (d) { return d.matched_by === "name"; }).length;
-    var withTicket = ds.filter(function (d) { return d.items && d.items.length; }).length;
-    var SHOWN = ["bronze-load", "descriptor-load", "silver-load", "goldplat-load"];
-    var APPNAME = { miread: "MiRead", miewims: "MiEWIMS", misafestudent: "MiSAFEStudent",
-      "community-schools-manager": "Community Schools Manager",
-      mistrategybank: "MiStrategyBank" };
-    var prodCount = {};
-    ds.forEach(function (d) {
-      (d.products || []).forEach(function (p) { prodCount[p] = (prodCount[p] || 0) + 1; });
-    });
+    var TK = W.tracker || {}, MS = W.master || {};
+    var P = (W.personas || []).filter(function (p) { return p.id === state.persona; })[0]
+      || (W.personas || [])[0] || {};
+    var loaded = ds.filter(function (d) { return d.stage === "complete"; });
+    var studentsIn = loaded.reduce(function (a, d) { return a + (d.students || 0); }, 0);
+    var studentsAll = ds.reduce(function (a, d) { return a + (d.students || 0); }, 0);
     var worst = Math.max.apply(null, J.pipelines.map(function (p) { return p.age_all; }));
-    var sched = fromTracker.filter(function (d) { return d.scheduled; }).length;
 
-    return '<section class="sect"><div class="grid g3">' +
-      tile("Districts loaded", live, "of " + fromTracker.length + " in the tracker") +
+    var head = '<section class="sect"><h2>Who is this for?</h2>' +
+      '<p class="hint">Leadership asked this view to speak to three groups rather than to ' +
+      '“stakeholders” in general. Each reads the same district facts at a different ' +
+      'grain and in different words; the facts never change between them.</p>' + personaBar() +
+      '<div class="gap"><b>' + esc(P.label) + ' · ' + esc(P.grain) + ' grain.</b> ' +
+      '“' + esc(P.asks) + '”<br>' + esc(P.note) +
+      ' <i>Kept off this view: ' + esc(P.omits) + '</i></div></section>';
+
+    /* ---------- ISD Superintendent ---------- */
+    if (state.persona === "isd") {
+      var byIsd = {};
+      ds.forEach(function (d) {
+        var k = d.isd || "(no ISD recorded)";
+        var g = byIsd[k] = byIsd[k] || { n: 0, done: 0, students: 0, studentsIn: 0,
+          apps: {}, waiting: [] };
+        g.n++; g.students += d.students || 0;
+        if (d.stage === "complete") { g.done++; g.studentsIn += d.students || 0; }
+        else g.waiting.push(d);
+        (d.products || []).forEach(function (p) { g.apps[p] = (g.apps[p] || 0) + 1; });
+      });
+      var isds = Object.keys(byIsd).sort(function (a, b) {
+        return (byIsd[b].n - byIsd[b].done) - (byIsd[a].n - byIsd[a].done) ||
+               byIsd[b].students - byIsd[a].students;
+      });
+      return head +
+        '<section class="sect"><div class="grid g3">' +
+        tile("Students through Gold", num(studentsIn), "of " + num(studentsAll) + " in registered districts") +
+        tile("Districts loaded", loaded.length + " / " + ds.length, "across " + isds.length + " ISDs") +
+        tile("Worst-case data age", worst + " days", "what a teacher may be looking at") +
+        tile("ISDs fully loaded", isds.filter(function (k) {
+          return byIsd[k].done === byIsd[k].n; }).length + " / " + isds.length, "every district in") +
+        "</div></section>" + awaitingGoldNote() + freshBlock(true) +
+        '<section class="sect"><h2>By ISD</h2>' +
+        '<p class="hint">Ordered by how many districts are still waiting, then by students. ' +
+        'A region is only as current as its slowest district.</p>' +
+        '<div class="card tscroll"><table><thead><tr><th>ISD</th>' +
+        '<th class="r">Districts in</th><th class="r">Students in</th><th>Progress</th>' +
+        '<th>Applications in use</th><th>Still waiting</th></tr></thead><tbody>' +
+        isds.map(function (k) {
+          var g = byIsd[k];
+          var pc = g.n ? Math.round((g.done / g.n) * 100) : 0;
+          return "<tr><td class='ttl'><b>" + esc(k) + "</b></td>" +
+            "<td class='r num'>" + g.done + " / " + g.n + "</td>" +
+            "<td class='r num'>" + num(g.studentsIn) + "</td>" +
+            '<td><span class="sbar" style="min-width:90px"><i class="done" style="width:' +
+            pc + '%"></i><i class="todo" style="width:' + (100 - pc) + '%"></i></span> ' +
+            "<span class='num' style='font-size:12px;color:var(--muted)'>" + pc + "%</span></td>" +
+            "<td>" + Object.keys(g.apps).sort().map(function (a) {
+              return "<span class='pill'>" + esc(APPNAME[a] || a) + " " + g.apps[a] + "</span>";
+            }).join(" ") + "</td>" +
+            "<td class='ttl'>" + (g.waiting.length
+              ? g.waiting.map(function (d) {
+                  return esc(d.name) + (d.next_step ? " <span class='gapsub'>(" +
+                    esc(d.next_step) + ")</span>" : "");
+                }).join("<br>")
+              : "<span class='pill ok'>all in</span>") + "</td></tr>";
+        }).join("") + "</tbody></table></div></section>" +
+        appsSection(ds) ;
+    }
+
+    /* ---------- Data Integrator ---------- */
+    if (state.persona === "integrator") {
+      var needsStep = ds.filter(function (d) { return d.next_step; });
+      var midway = ds.filter(function (d) { return d.stage && d.stage !== "complete"; });
+      var unscheduled = ds.filter(function (d) { return !d.scheduled && d.src === "tracker"; });
+      var blocked = ds.filter(function (d) { return d.ods_blocked; });
+      var hist = ds.filter(function (d) { return (d.historical_needed || []).length; });
+      var notIngesting = ds.filter(function (d) { return d.src === "master-only"; });
+
+      function queue(title, hint, rows, cols) {
+        if (!rows.length) return "";
+        var qk = rows.reduce(function (a, d) { return a.concat(d.items || []); }, []);
+        return '<section class="sect"><h2>' + title + " <span class='gapsub'>" + rows.length +
+          "</span> " + (qk.length ? keysLink(qk, "\u2197",
+            "Open the Jira tickets for these districts") : "") +
+          "</h2><p class='hint'>" + hint + "</p>" +
+          '<div class="card tscroll"><table><thead><tr><th>District</th><th>Code</th>' +
+          '<th>ISD</th><th>SIS</th>' + cols.map(function (c) { return "<th>" + c[0] + "</th>"; }).join("") +
+          '<th>Jira</th></tr></thead><tbody>' + rows.map(function (d) {
+            return "<tr><td class='ttl'>" + esc(d.name) + "</td>" +
+              "<td class='mono'>" + esc(d.sd || "—") + "</td>" +
+              "<td>" + esc(d.isd || "—") + "</td><td>" + esc(d.sis || "—") + "</td>" +
+              cols.map(function (c) { return "<td>" + c[1](d) + "</td>"; }).join("") +
+              "<td>" + ((d.items || []).map(jira).join(" ") ||
+                "<span class='pill warn'>no ticket</span>") + "</td></tr>";
+          }).join("") + "</tbody></table></div></section>";
+      }
+
+      var bf = W.sd_backfill || [];
+      var bfDead = bf.filter(function (x) { return /cancel/i.test(x.status || ""); });
+      var bfLive = bf.filter(function (x) { return !/cancel/i.test(x.status || ""); });
+
+      var bfSection = !bf.length ? "" :
+        '<section class="sect"><h2>Onboarding tickets with no SD code ' +
+        "<span class='gapsub'>" + bf.length + "</span></h2>" +
+        "<p class='hint'>The SD code is the join key between a Jira ticket and district " +
+        "state. It was backfilled on 3 November 2026: 24 tickets gained a code in " +
+        "[MiGDL] SD Code (Manual) from a confident district match, and a further 9 " +
+        "already carried one there \u2014 this page had been reading only the Auto field, " +
+        "which is automation-owned and empty on every onboarding ticket, so the gap it " +
+        "reported was overstated by 9. The " + bf.length + " below have no code to fill " +
+        "rather than a code waiting to be filled: " + bfDead.length + " are cancelled " +
+        "duplicates, and " + bfLive.length + " are live tickets for districts that carry " +
+        "no SD code anywhere in the Connected Districts master. Those need a person to " +
+        "issue a code, not a match.</p>" +
+        '<button class="expbtn" type="button" data-export="sd" hidden>' +
+        "Export " + bf.length + " tickets as CSV</button> " +
+        keysLink(bf.map(function (x) { return x.key; }),
+          "Open all " + bf.length + " in Jira", "Open every ticket missing an SD code") +
+        '<span class="expnote gapsub"></span>' +
+        '<div class="card tscroll" style="margin-top:10px"><table><thead><tr>' +
+        '<th>Ticket</th><th>Type</th><th>Status</th><th>District on the ticket</th>' +
+        '<th>Suggested code</th><th>Evidence</th><th>Assignee</th>' +
+        "</tr></thead><tbody>" + bf.map(function (x) {
+          return "<tr><td>" + jira(x.key) + "</td>" +
+            "<td>" + esc(x.type === "InitialOnboarding" ? "Initial" : "Catch-up") + "</td>" +
+            "<td>" + catPill(x.status) + "</td>" +
+            "<td class='ttl'>" + esc(x.district) + "</td>" +
+            "<td class='mono'>" + (x.suggested_sd
+              ? "<span class='pill ok'>" + esc(x.suggested_sd) + "</span>"
+              : "<span class='pill crit'>none</span>") + "</td>" +
+            "<td class='gapsub'>" + esc(x.evidence) + "</td>" +
+            "<td>" + esc(x.assignee || "\u2014") + "</td></tr>";
+        }).join("") + "</tbody></table></div></section>";
+
+      return head +
+        '<section class="sect"><div class="grid g3">' +
+        tile("Next action named", needsStep.length, "tracker says what to run") +
+        tile("Mid-pipeline", midway.length, "started, not finished") +
+        tile("Off the nightly schedule", unscheduled.length, "of " + ds.filter(function (d) {
+          return d.src === "tracker"; }).length + " in the tracker") +
+        tileK("Tickets missing an SD code", bf.map(function (x) { return x.key; }),
+          bfDead.length + " cancelled, " + bfLive.length + " have no code to fill") +
+        "</div></section>" + bfSection +
+        queue("Districts with a named next action",
+          "Straight from the tracker's Next Step column. This is the day's queue.",
+          needsStep, [["Next step", function (d) {
+            return "<span class='pill acc'>" + esc(d.next_step) + "</span>"; }],
+            ["Where it is", function (d) {
+              return esc(STAGE_LABEL[d.stage] || d.stage || "—"); }],
+            ["Batch", function (d) { return esc(d.batch || "—"); }]]) +
+        queue("Blocked before ingestion can start",
+          "The master records a blocker in place of an ODS date, so these cannot progress " +
+          "until someone clears them.",
+          blocked, [["Blocker", function (d) {
+            return "<span class='pill crit'>" + esc(d.ods_blocked) + "</span>"; }]]) +
+        queue("Historical loads outstanding",
+          "Years the master flags as still needing a backfill. This is what the " +
+          "[MiGDL] Historical Years Needed field was for.",
+          hist, [["Years needed", function (d) {
+            return (d.historical_needed || []).map(function (y) {
+              return "<span class='pill warn'>" + esc(y) + "</span>"; }).join(" "); }]]) +
+        queue("Registered but not ingesting",
+          "In the district master with no row in the ingestion tracker. Either not started, " +
+          "or loading without being tracked.",
+          notIngesting, [["Apps registered", function (d) {
+            return (d.products || []).map(function (p) {
+              return "<span class='pill'>" + esc(APPNAME[p] || p) + "</span>"; }).join(" ") ||
+              "<span class='gapsub'>none</span>"; }]]) +
+        queue("On no nightly schedule",
+          "In the tracker but with the schedule switched off, so nothing runs for them " +
+          "automatically.",
+          unscheduled, [["Where it is", function (d) {
+            return esc(STAGE_LABEL[d.stage] || d.stage || "—"); }],
+            ["Last entry", function (d) {
+              return "<span class='mono'>" + esc(d.last_entry || "—") + "</span>"; }]]);
+    }
+
+    /* ---------- District Administrator (default) ---------- */
+    return head +
+      '<section class="sect"><div class="grid g3">' +
+      tile("Districts loaded", loaded.length + " / " + ds.length, "per the ingestion tracker") +
       tile("Worst-case data age", worst + " days", "what a teacher may be looking at") +
-      tile("On the nightly schedule", sched, "of " + fromTracker.length) +
-      tile("With an onboarding ticket", withTicket, "Jira covers a subset") +
-      "</div></section>" +
+      tile("Students through Gold", num(studentsIn), "of " + num(studentsAll) + " registered") +
+      tile("Applications live", Object.keys(ds.reduce(function (a, d) {
+        (d.products || []).forEach(function (p) { a[p] = 1; }); return a; }, {})).length,
+        "across all districts") +
+      "</div></section>" + awaitingGoldNote() + freshBlock(true) + appShowsSection() +
+      '<section class="sect"><h2>Find your district</h2>' +
+      '<p class="hint">Every registered district. The dots are the four load steps in order: ' +
+      'raw copy, codes, district cabinet, statewide model. A filled dot means the tracker has ' +
+      'a completion date for that step.</p>' +
+      '<div class="card tscroll"><table><thead><tr><th>District</th><th>Code</th><th>ISD</th>' +
+      '<th class="r">Students</th><th>Progress</th><th>Where it is</th><th>Your apps</th>' +
+      '<th>Last update</th></tr></thead><tbody>' + ds.map(function (d) {
+        var dots = SHOWN_STEPS.map(function (s) {
+          return '<span class="dot' + ((d.stages || {})[s] ? " on" : "") + '" title="' +
+            esc(STAGE_LABEL[s] || s) +
+            ((d.stages || {})[s] ? ": " + d.stages[s] : ": not recorded") + '"></span>';
+        }).join("");
+        var cls = d.stage === "complete" ? "ok" : d.stage ? "acc" : "warn";
+        var where = d.stage ? (STAGE_LABEL[d.stage] || d.stage)
+          : (d.ods_blocked ? esc(d.ods_blocked) : "not yet ingesting");
+        return "<tr><td class='ttl'>" + esc(d.name) + "</td>" +
+          "<td class='mono'>" + esc(d.sd || "—") + "</td>" +
+          "<td>" + esc(d.isd || "—") + "</td>" +
+          "<td class='r num'>" + num(d.students) + "</td>" +
+          '<td><span class="dots">' + dots + "</span></td>" +
+          "<td><span class='pill " + cls + "'>" + where + "</span></td>" +
+          "<td>" + ((d.products || []).map(function (p) {
+            return "<span class='pill'>" + esc(APPNAME[p] || p) + "</span>";
+          }).join(" ") || "<span style='color:var(--muted)'>—</span>") + "</td>" +
+          "<td class='mono'>" + esc(d.last_entry || "—") + "</td></tr>";
+      }).join("") + "</tbody></table></div>" +
+      "<p class='hint' style='margin-top:8px'>District identity from " +
+      '<a href="' + esc(MS.source || "#") + '" target="_blank" rel="noopener">' +
+      esc(MS.spreadsheet || "the district master") + "</a>; load state from " +
+      '<a href="' + esc(TK.source || "#") + '" target="_blank" rel="noopener">' +
+      esc(TK.spreadsheet || "the ingestion tracker") + "</a>, as at " +
+      esc(TK.fetched || "") + ".</p></section>";
+  }
 
-      '<div class="gap"><b>Where these numbers come from.</b> District state is read from ' +
-      'the <i>' + esc(TK.spreadsheet || "ingestion tracker") + '</i> (' + esc(TK.tab || "") +
-      '), fetched ' + esc(TK.fetched || "") + ' — not from Jira. Jira’s onboarding ' +
-      'issue types track onboarding <i>work</i>, which covers ' + withTicket + ' of these ' +
-      'districts, so counting districts from Jira alone understates it. ' +
-      (byName ? byName + ' of those joined to the tracker only by a normalised name, ' +
-        'because the Jira ticket carries no SD code — which is the map’s own pain ' +
-        'point 9 in miniature.' : "") + "</div>" +
-
-      freshBlock(true) +
-
-      (jiraOnly.length ? '<section class="sect"><h2>In Jira, not in the tracker</h2>' +
-        '<p class="hint">' + jiraOnly.length + ' onboarding tickets name a district that has ' +
-        'no row in the ingestion tracker and could not be matched by name either. Each is ' +
-        'either not yet loaded, or loaded but missing from the tracker.</p>' +
-        '<div class="card tscroll"><table><thead><tr><th>District</th><th>Onboarding ticket</th>' +
-        '<th class="r">Stages evidenced in Jira</th></tr></thead><tbody>' +
-        jiraOnly.map(function (d) {
-          return "<tr><td class='ttl'>" + esc(d.name) + "</td><td>" +
-            (d.items || []).map(jira).join(" ") + "</td>" +
-            "<td class='r num'>" + Object.keys(d.stages || {}).length + "</td></tr>";
-        }).join("") + "</tbody></table></div></section>" : "") +
-
-      '<section class="sect"><h2>The apps that receive this data</h2>' +
-      '<p class="hint">Per-district registration, as the tracker records it. Every app has a ' +
-      'flag here — including the three with no [MiGDL] App Registration option in Jira, ' +
-      'so work on them cannot be attributed to the district that asked for it even though ' +
-      'the district is registered.</p>' +
-      '<div class="card tscroll"><table><thead><tr><th>Application</th>' +
-      '<th class="r">Districts registered</th><th>Receives data by</th>' +
-      '<th>Attributable in Jira</th></tr></thead><tbody>' +
-      J.map.apps.map(function (a) {
-        var slug = a.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-        var alt = a.name.toLowerCase().replace(/[^a-z0-9]+/g, "");
-        var n = prodCount[slug] || prodCount[alt] || 0;
-        return "<tr><td class='ttl'>" + esc(a.name) + "</td>" +
-          "<td class='r num'>" + n + "</td><td>" + esc(a.via) + "</td>" +
-          "<td>" + (a.jira ? "<span class='pill ok'>yes</span>"
-                           : "<span class='pill warn'>no registration field</span>") +
-          "</td></tr>";
-      }).join("") + "</tbody></table></div></section>" +
-
-      '<section class="sect"><h2>What the apps show today</h2>' +
+  function appShowsSection() {
+    return '<section class="sect"><h2>What the apps show today</h2>' +
       '<p class="hint">The Data Journey traces four kinds of change from a district’s ' +
       'student information system through to the apps. These are properties of the pipeline, ' +
       'not of any one district.</p><div class="grid g2">' +
@@ -966,44 +1365,30 @@
           (good ? "Working" : "Known problem, fix in progress") + "</span></span></div>";
       }).join("") + "</div>" +
       "<p class='hint' style='margin-top:10px'>Every known problem above has an identified " +
-      "fix. The Leadership view shows which of those fixes are actually moving.</p></section>" +
+      "fix. The Leadership view shows which of those fixes are actually moving.</p></section>";
+  }
 
-      '<section class="sect"><h2>District by district</h2>' +
-      '<p class="hint">Every district in the tracker. The dots are the four load steps in ' +
-      'order: raw copy, codes, district cabinet, statewide model. A filled dot means the ' +
-      'tracker has a completion date for that step.</p>' +
-      '<div class="card tscroll"><table><thead><tr><th>District</th><th>Code</th><th>ISD</th>' +
-      '<th>SIS</th><th>Progress</th><th>Where it is</th><th>Apps</th><th>Batch</th>' +
-      '<th>Last entry</th></tr></thead><tbody>' + ds.map(function (d) {
-        var dots = SHOWN.map(function (s) {
-          return '<span class="dot' + ((d.stages || {})[s] ? " on" : "") + '" title="' +
-            esc(STAGE_LABEL[s] || s) +
-            ((d.stages || {})[s] ? ": " + d.stages[s] : ": not recorded") + '"></span>';
-        }).join("");
-        var cls = d.stage === "complete" ? "ok" : d.stage ? "acc" : "warn";
-        var where = d.stage ? (STAGE_LABEL[d.stage] || d.stage)
-          : (d.src === "jira-only" ? "not in tracker" : "unknown");
-        return "<tr><td class='ttl'>" + esc(d.name) +
-          (d.matched_by === "name" ? " <span class='pill warn' title='Joined to its Jira " +
-            "ticket by name, not SD code'>name match</span>" : "") + "</td>" +
-          "<td class='mono'>" + esc(d.sd || "—") + "</td>" +
-          "<td>" + esc(d.isd || "—") + "</td>" +
-          "<td>" + esc(d.sis || "—") + "</td>" +
-          '<td><span class="dots">' + dots + "</span></td>" +
-          "<td><span class='pill " + cls + "'>" + esc(where) + "</span>" +
-          (d.next_step ? "<div style='color:var(--muted);font-size:11.5px;margin-top:2px'>" +
-            esc(d.next_step) + "</div>" : "") + "</td>" +
-          "<td>" + ((d.products || []).map(function (p) {
-            return "<span class='pill'>" + esc(APPNAME[p] || p) + "</span>";
-          }).join(" ") || "<span style='color:var(--muted)'>—</span>") + "</td>" +
-          "<td class='mono'>" + esc(d.batch || "—") +
-          (d.scheduled ? "" : " <span class='pill warn'>off</span>") + "</td>" +
-          "<td class='mono'>" + esc(d.last_entry || "—") + "</td></tr>";
-      }).join("") + "</tbody></table></div>" +
-      "<p class='hint' style='margin-top:8px'>Source: " +
-      '<a href="' + esc(TK.source || "#") + '" target="_blank" rel="noopener">' +
-      esc(TK.spreadsheet || "ingestion tracker") + "</a>, tab " + esc(TK.tab || "") +
-      ", as at " + esc(TK.fetched || "") + ".</p></section>";
+  function appsSection(ds) {
+    var prodCount = {};
+    ds.forEach(function (d) {
+      (d.products || []).forEach(function (p) { prodCount[p] = (prodCount[p] || 0) + 1; });
+    });
+    return '<section class="sect"><h2>The applications your districts receive</h2>' +
+      '<p class="hint">Per-district registration as the master records it. Three of these ' +
+      'have no registration option in Jira, so work on them cannot be attributed to the ' +
+      'district that asked for it.</p>' +
+      '<div class="card tscroll"><table><thead><tr><th>Application</th>' +
+      '<th class="r">Districts</th><th>Receives data by</th><th>Attributable in Jira</th>' +
+      "</tr></thead><tbody>" + J.map.apps.map(function (a) {
+        var slug = a.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        var alt = a.name.toLowerCase().replace(/[^a-z0-9]+/g, "");
+        var n = prodCount[slug] || prodCount[alt] || 0;
+        return "<tr><td class='ttl'>" + esc(a.name) + "</td>" +
+          "<td class='r num'>" + n + "</td><td>" + esc(a.via) + "</td>" +
+          "<td>" + (a.jira ? "<span class='pill ok'>yes</span>"
+                           : "<span class='pill warn'>no registration field</span>") +
+          "</td></tr>";
+      }).join("") + "</tbody></table></div></section>";
   }
 
   /* ---- chrome ---- */
@@ -1034,6 +1419,24 @@
       : state.aud === "sprint" ? vSprint()
       : state.aud === "lead" ? vLead()
       : state.aud === "plan" ? vPlan() : vStake();
+    v.querySelectorAll("[data-export='sd']").forEach(function (b) {
+      b.hidden = !downloadsNS;
+      b.addEventListener("click", function () {
+        var bf = W.sd_backfill || [];
+        exportCsv(b, "migdl-onboarding-missing-sd-code.csv",
+          [["Jira key", "Type", "Status", "District on the ticket", "Suggested SD code",
+            "Evidence", "Confidence", "Assignee", "URL"]].concat(bf.map(function (x) {
+            return [x.key, x.type, x.status, x.district, x.suggested_sd || "",
+                    x.evidence, x.confidence, x.assignee || "", x.url || ""];
+          })));
+      });
+    });
+    v.querySelectorAll(".tab[data-p]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        state.persona = b.dataset.p;
+        render();
+      });
+    });
     v.scrollTop = 0;
   }
 

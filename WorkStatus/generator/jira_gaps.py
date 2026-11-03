@@ -69,6 +69,92 @@ CONFLUENCE_PLAN = [
 ]
 
 
+# ── should sprints be enabled, and over what? ──────────────────────────────
+# Raised in review: the Initial and Catch-Up Kanban boards work, and a blanket
+# "create a Scrum board" would impose sprints on work that is correctly flow-shaped.
+# The data settles it. The two kinds of work share NO statuses at all — the
+# onboarding workflow runs Intake, Connection Setup, Bronze Load, Validate, Load
+# Completed and two On-Hold states; delivery work runs Backlog, To Do, In Progress,
+# Internal Validation, Ready for Stage, Done. A board filter separates them exactly,
+# with nothing landing on both boards.
+WORK_KINDS = [
+    dict(kind="District loading (Initial and Catch-Up)",
+         count_key="onboarding", board="The two existing Kanban boards",
+         shape="Flow. Arrives from registration forms on no schedule, each district "
+               "moves at the pace of its own data, and there is no sensible way to say "
+               "'we will finish eleven districts this fortnight'.",
+         cadence="Keep Kanban. Measure cycle time and work in progress, not velocity.",
+         verdict="Leave alone. Sprints would add a boundary this work does not have and "
+                 "would show carry-over every single sprint."),
+    dict(kind="Delivery work (Tiger Team, ETL, defects, API)",
+         count_key="delivery", board="A new Scrum board, filtered to exclude the two "
+                                     "onboarding issue types",
+         shape="Planned increments toward the Road to Nightly stages. Scope is chosen, "
+               "not arrived at, and the team already talks about it in stages and sprints.",
+         cadence="Sprints, with the sprint's own Goal field naming the stage it advances.",
+         verdict="Enable here, and only here."),
+]
+
+SPRINT_REWARD = [
+    "A sprint goal gets a real home: the sprint's own Goal field, visible on the board, "
+    "in the sprint report and in the burndown.",
+    "A commitment boundary for delivery work — what this fortnight is for — "
+    "without touching how districts are loaded.",
+    "Forecasting against the Road to Nightly: each stage's tickets are already known, so "
+    "velocity turns 'thirteen tickets' into 'about this many sprints'.",
+    "Sprint reports give leadership a cadence to read that is not a hand-refreshed page.",
+]
+
+SPRINT_RISK = [
+    dict(risk="Sprints get applied to district loading too",
+         why="The obvious implementation is one Scrum board over the whole project. That "
+             "would drag 143 onboarding issues into sprints, where they would carry over "
+             "every time and make the board lie.",
+         fix="Filter the Scrum board to exclude the two onboarding issue types. The "
+             "statuses do not overlap at all, so the filter is unambiguous and nothing "
+             "appears on both boards."),
+    dict(risk="Velocity is meaningless at first, and may be believed anyway",
+         why="Story points are set on 70 of 436 delivery issues and split across two "
+             "competing fields, and 246 issues are Done with no resolution date, so "
+             "burndown and velocity charts would be computed from mostly-missing data.",
+         fix="Turn on the sprint goal first and ignore velocity for several sprints. Fix "
+             "the resolution screen and retire one point field before anyone quotes a "
+             "velocity number."),
+    dict(risk="Ceremony cost on a team that already has a working cadence",
+         why="Operations runs a standup, a Parking Lot and an escalation path to the "
+             "Tiger Team. Sprint planning, review and retrospective on top of that is real "
+             "time, and the operational half of the team gets no benefit from it.",
+         fix="Only the delivery half attends. Keep the existing standup as it is; the "
+             "sprint ceremony replaces nothing in the Operations cadence."),
+    dict(risk="Retrofitting history",
+         why="Assigning in-flight issues to a sprint that has already started produces a "
+             "burndown that never burned down, and a first sprint that looks like a "
+             "failure.",
+         fix="Start the first sprint with new scope only. Leave everything already in "
+             "flight off the board until it closes."),
+    dict(risk="Mid-sprint scope change is normal here",
+         why="Defects and district escalations arrive mid-sprint by nature, and a sprint "
+             "that is re-planned twice a week is a Kanban board with extra steps.",
+         fix="Keep defect triage on the existing Kanban board. Only planned Tiger Team "
+             "and ETL work enters a sprint."),
+]
+
+SPRINT_PRECONDITION = [
+    "Resolution on the done transitions — without it there is no cycle time and the "
+    "sprint report cannot tell what actually finished.",
+    "One story-point field, not two.",
+    "A board filter that excludes the onboarding issue types, agreed before the board is "
+    "created rather than after.",
+]
+
+SPRINT_RECOMMENDATION = (
+    "Enable sprints on a new Scrum board scoped to delivery work, and leave both "
+    "onboarding Kanban boards exactly as they are. Set the sprint Goal from day one and "
+    "name the Road to Nightly stage it advances; leave velocity alone until the "
+    "resolution and story-point preconditions are met. This is additive — nothing "
+    "about how districts are loaded changes.")
+
+
 # ── where district state is maintained today ───────────────────────────────
 # Four places, two of them copies of a third. Recorded here because the gap register
 # below is about collapsing them, and because the disagreement between them is itself
@@ -187,14 +273,40 @@ GAPS = [
          probe=lambda b: (0, 13, "districts in a non-loading state")),
 
     # ── fields that exist but are empty ───────────────────────────────────
-    dict(id="sprint", kind="data", priority=1,
-         title="Sprint is empty on every issue",
-         unlocks="Velocity, burndown and sprint commitment. The Sprint planning view "
-                 "currently shows ready-against-blocked instead, because there is no sprint "
-                 "to report on.",
-         how="Use the board's sprints, or populate [MiGDL-OPS] Sprint Target Goal and "
-             "Work Completed in Sprint. Pick one — both exist and neither is used.",
-         probe=lambda b: (sum(1 for i in _issues(b) if i.get("sprint")), _n(b), "issues")),
+    dict(id="sprint", kind="setting", priority=1,
+         title="Delivery work has no sprints; district loading should not have any",
+         unlocks="Velocity, burndown, commitment and a sprint goal \u2014 for the 436 "
+                 "delivery issues. The 143 onboarding issues are flow work and are "
+                 "deliberately excluded.",
+         how="Add a Scrum board filtered to exclude the two onboarding issue types, and "
+             "leave both Initial and Catch-Up Kanban boards untouched. The two workflows "
+             "share no statuses, so the filter is unambiguous. See the assessment above "
+             "for what this buys and what it risks.",
+         probe=lambda b: (sum(1 for i in _issues(b) if i.get("sprint")),
+                          sum(1 for i in _issues(b)
+                              if i.get("c") not in ("InitialOnboarding", "CatchUpOnboarding")),
+                          "delivery issues on a sprint")),
+    dict(id="sprint-goal", kind="setting", priority=1,
+         title="Sprint goals have nowhere to live that is actually a sprint",
+         unlocks="Recording what a sprint is for, and reading it back later. A goal is a "
+                 "property of a sprint, so it cannot sit on an issue without either picking "
+                 "one issue to speak for the sprint or copying it onto every issue and then "
+                 "reconciling the copies \u2014 the same failure as the four district trackers.",
+         how="Use the sprint's own Goal field, which arrives with the Scrum board above. Do "
+             "not repurpose [MiGDL-OPS] Sprint Target Goal for this: it is an issue field, "
+             "and on all four issues that use it today it holds that issue's own scope "
+             "description rather than a sprint goal.",
+         probe=lambda b: (0, 1, "sprint goal recorded on a sprint")),
+    dict(id="goal-hierarchy", kind="process", priority=2,
+         title="Goals longer than a sprint have no home either",
+         unlocks="Telling a two-week commitment apart from a quarter's objective. The Data "
+                 "Journey's five Road to Nightly stages are already the longer-horizon "
+                 "goals, and the Game Plan's operating stages say the same thing in "
+                 "operational terms.",
+         how="Treat the stage as the standing goal and the sprint goal as the increment "
+             "towards it: name the stage in each sprint goal, and let the stage's progress "
+             "come from its fixes' tickets, which it already does on the map view.",
+         probe=lambda b: (0, 5, "road stages named by a sprint goal")),
     dict(id="resolution", kind="setting", priority=1,
          title="246 issues are Done with no resolution date",
          unlocks="Cycle time, throughput and 'what shipped last month' — none of which "
@@ -206,11 +318,14 @@ GAPS = [
                           sum(1 for i in _issues(b) if i.get("sc") == "Done"),
                           "done issues with a resolution date")),
     dict(id="sd-code", kind="data", priority=1,
-         title="69 of 143 district onboarding tickets carry no SD code",
-         unlocks="A reliable join to district state. Twelve districts can only be matched "
-                 "by normalised name today, which is the Data Journey's own pain point 9.",
-         how="Make [MiGDL] SD Code (Auto) required on both onboarding issue types, and "
-             "backfill the 69. It is the join key for everything district-shaped.",
+         title="Every onboarding ticket that has an SD code to carry now carries one",
+         unlocks="A reliable join to district state \u2014 the Data Journey's own pain "
+                 "point 9. The remaining tickets are ones with no code to fill, not a "
+                 "backlog: cancelled duplicates, and districts that have no SD code "
+                 "anywhere in the Connected Districts master.",
+         how="Backfilled on 3 Nov 2026. What is left is to make the field required on "
+             "both onboarding issue types so the gap stops reopening, and to settle an "
+             "SD code for the districts that have none.",
          probe=lambda b: (sum(1 for i in _issues(b)
                               if i.get("c") in ONBOARDING and (i.get("di") or {}).get("sd")),
                           sum(1 for i in _issues(b) if i.get("c") in ONBOARDING),
@@ -237,7 +352,7 @@ GAPS = [
          how="Add a [MiGDL] Gap Group select (G1–G6) and set it on the 35 tickets the "
              "map already cites. A Jira issue link type 'realises' pointing at an epic per "
              "fix would work equally well.",
-         probe=lambda b: (0, 35, "cited tickets carrying their gap group")),
+         probe=lambda b: (0, 0, "cited tickets carrying their gap group")),
     dict(id="layer-field", kind="schema", priority=2,
          title="Medallion layer is inferred from issue text, not recorded",
          unlocks="The Developer view's 'where this work lands', and station filtering. "
@@ -323,7 +438,7 @@ GAPS = [
 ]
 
 
-ASSIST = {'district-state': ('after-decision', 'Create the district items in bulk from the tracker once the grain is agreed, and set every field on them.', 'createJiraIssue, editJiraIssue'), 'stage-dates-all': ('after-decision', 'Populate the six load-date fields on those items from the tracker export.', 'editJiraIssue'), 'source-proliferation': ('partly', 'Build the replacement Confluence page with live Jira macros. Cannot retire the spreadsheets for you.', 'createConfluencePage'), 'sprint': ('no', 'Assigning work to sprints is a planning decision, not a data fix.', None), 'resolution': ('admin', 'Adding a Resolution screen to the done transitions is a project-configuration change in the Jira admin UI.', None), 'sd-code': ('yes', "Backfill the 69 missing SD codes by matching each ticket's district name against the tracker, and flag any that cannot be matched rather than guessing.", 'editJiraIssue'), 'story-points': ('admin', 'Retiring one of the two fields is a field-configuration change.', None), 'workstream': ('partly', 'Can set Workstream where the labels or the summary prefix already imply it (MiGDL-TT-1, MiGDL-ETL); the remainder need a human.', 'editJiraIssue'), 'gap-group': ('admin', 'The field has to exist first. Once it does, setting it on all 50 cited tickets is a single pass.', 'editJiraIssue'), 'layer-field': ('admin', 'Needs the field, or Components enabled. Then populate from the stage where it is field-derived, and leave the rest for a human.', 'editJiraIssue'), 'table-field': ('admin', 'Needs the field. Then seed the 12 tickets whose summary already names a table.', 'editJiraIssue'), 'app-options': ('admin', 'Adding select options is a field-configuration change.', None), 'isd-sis': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'schedule': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'school-year': ('admin', 'Needs school year on the district item; [MiGDL] Historical Years Needed already exists and can be populated.', 'editJiraIssue'), 'not-onboarding-states': ('admin', 'Adding workflow states or an engagement field is a configuration change.', None), 'decision-type': ('partly', "Can raise the two decisions as issues with a 'decision' label and a due date today; a proper Decision issue type is a configuration change.", 'createJiraIssue'), 'untracked-fixes': ('yes', "Raise an epic for fix 1 and for the runtime and error logging item, with the map's own wording as the description, and link them to the right gap group.", 'createJiraIssue, createIssueLink'), 'broken-ref': ('yes', 'Closed in v5.0 of the map — MIGDL-230 is no longer cited. Nothing to do.', None), 'status-vocab': ('partly', "Can publish the mapping between the tracker's statuses and Jira's as a Confluence page; aligning the workflow itself is configuration.", 'createConfluencePage'), 'keep-throughput': ('no', None, None), 'keep-lineage': ('no', None, None)}
+ASSIST = {'district-state': ('after-decision', 'Create the district items in bulk from the tracker once the grain is agreed, and set every field on them.', 'createJiraIssue, editJiraIssue'), 'stage-dates-all': ('after-decision', 'Populate the six load-date fields on those items from the tracker export.', 'editJiraIssue'), 'source-proliferation': ('partly', 'Build the replacement Confluence page with live Jira macros. Cannot retire the spreadsheets for you.', 'createConfluencePage'), 'sprint': ('admin', 'Creating a Scrum board is a Jira configuration change. Once it exists I can move issues onto sprints in bulk.', 'editJiraIssue'), 'resolution': ('admin', 'Adding a Resolution screen to the done transitions is a project-configuration change in the Jira admin UI.', None), 'sd-code': ('done', "Backfilled on 3 Nov 2026: 24 tickets gained [MiGDL] SD Code (Manual) from a confident district match. 9 already carried a code there \u2014 the page had been reading only the Auto field, so the gap was overstated. 7 cancelled duplicates and the districts with no SD code in the master were flagged, not guessed.", 'editJiraIssue'), 'story-points': ('admin', 'Retiring one of the two fields is a field-configuration change.', None), 'workstream': ('partly', 'Can set Workstream where the labels or the summary prefix already imply it (MiGDL-TT-1, MiGDL-ETL); the remainder need a human.', 'editJiraIssue'), 'gap-group': ('admin', 'The field has to exist first. Once it does, setting it on all 50 cited tickets is a single pass.', 'editJiraIssue'), 'layer-field': ('admin', 'Needs the field, or Components enabled. Then populate from the stage where it is field-derived, and leave the rest for a human.', 'editJiraIssue'), 'table-field': ('admin', 'Needs the field. Then seed the 12 tickets whose summary already names a table.', 'editJiraIssue'), 'app-options': ('admin', 'Adding select options is a field-configuration change.', None), 'isd-sis': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'schedule': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'school-year': ('admin', 'Needs school year on the district item; [MiGDL] Historical Years Needed already exists and can be populated.', 'editJiraIssue'), 'not-onboarding-states': ('admin', 'Adding workflow states or an engagement field is a configuration change.', None), 'decision-type': ('partly', "Can raise the two decisions as issues with a 'decision' label and a due date today; a proper Decision issue type is a configuration change.", 'createJiraIssue'), 'untracked-fixes': ('yes', "Raise an epic for fix 1 and for the runtime and error logging item, with the map's own wording as the description, and link them to the right gap group.", 'createJiraIssue, createIssueLink'), 'broken-ref': ('yes', 'Closed in v5.0 of the map — MIGDL-230 is no longer cited. Nothing to do.', None), 'status-vocab': ('partly', "Can publish the mapping between the tracker's statuses and Jira's as a Confluence page; aligning the workflow itself is configuration.", 'createConfluencePage'), 'keep-throughput': ('no', None, None), 'keep-lineage': ('no', None, None), 'sprint-goal': ('no', 'A sprint goal is decided by the team at sprint planning. Its home is the sprint’s own Goal field, which exists as soon as a Scrum board does.', None), 'goal-hierarchy': ('partly', 'Can publish the stage-to-sprint mapping and keep each stage’s live progress on the map view; naming the goal is the team’s call.', 'createConfluencePage')}
 
 
 ASSIST_LABEL = {
@@ -332,17 +447,98 @@ ASSIST_LABEL = {
     "after-decision": "I can do this once the grain is decided",
     "admin": "Needs a Jira admin first",
     "no": "Not mine to do",
+    "done": "Done \u2014 I did this with your access",
 }
 
 
-def build(bundle):
+# ── live JQL for the register rows ─────────────────────────────────────────
+# Field ids rather than display names: a name can be renamed in Jira and the link
+# would silently return nothing, which is how the first attempt at this failed.
+# Every expression below was run against Jira and its count compared with the figure
+# this module computes, so a link and the number beside it agree at build time and
+# the link keeps up afterwards.
+ONB_IN = ('issuetype in ("MiGDL District Onboarding (Initial)", '
+          '"MiGDL District Onboarding (Catch-Up)")')
+ONB_NOT = ('issuetype not in ("MiGDL District Onboarding (Initial)", '
+           '"MiGDL District Onboarding (Catch-Up)")')
+P = "project = MIGDL"
+
+ROW_JQL = {
+    # row id: (JQL for the "have" set, JQL for the "of" set)
+    "sprint": ("%s AND %s AND cf[10020] IS NOT EMPTY" % (P, ONB_NOT),
+               "%s AND %s" % (P, ONB_NOT)),
+    "resolution": ("%s AND statusCategory = Done AND resolutiondate IS NOT EMPTY" % P,
+                   "%s AND statusCategory = Done" % P),
+    # a ticket "has an SD code" if EITHER field holds one: Auto is automation-owned
+    # (MIGDL-285) and empty on these, Manual is where people type it
+    "sd-code": ("%s AND %s AND (cf[10453] IS NOT EMPTY OR cf[10498] IS NOT EMPTY)"
+                % (P, ONB_IN), "%s AND %s" % (P, ONB_IN)),
+    "workstream": ("%s AND cf[10242] IS NOT EMPTY" % P, P),
+    "story-points": ("%s AND (cf[10024] IS NOT EMPTY OR cf[10016] IS NOT EMPTY)" % P, P),
+    # SY begin date or historical years needed: any school-year information at all
+    "school-year": ("%s AND (cf[10501] IS NOT EMPTY OR cf[10472] IS NOT EMPTY)" % P, P),
+}
+
+
+# counts quoted in prose on the Sprint planning view, each with the query behind it
+PROSE_JQL = {
+    "delivery": ("%s AND %s" % (P, ONB_NOT), "delivery issues"),
+    "onboarding": ("%s AND %s" % (P, ONB_IN), "onboarding issues"),
+    "estimated": ("%s AND %s AND (cf[10024] IS NOT EMPTY OR cf[10016] IS NOT EMPTY)"
+                  % (P, ONB_NOT), "delivery issues with an estimate"),
+    "unresolved": ("%s AND statusCategory = Done AND resolutiondate IS EMPTY" % P,
+                   "done issues with no resolution date"),
+    "nosprint": ("%s AND cf[10020] IS EMPTY" % P, "issues with no sprint"),
+}
+
+
+# ── what each assist row would actually touch ──────────────────────────────
+# "I can backfill the SD codes" is not investigable until you can see which 48. Each
+# row that would act on real issues carries the set it would act on: a live query
+# where the set is defined by a field, a key list where it is derived here. A row
+# that would create issues that do not exist yet has no target, and says so.
+ASSIST_TARGET = {
+    "sd-code":        ("jql", "%s AND %s AND cf[10453] IS EMPTY AND cf[10498] IS EMPTY"
+                       % (P, ONB_IN),
+                       "the tickets still without a code, which have none to fill"),
+    "workstream":     ("jql", "%s AND cf[10242] IS EMPTY" % P,
+                       "the tickets whose Workstream would be set"),
+    "resolution":     ("jql", "%s AND statusCategory = Done AND resolutiondate IS EMPTY" % P,
+                       "the closed tickets that would gain a resolution date"),
+    "sprint":         ("jql", "%s AND %s AND cf[10020] IS EMPTY" % (P, ONB_NOT),
+                       "the delivery tickets that would move onto sprints"),
+    "story-points":   ("jql", "%s AND cf[10024] IS NOT EMPTY AND cf[10016] IS NOT EMPTY" % P,
+                       "the tickets that set both point fields and would need migrating"),
+    "district-state": ("jql", "%s AND %s" % (P, ONB_IN),
+                       "the onboarding tickets a district item would be built from"),
+    "stage-dates-all": ("jql", "%s AND %s" % (P, ONB_IN),
+                        "the onboarding tickets carrying stage dates today"),
+    "school-year":    ("jql", "%s AND cf[10472] IS EMPTY AND %s" % (P, ONB_IN),
+                       "the onboarding tickets with no historical years recorded"),
+    # sets this module derives rather than Jira storing them
+    "gap-group":      ("keys", "cited", "the tickets the map cites, which would be tagged"),
+    "table-field":    ("keys", "tabled", "the tickets whose summary already names a table"),
+    "layer-field":    ("keys", "layered", "the tickets with a layer derived today"),
+    "goal-hierarchy": ("keys", "road", "the tickets behind the Road to Nightly stages"),
+}
+
+
+def build(bundle, journey=None):
     """Measure every gap against the current bundle, and list the sources it draws on."""
+    journey = journey or {}
+    derived = {
+        "cited": sorted({r["key"] for r in journey.get("recon", [])}),
+        "tabled": [i["k"] for i in _issues(bundle) if i.get("td")],
+        "layered": [i["k"] for i in _issues(bundle) if i.get("ly")],
+        "road": sorted({k for st in journey.get("road", []) for k in st.get("keys", [])}),
+    }
     out = []
     for g in GAPS:
         row = {k: v for k, v in g.items() if k != "probe"}
-        a = ASSIST.get(g["id"])
-        if a:
-            row["assist"] = {"level": a[0], "how": a[1], "tool": a[2]}
+        if g["id"] in ROW_JQL:
+            row["jql_have"], row["jql_total"] = ROW_JQL[g["id"]]
+        # the probe runs first: whether a row is closed decides whether offering to
+        # act on it still makes sense
         if g["probe"]:
             have, need, unit = g["probe"](bundle)
             row.update(have=have, need=need, unit=unit,
@@ -350,7 +546,30 @@ def build(bundle):
                        closed=have >= need)
         else:
             row.update(have=None, need=None, unit=None, pct=None, closed=None)
+        # this one counts the tickets the map cites, which only the journey knows
+        if g["id"] == "gap-group":
+            row.update(need=len(derived["cited"]), pct=0, closed=False)
+        a = ASSIST.get(g["id"])
+        if a:
+            row["assist"] = {"level": a[0], "how": a[1], "tool": a[2]}
+            t = ASSIST_TARGET.get(g["id"])
+            if t and a[0] != "no" and not row.get("closed"):
+                if t[0] == "jql":
+                    row["assist"]["target"] = {"kind": "jql", "jql": t[1], "label": t[2]}
+                else:
+                    keys = derived.get(t[1]) or []
+                    if keys:
+                        row["assist"]["target"] = {"kind": "keys", "keys": keys,
+                                                   "label": t[2], "count": len(keys)}
         out.append(row)
+    onb = ("InitialOnboarding", "CatchUpOnboarding")
+    counts = {"onboarding": sum(1 for i in _issues(bundle) if i.get("c") in onb),
+              "delivery": sum(1 for i in _issues(bundle) if i.get("c") not in onb)}
     return {"kinds": KINDS, "gaps": out, "sources": SOURCES,
+            "work_kinds": WORK_KINDS, "work_counts": counts,
+            "sprint_reward": SPRINT_REWARD, "sprint_risk": SPRINT_RISK,
+            "sprint_precondition": SPRINT_PRECONDITION,
+            "sprint_recommendation": SPRINT_RECOMMENDATION,
+            "prose_jql": PROSE_JQL,
             "reconciliation": RECONCILIATION, "platform": PLATFORM,
             "confluence_plan": CONFLUENCE_PLAN, "assist_label": ASSIST_LABEL}

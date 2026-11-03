@@ -33,7 +33,23 @@ regenerate the bundles themselves.
 | **Game plan** | operating stage | Which stage the operation is in, and whether each gate's tickets have actually landed |
 | Developer | table and column | Which asset is affected, how far a change propagates, what blocks what |
 | Sprint planning | deliverable | What is ready against what is blocked, who is carrying it, and what Jira would need to hold for this page to run from Jira alone |
-| K-12 stakeholder | district and app | Is a district's data in, how old is it, and which apps can use it |
+| K-12 stakeholder | ISD, district or work queue | Segmented into three personas at leadership's request: ISD Superintendent, District Administrator, Data Integrator |
+
+## Three stakeholder personas
+
+Leadership asked the stakeholder view to speak to three named groups rather than to
+"stakeholders" in general. A persona changes what is surfaced and how it is worded,
+never the facts:
+
+| Persona | Grain | Opens the page asking |
+|---|---|---|
+| **ISD Superintendent** | ISD | "Are the districts in my ISD in the lake, and what will my schools see?" |
+| **District Administrator** | district | "Is my district's data in, how current is it, and what are my teachers seeing?" |
+| **Data Integrator** | work queue | "Which districts need me today, and what is the next action on each?" |
+
+Each records what it deliberately omits, in `migdl:omits`. The Data Integrator is the
+one operational persona in this audience — it keeps the Jira keys and stage detail the
+other two drop, because it is a working queue rather than a status read.
 
 ## Where district state comes from
 
@@ -52,6 +68,12 @@ evidence it used, and the page marks a name match as the weaker one.
 district names replaced by SD code and EEM codes removed.
 
 ## Getting to one source
+
+District **identity** — name, ISD, SIS, EEM, student count, which applications by school
+year, historical loads outstanding — comes from the `MiDX - Connected Districts`
+workbook, which is upstream of both the ingestion tracker and the Confluence page. Load
+**state** comes from the ingestion tracker. 264,016 students sit in registered
+districts; 237,873 of them in a district whose load has completed.
 
 District state alone is maintained in four places: Jira's onboarding tickets, the
 Ingestion Tracker Summary spreadsheet, the MAISA Connected Districts spreadsheet, and

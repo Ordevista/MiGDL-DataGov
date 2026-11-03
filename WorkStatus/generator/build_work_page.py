@@ -16,7 +16,7 @@ gplan = json.loads((SRC / "gameplan.json").read_text())
 
 sys.path.insert(0, str(HERE))
 import jira_gaps  # noqa: E402
-gaps = jira_gaps.build(work)
+gaps = jira_gaps.build(work, jrny)
 
 # triple count across the whole union graph, so the footer figure is real
 try:

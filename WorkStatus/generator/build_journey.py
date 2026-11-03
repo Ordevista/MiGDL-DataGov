@@ -87,6 +87,26 @@ def not_in_jira(rows):
     return out
 
 
+def road_status(live):
+    """Derive each Road-to-Nightly stage's state from the fixes it depends on."""
+    fix_of = {f["n"]: f for f in J.FIXES}
+    out = []
+    for st in J.ROAD_TO_NIGHTLY:
+        keys = []
+        for fn in st["fixes"]:
+            keys += list(fix_of[fn]["claim"].keys())
+        known = [live[k] for k in keys if k in live]
+        done = sum(1 for i in known if i["sc"] == "Done")
+        prog = sum(1 for i in known if i["sc"] == "In Progress")
+        out.append(dict(st,
+                        tickets=len(known), done=done, in_progress=prog,
+                        state=("current" if st["n"] == 0
+                               else "no tickets" if not known
+                               else "done" if done == len(known)
+                               else "moving" if (done or prog) else "not started")))
+    return out
+
+
 def ttl(rows):
     L = ['@prefix migdl: <https://migdl.midatahub.org/ns#> .',
          '@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .',
@@ -226,6 +246,9 @@ def main():
 
     bundle = {
         "target_state": J.TARGET_STATE,
+        "road": road_status(live),
+        "road_sequence": J.ROAD_SEQUENCE,
+        "road_asof": J.ROAD_SEQUENCE_ASOF,
         "map": {"version": J.MAP_VERSION, "dated": J.MAP_DATED,
                 "jira_asof": J.MAP_JIRA_ASOF, "apps": J.APPS, "sequence": J.SEQUENCE,
                 "fresh_asof": J.FRESHNESS_ASOF, "fresh_target": J.FRESHNESS_TARGET},

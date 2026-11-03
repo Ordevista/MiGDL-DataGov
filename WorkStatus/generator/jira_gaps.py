@@ -187,14 +187,38 @@ GAPS = [
          probe=lambda b: (0, 13, "districts in a non-loading state")),
 
     # ── fields that exist but are empty ───────────────────────────────────
-    dict(id="sprint", kind="data", priority=1,
-         title="Sprint is empty on every issue",
-         unlocks="Velocity, burndown and sprint commitment. The Sprint planning view "
-                 "currently shows ready-against-blocked instead, because there is no sprint "
-                 "to report on.",
-         how="Use the board's sprints, or populate [MiGDL-OPS] Sprint Target Goal and "
-             "Work Completed in Sprint. Pick one — both exist and neither is used.",
+    dict(id="sprint", kind="setting", priority=1,
+         title="There are no sprints: the Sprint field is empty on every issue",
+         unlocks="Velocity, burndown, commitment and a sprint goal. The Sprint planning "
+                 "view shows ready-against-blocked instead, because there is no sprint to "
+                 "report on.",
+         how="Sprints come from a Scrum board, and the project's board is a Kanban one. "
+             "Create a Scrum board over the MIGDL project, or add one alongside the "
+             "existing board, which can stay for defect triage. Everything below follows "
+             "from that one change.",
          probe=lambda b: (sum(1 for i in _issues(b) if i.get("sprint")), _n(b), "issues")),
+    dict(id="sprint-goal", kind="setting", priority=1,
+         title="Sprint goals have nowhere to live that is actually a sprint",
+         unlocks="Recording what a sprint is for, and reading it back later. A goal is a "
+                 "property of a sprint, so it cannot sit on an issue without either picking "
+                 "one issue to speak for the sprint or copying it onto every issue and then "
+                 "reconciling the copies \u2014 the same failure as the four district trackers.",
+         how="Use the sprint's own Goal field, which every Jira sprint has: set it when the "
+             "sprint is started, and it shows on the board, in the sprint report and in the "
+             "burndown. Do not repurpose [MiGDL-OPS] Sprint Target Goal for this: it is an "
+             "issue field, and on all four issues that use it today it holds that issue's "
+             "own scope description rather than a sprint goal.",
+         probe=lambda b: (0, 1, "sprint goal recorded on a sprint")),
+    dict(id="goal-hierarchy", kind="process", priority=2,
+         title="Goals longer than a sprint have no home either",
+         unlocks="Telling a two-week commitment apart from a quarter's objective. The Data "
+                 "Journey's five Road to Nightly stages are already the longer-horizon "
+                 "goals, and the Game Plan's operating stages say the same thing in "
+                 "operational terms.",
+         how="Treat the stage as the standing goal and the sprint goal as the increment "
+             "towards it: name the stage in each sprint goal, and let the stage's progress "
+             "come from its fixes' tickets, which it already does on the map view.",
+         probe=lambda b: (0, 5, "road stages named by a sprint goal")),
     dict(id="resolution", kind="setting", priority=1,
          title="246 issues are Done with no resolution date",
          unlocks="Cycle time, throughput and 'what shipped last month' — none of which "
@@ -323,7 +347,7 @@ GAPS = [
 ]
 
 
-ASSIST = {'district-state': ('after-decision', 'Create the district items in bulk from the tracker once the grain is agreed, and set every field on them.', 'createJiraIssue, editJiraIssue'), 'stage-dates-all': ('after-decision', 'Populate the six load-date fields on those items from the tracker export.', 'editJiraIssue'), 'source-proliferation': ('partly', 'Build the replacement Confluence page with live Jira macros. Cannot retire the spreadsheets for you.', 'createConfluencePage'), 'sprint': ('no', 'Assigning work to sprints is a planning decision, not a data fix.', None), 'resolution': ('admin', 'Adding a Resolution screen to the done transitions is a project-configuration change in the Jira admin UI.', None), 'sd-code': ('yes', "Backfill the 69 missing SD codes by matching each ticket's district name against the tracker, and flag any that cannot be matched rather than guessing.", 'editJiraIssue'), 'story-points': ('admin', 'Retiring one of the two fields is a field-configuration change.', None), 'workstream': ('partly', 'Can set Workstream where the labels or the summary prefix already imply it (MiGDL-TT-1, MiGDL-ETL); the remainder need a human.', 'editJiraIssue'), 'gap-group': ('admin', 'The field has to exist first. Once it does, setting it on all 50 cited tickets is a single pass.', 'editJiraIssue'), 'layer-field': ('admin', 'Needs the field, or Components enabled. Then populate from the stage where it is field-derived, and leave the rest for a human.', 'editJiraIssue'), 'table-field': ('admin', 'Needs the field. Then seed the 12 tickets whose summary already names a table.', 'editJiraIssue'), 'app-options': ('admin', 'Adding select options is a field-configuration change.', None), 'isd-sis': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'schedule': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'school-year': ('admin', 'Needs school year on the district item; [MiGDL] Historical Years Needed already exists and can be populated.', 'editJiraIssue'), 'not-onboarding-states': ('admin', 'Adding workflow states or an engagement field is a configuration change.', None), 'decision-type': ('partly', "Can raise the two decisions as issues with a 'decision' label and a due date today; a proper Decision issue type is a configuration change.", 'createJiraIssue'), 'untracked-fixes': ('yes', "Raise an epic for fix 1 and for the runtime and error logging item, with the map's own wording as the description, and link them to the right gap group.", 'createJiraIssue, createIssueLink'), 'broken-ref': ('yes', 'Closed in v5.0 of the map — MIGDL-230 is no longer cited. Nothing to do.', None), 'status-vocab': ('partly', "Can publish the mapping between the tracker's statuses and Jira's as a Confluence page; aligning the workflow itself is configuration.", 'createConfluencePage'), 'keep-throughput': ('no', None, None), 'keep-lineage': ('no', None, None)}
+ASSIST = {'district-state': ('after-decision', 'Create the district items in bulk from the tracker once the grain is agreed, and set every field on them.', 'createJiraIssue, editJiraIssue'), 'stage-dates-all': ('after-decision', 'Populate the six load-date fields on those items from the tracker export.', 'editJiraIssue'), 'source-proliferation': ('partly', 'Build the replacement Confluence page with live Jira macros. Cannot retire the spreadsheets for you.', 'createConfluencePage'), 'sprint': ('admin', 'Creating a Scrum board is a Jira configuration change. Once it exists I can move issues onto sprints in bulk.', 'editJiraIssue'), 'resolution': ('admin', 'Adding a Resolution screen to the done transitions is a project-configuration change in the Jira admin UI.', None), 'sd-code': ('yes', "Backfill the 69 missing SD codes by matching each ticket's district name against the tracker, and flag any that cannot be matched rather than guessing.", 'editJiraIssue'), 'story-points': ('admin', 'Retiring one of the two fields is a field-configuration change.', None), 'workstream': ('partly', 'Can set Workstream where the labels or the summary prefix already imply it (MiGDL-TT-1, MiGDL-ETL); the remainder need a human.', 'editJiraIssue'), 'gap-group': ('admin', 'The field has to exist first. Once it does, setting it on all 50 cited tickets is a single pass.', 'editJiraIssue'), 'layer-field': ('admin', 'Needs the field, or Components enabled. Then populate from the stage where it is field-derived, and leave the rest for a human.', 'editJiraIssue'), 'table-field': ('admin', 'Needs the field. Then seed the 12 tickets whose summary already names a table.', 'editJiraIssue'), 'app-options': ('admin', 'Adding select options is a field-configuration change.', None), 'isd-sis': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'schedule': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'school-year': ('admin', 'Needs school year on the district item; [MiGDL] Historical Years Needed already exists and can be populated.', 'editJiraIssue'), 'not-onboarding-states': ('admin', 'Adding workflow states or an engagement field is a configuration change.', None), 'decision-type': ('partly', "Can raise the two decisions as issues with a 'decision' label and a due date today; a proper Decision issue type is a configuration change.", 'createJiraIssue'), 'untracked-fixes': ('yes', "Raise an epic for fix 1 and for the runtime and error logging item, with the map's own wording as the description, and link them to the right gap group.", 'createJiraIssue, createIssueLink'), 'broken-ref': ('yes', 'Closed in v5.0 of the map — MIGDL-230 is no longer cited. Nothing to do.', None), 'status-vocab': ('partly', "Can publish the mapping between the tracker's statuses and Jira's as a Confluence page; aligning the workflow itself is configuration.", 'createConfluencePage'), 'keep-throughput': ('no', None, None), 'keep-lineage': ('no', None, None), 'sprint-goal': ('no', 'A sprint goal is decided by the team at sprint planning. Its home is the sprint’s own Goal field, which exists as soon as a Scrum board does.', None), 'goal-hierarchy': ('partly', 'Can publish the stage-to-sprint mapping and keep each stage’s live progress on the map view; naming the goal is the team’s call.', 'createConfluencePage')}
 
 
 ASSIST_LABEL = {

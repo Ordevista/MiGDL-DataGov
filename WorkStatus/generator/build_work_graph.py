@@ -377,6 +377,61 @@ def slim(r):
     }
 
 
+def sd_backfill(rows, master):
+    """The onboarding tickets with no [MiGDL] SD Code, each with a suggested value.
+
+    Two independent kinds of evidence: the code is often already written into the
+    issue summary ("Some District : sd42"), and the district name usually matches the
+    master. Where both exist they are compared rather than merged, so a disagreement
+    would surface instead of being averaged away.
+    """
+    by_name = {}
+    for sd, m in master["districts"].items():
+        by_name[re.sub(r"[^a-z0-9]", "", (m["name"] or "").lower())] = sd
+    SUF = ("schooldistrict", "publicschools", "communityschools", "schools",
+           "academy", "isd")
+
+    def by_district_name(n):
+        k = re.sub(r"[^a-z0-9]", "", (n or "").lower())
+        if k in by_name:
+            return by_name[k]
+        for suf in SUF:
+            if k.endswith(suf) and k[:-len(suf)] in by_name:
+                return by_name[k[:-len(suf)]]
+        return None
+
+    out = []
+    for r in rows:
+        if r["class"] not in ("InitialOnboarding", "CatchUpOnboarding"):
+            continue
+        if (r.get("district") or {}).get("sd"):
+            continue
+        summary = r.get("summary") or ""
+        m = re.search(r"\b(sd\d+)\b", summary)
+        in_summary = m.group(1) if m else None
+        named = (r.get("district") or {}).get("name") or summary.split(":")[0]
+        by_nm = by_district_name(named)
+        if in_summary and by_nm:
+            agree = in_summary == by_nm
+            evidence, conf = ("summary and name agree" if agree
+                              else "summary and name DISAGREE"), (1.0 if agree else 0.0)
+            suggest = in_summary if agree else None
+        elif in_summary:
+            evidence, conf, suggest = "code written in the summary", 0.9, in_summary
+        elif by_nm:
+            evidence, conf, suggest = "district name matches the master", 0.8, by_nm
+        else:
+            evidence, conf, suggest = "no evidence \u2014 needs a human", 0.0, None
+        out.append({
+            "key": r["key"], "type": r["class"], "status": r["status"],
+            "assignee": r.get("assignee"), "district": named,
+            "suggested_sd": suggest, "evidence": evidence, "confidence": conf,
+            "url": r.get("url"),
+        })
+    return sorted(out, key=lambda x: (-x["confidence"], x["key"]))
+
+
+
 def main():
     rows = [enrich(r) for r in load()]
 
@@ -492,6 +547,7 @@ def main():
             "students_total": sum(v.get("students") or 0 for v in dj.values()),
         },
         "personas": PERSONAS,
+        "sd_backfill": sd_backfill(rows, master),
         "tracker": {k: tracker[k] for k in ("source", "spreadsheet", "tab", "fetched")},
         "master": {k: master[k] for k in ("source", "spreadsheet", "tab", "fetched")},
         # the companion documents a reader jumps to from here
@@ -514,6 +570,10 @@ def main():
         print("  %-16s %4d  %5.1f%%" % (k, c[k], 100 * c[k] / c["issues"]))
     print("students          %s of %s in a loaded district"
           % (format(c["students_covered"], ","), format(c["students_total"], ",")))
+    _bf = bundle["sd_backfill"]
+    print("sd backfill       %d tickets, %d with a confident suggestion, %d need a human"
+          % (len(_bf), sum(1 for x in _bf if x["confidence"] >= 0.8),
+             sum(1 for x in _bf if not x["suggested_sd"])))
     print("districts         %d  (master %d, tracker %d, with a Jira ticket %d of which %d matched "
           "only by name, in Jira but not the tracker %d)"
           % (c["districts"], c["districts_master"], c["districts_tracker"],

@@ -241,6 +241,13 @@ td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
 .gapnum{font-family:var(--d);font-variant-numeric:tabular-nums;font-size:12.5px;font-weight:600}
 .gapsub{font-size:11.5px;color:var(--muted)}
 @media (max-width:760px){.gapitem{grid-template-columns:1fr}}
+
+.expbtn{appearance:none;font:inherit;font-family:var(--d);font-weight:600;font-size:13px;
+  background:var(--accent);color:#fff;border:0;border-radius:3px;padding:7px 13px;cursor:pointer}
+.expbtn:hover{filter:brightness(1.08)}
+.expbtn:disabled{opacity:.6;cursor:default}
+.expbtn:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.expnote{margin-left:9px}
 footer{border-top:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:12.5px}
 footer .wrap{padding-block:16px 26px;display:flex;gap:22px;flex-wrap:wrap;justify-content:space-between}
 footer code{font-family:var(--m);font-size:11.5px;background:var(--sunk);padding:1px 4px;border-radius:2px}

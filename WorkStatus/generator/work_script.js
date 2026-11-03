@@ -328,6 +328,43 @@
           esc(fixWhole.epic || "") + "</div></div>" : "") +
         "</div></section>" : "") +
 
+      (J.road ? '<section class="sect"><h2>The road to nightly</h2>' +
+        '<p class="hint">Five stages, new in map ' + esc(J.map.version) + '. Each stage\u2019s ' +
+        'state is not read off the drawing \u2014 it is derived from the Jira tickets of the ' +
+        'fixes the stage depends on, so it stays true as the board moves. Order of operations ' +
+        'as of ' + esc(J.road_asof) + ': ' + esc(J.road_sequence) + '</p>' +
+        '<div class="card tscroll"><table><thead><tr><th>Stage</th><th>What changes</th>' +
+        '<th>Needs</th><th class="r">Tickets</th><th>Jira says</th><th>For a teacher</th>' +
+        '</tr></thead><tbody>' + J.road.map(function (r) {
+          var cls = r.state === "done" ? "ok" : r.state === "moving" ? "acc"
+            : r.state === "current" ? "" : "crit";
+          return "<tr><td class='ttl'><b>Stage " + r.n + ". " + esc(r.name) + "</b>" +
+            (r.scope ? "<div class='gapsub'>" + esc(r.scope) + "</div>" : "") +
+            (r.eta ? "<div class='gapsub'>" + esc(r.eta) + "</div>" : "") + "</td>" +
+            "<td class='ttl'>" + esc(r.body) + "</td>" +
+            "<td>" + (r.fixes.length ? r.fixes.map(function (f) {
+              return "<span class='pill acc'>fix " + f + "</span>"; }).join(" ")
+              : "<span class='gapsub'>none yet</span>") + "</td>" +
+            "<td class='r num'>" + (r.tickets ? r.done + " / " + r.tickets : "\u2014") + "</td>" +
+            "<td><span class='pill " + cls + "'>" + esc(r.chip || r.state) + "</span></td>" +
+            "<td class='ttl'>" + esc(r.teacher) + "</td></tr>";
+        }).join("") + "</tbody></table></div>" +
+        (function () {
+          var stalled = J.road.filter(function (r) {
+            return r.state === "not started" && r.tickets; });
+          var moving = J.road.filter(function (r) { return r.state === "moving"; });
+          if (!stalled.length) return "";
+          return '<div class="gap" style="margin-top:12px;border-left-color:var(--crit);' +
+            'background:var(--crit-soft)"><b>Out of order.</b> ' +
+            stalled.map(function (r) {
+              return "Stage " + r.n + " has " + r.tickets +
+                " tickets and not one has started"; }).join("; ") +
+            (moving.length ? ", while stage" + (moving.length > 1 ? "s " : " ") +
+              moving.map(function (r) { return r.n; }).join(" and ") +
+              " " + (moving.length > 1 ? "are" : "is") + " already moving" : "") +
+            ". The stated order runs the other way.</div>";
+        })() + "</section>" : "") +
+
       (J.target_state ? '<section class="sect"><h2>Target state</h2>' +
         '<p class="hint">' + esc(J.target_state.head) + '. ' + esc(J.target_state.note) +
         ' New in map ' + esc(J.map.version) + '.</p>' +
@@ -884,6 +921,44 @@
   }
 
   /* ---- view: K-12 stakeholder ---- */
+
+  /* ---- CSV export, via the downloads capability ---- */
+  // Resolved once, after first paint; null means this view cannot save, so the
+  // button stays hidden rather than failing when pressed.
+  var downloadsNS = null;
+  if (window.claude && window.claude.use) {
+    window.claude.use("downloads").then(function (d) {
+      downloadsNS = d;
+      document.querySelectorAll("[data-export]").forEach(function (b) { b.hidden = !d; });
+    }, function () { downloadsNS = null; });
+  }
+
+  function csv(rows) {
+    return rows.map(function (r) {
+      return r.map(function (c) {
+        c = c == null ? "" : String(c);
+        return /[",\n]/.test(c) ? '"' + c.replace(/"/g, '""') + '"' : c;
+      }).join(",");
+    }).join("\r\n");
+  }
+
+  function exportCsv(btn, filename, rows) {
+    if (!downloadsNS) return;
+    var note = btn.nextElementSibling;
+    function say(t) { if (note) note.textContent = t; }
+    btn.disabled = true; say("Waiting for you to confirm\u2026");
+    downloadsNS.save({ filename: filename, data: csv(rows) }).then(function (r) {
+      say(r.status === "saved" ? "Saved." : "Sent.");
+    }).catch(function (e) {
+      var c = (e && e.code) || "unavailable";
+      say(c === "declined" ? "Not saved."
+        : c === "rate_limited" ? "A prompt is already open \u2014 try again in a moment."
+        : c === "extension_not_enabled" || c === "rejected_extension"
+          ? "CSV downloads are not available in this view."
+        : "Could not save (" + c + ").");
+    }).then(function () { btn.disabled = false; });
+  }
+
   /* ---- view: K-12 stakeholder, segmented by persona ---- */
   var APPNAME = { miread: "MiRead", miewims: "MiEWIMS", misafestudent: "MiSAFEStudent",
     "community-schools-manager": "Community Schools Manager",
@@ -1000,14 +1075,45 @@
           }).join("") + "</tbody></table></div></section>";
       }
 
+      var bf = W.sd_backfill || [];
+      var bfSure = bf.filter(function (x) { return x.confidence >= 0.8; });
+      var bfNone = bf.filter(function (x) { return !x.suggested_sd; });
+
+      var bfSection = !bf.length ? "" :
+        '<section class="sect"><h2>Onboarding tickets with no SD code ' +
+        "<span class='gapsub'>" + bf.length + "</span></h2>" +
+        "<p class='hint'>The SD code is the join key between a Jira ticket and district " +
+        "state, and " + bf.length + " onboarding tickets do not carry it. " + bfSure.length +
+        " can be filled in from evidence already on the ticket: the code is often written " +
+        "into the summary, and the district name usually matches the master. Where both " +
+        "exist they are compared rather than merged \u2014 today they agree in every case. " +
+        bfNone.length + " have neither and need a person.</p>" +
+        '<button class="expbtn" type="button" data-export="sd" hidden>' +
+        "Export " + bf.length + " tickets as CSV</button>" +
+        '<span class="expnote gapsub"></span>' +
+        '<div class="card tscroll" style="margin-top:10px"><table><thead><tr>' +
+        '<th>Ticket</th><th>Type</th><th>Status</th><th>District on the ticket</th>' +
+        '<th>Suggested code</th><th>Evidence</th><th>Assignee</th>' +
+        "</tr></thead><tbody>" + bf.map(function (x) {
+          return "<tr><td>" + jira(x.key) + "</td>" +
+            "<td>" + esc(x.type === "InitialOnboarding" ? "Initial" : "Catch-up") + "</td>" +
+            "<td>" + catPill(x.status) + "</td>" +
+            "<td class='ttl'>" + esc(x.district) + "</td>" +
+            "<td class='mono'>" + (x.suggested_sd
+              ? "<span class='pill ok'>" + esc(x.suggested_sd) + "</span>"
+              : "<span class='pill crit'>none</span>") + "</td>" +
+            "<td class='gapsub'>" + esc(x.evidence) + "</td>" +
+            "<td>" + esc(x.assignee || "\u2014") + "</td></tr>";
+        }).join("") + "</tbody></table></div></section>";
+
       return head +
         '<section class="sect"><div class="grid g3">' +
         tile("Next action named", needsStep.length, "tracker says what to run") +
         tile("Mid-pipeline", midway.length, "started, not finished") +
         tile("Off the nightly schedule", unscheduled.length, "of " + ds.filter(function (d) {
           return d.src === "tracker"; }).length + " in the tracker") +
-        tile("Registered, not ingesting", notIngesting.length, "no tracker row yet") +
-        "</div></section>" +
+        tile("Tickets missing an SD code", bf.length, bfSure.length + " can be filled in") +
+        "</div></section>" + bfSection +
         queue("Districts with a named next action",
           "Straight from the tracker's Next Step column. This is the day's queue.",
           needsStep, [["Next step", function (d) {
@@ -1154,6 +1260,18 @@
       : state.aud === "sprint" ? vSprint()
       : state.aud === "lead" ? vLead()
       : state.aud === "plan" ? vPlan() : vStake();
+    v.querySelectorAll("[data-export='sd']").forEach(function (b) {
+      b.hidden = !downloadsNS;
+      b.addEventListener("click", function () {
+        var bf = W.sd_backfill || [];
+        exportCsv(b, "migdl-onboarding-missing-sd-code.csv",
+          [["Jira key", "Type", "Status", "District on the ticket", "Suggested SD code",
+            "Evidence", "Confidence", "Assignee", "URL"]].concat(bf.map(function (x) {
+            return [x.key, x.type, x.status, x.district, x.suggested_sd || "",
+                    x.evidence, x.confidence, x.assignee || "", x.url || ""];
+          })));
+      });
+    });
     v.querySelectorAll(".tab[data-p]").forEach(function (b) {
       b.addEventListener("click", function () {
         state.persona = b.dataset.p;

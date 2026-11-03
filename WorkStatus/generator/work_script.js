@@ -66,6 +66,13 @@
       esc(title || jql) + '">' + esc(label) + "</a>";
   }
 
+  /* Link a number quoted in prose to the live query behind it. */
+  function proseN(id, n) {
+    var P = (window.GAPS || {}).prose_jql || {};
+    return P[id] ? jqlLink(P[id][0], String(n),
+      "Live Jira query for " + P[id][1] + " \u2014 adapts as issues change") : String(n);
+  }
+
   function keysOf(items) {
     return (items || []).map(function (i) { return i.k || i.key || i; });
   }
@@ -703,9 +710,10 @@
 
     return filterNote() +
       '<div class="gap"><b>Jira holds no sprint data for this project.</b> The Sprint field is ' +
-      'empty on all ' + W.coverage.issues + ' items, and the [MiGDL-OPS] sprint fields are set on ' +
+      'empty on all ' + proseN("nosprint", W.coverage.issues) +
+      ' items, and the [MiGDL-OPS] sprint fields are set on ' +
       'fewer than five. Story points are set on ' +
-      ITEMS.filter(function (i) { return i.sp; }).length + '. So this view cannot show velocity or ' +
+      proseN("estimated", ITEMS.filter(function (i) { return i.sp; }).length) + '. So this view cannot show velocity or ' +
       'commitment — it shows what is plannable right now: ready against blocked, and who is ' +
       'already carrying work. Populate Sprint and the same ontology gives you burndown with no ' +
       'change here.</div>' +
@@ -774,7 +782,8 @@
         return '<div class="card kv" style="border-top:3px solid var(--' +
           (keep ? "ok" : "accent") + ')">' +
           '<span class="k">' + esc(w.kind) + "</span>" +
-          '<span class="v">' + (n == null ? "" : n) +
+          '<span class="v">' + (n == null ? "" :
+            proseN(w.count_key === "onboarding" ? "onboarding" : "delivery", n)) +
           ' <span class="gapsub" style="font-weight:400">issues</span></span>' +
           "<div style='font-size:12.5px;color:var(--fg-2);margin-top:4px'><b>Shape.</b> " +
           esc(w.shape) + "</div>" +
@@ -829,11 +838,15 @@
         "'>" + PRIOLBL[g.priority] + "</span>" +
         (g.closed ? " <span class='pill ok'>done</span>" : "") + "</div>" +
         '<div><span class="t">' + esc(g.title) +
-        (g.jql ? " " + jqlLink(g.jql, "\u2197", "Open this set in Jira") : "") + "</span>" +
+        "</span>" +
         (g.unlocks ? '<div class="u"><b>Unlocks.</b> ' + esc(g.unlocks) + "</div>" : "") +
         '<div class="h"><b>Do.</b> ' + esc(g.how) + "</div></div>" +
         "<div>" + (g.pct == null ? "<span class='gapsub'>no measure — judgement call</span>"
-          : '<span class="gapnum">' + g.have + " / " + g.need + " " + pctTxt + "</span>" +
+          : '<span class="gapnum">' +
+            (g.jql_have ? jqlLink(g.jql_have, String(g.have),
+                "Live Jira query \u2014 adapts as issues change") : g.have) + " / " +
+            (g.jql_total ? jqlLink(g.jql_total, String(g.need),
+                "Live Jira query for the whole set") : g.need) + " " + pctTxt + "</span>" +
             '<div class="meter"><i class="' + cls + '" style="width:' +
             Math.max(g.pct, 1) + '%"></i></div>' +
             '<div class="gapsub">' + esc(g.unit) + "</div>") +

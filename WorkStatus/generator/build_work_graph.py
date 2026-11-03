@@ -371,6 +371,9 @@ def slim(r):
         "a": r.get("assignee"), "au": r["audiences"],
         "par": r.get("parent"), "tr": r["tracks"],
         "cr": (r.get("created") or "")[:10],
+        # any school-year information the ticket carries: the SY begin date or the
+        # historical years it still needs
+        "sy": r.get("sy_begin") or (r.get("historical_years") or None),
         "sp": r.get("story_points") or r.get("story_point_estimate"),
         "bl": sorted({l["to"] for l in r["links"]
                       if l["to"] and l["type"] == "Blocks" and l["dir"] == "out"}),

@@ -447,7 +447,43 @@ ASSIST_LABEL = {
 }
 
 
-ROW_JQL = {'sprint': 'project = MIGDL AND issuetype not in ("MiGDL District Onboarding (Initial)", "MiGDL District Onboarding (Catch-Up)") AND Sprint IS EMPTY', 'resolution': 'project = MIGDL AND statusCategory = Done AND resolutiondate IS EMPTY', 'sd-code': 'project = MIGDL AND issuetype in ("MiGDL District Onboarding (Initial)", "MiGDL District Onboarding (Catch-Up)") AND "[MiGDL] SD Code (Auto)" IS EMPTY', 'workstream': 'project = MIGDL AND "[MiGDL] Workstream" IS EMPTY', 'story-points': 'project = MIGDL AND ("Story Points" IS NOT EMPTY OR "Story point estimate" IS NOT EMPTY)', 'school-year': 'project = MIGDL AND "[MiGDL] Historical Years Needed" IS NOT EMPTY'}
+# ── live JQL for the register rows ─────────────────────────────────────────
+# Field ids rather than display names: a name can be renamed in Jira and the link
+# would silently return nothing, which is how the first attempt at this failed.
+# Every expression below was run against Jira and its count compared with the figure
+# this module computes, so a link and the number beside it agree at build time and
+# the link keeps up afterwards.
+ONB_IN = ('issuetype in ("MiGDL District Onboarding (Initial)", '
+          '"MiGDL District Onboarding (Catch-Up)")')
+ONB_NOT = ('issuetype not in ("MiGDL District Onboarding (Initial)", '
+           '"MiGDL District Onboarding (Catch-Up)")')
+P = "project = MIGDL"
+
+ROW_JQL = {
+    # row id: (JQL for the "have" set, JQL for the "of" set)
+    "sprint": ("%s AND %s AND cf[10020] IS NOT EMPTY" % (P, ONB_NOT),
+               "%s AND %s" % (P, ONB_NOT)),
+    "resolution": ("%s AND statusCategory = Done AND resolutiondate IS NOT EMPTY" % P,
+                   "%s AND statusCategory = Done" % P),
+    "sd-code": ('%s AND %s AND "[MiGDL] SD Code (Auto)" IS NOT EMPTY' % (P, ONB_IN),
+                "%s AND %s" % (P, ONB_IN)),
+    "workstream": ("%s AND cf[10242] IS NOT EMPTY" % P, P),
+    "story-points": ("%s AND (cf[10024] IS NOT EMPTY OR cf[10016] IS NOT EMPTY)" % P, P),
+    # SY begin date or historical years needed: any school-year information at all
+    "school-year": ("%s AND (cf[10501] IS NOT EMPTY OR cf[10472] IS NOT EMPTY)" % P, P),
+}
+
+
+# counts quoted in prose on the Sprint planning view, each with the query behind it
+PROSE_JQL = {
+    "delivery": ("%s AND %s" % (P, ONB_NOT), "delivery issues"),
+    "onboarding": ("%s AND %s" % (P, ONB_IN), "onboarding issues"),
+    "estimated": ("%s AND %s AND (cf[10024] IS NOT EMPTY OR cf[10016] IS NOT EMPTY)"
+                  % (P, ONB_NOT), "delivery issues with an estimate"),
+    "unresolved": ("%s AND statusCategory = Done AND resolutiondate IS EMPTY" % P,
+                   "done issues with no resolution date"),
+    "nosprint": ("%s AND cf[10020] IS EMPTY" % P, "issues with no sprint"),
+}
 
 
 def build(bundle):
@@ -456,7 +492,7 @@ def build(bundle):
     for g in GAPS:
         row = {k: v for k, v in g.items() if k != "probe"}
         if g["id"] in ROW_JQL:
-            row["jql"] = ROW_JQL[g["id"]]
+            row["jql_have"], row["jql_total"] = ROW_JQL[g["id"]]
         a = ASSIST.get(g["id"])
         if a:
             row["assist"] = {"level": a[0], "how": a[1], "tool": a[2]}
@@ -476,5 +512,6 @@ def build(bundle):
             "sprint_reward": SPRINT_REWARD, "sprint_risk": SPRINT_RISK,
             "sprint_precondition": SPRINT_PRECONDITION,
             "sprint_recommendation": SPRINT_RECOMMENDATION,
+            "prose_jql": PROSE_JQL,
             "reconciliation": RECONCILIATION, "platform": PLATFORM,
             "confluence_plan": CONFLUENCE_PLAN, "assist_label": ASSIST_LABEL}

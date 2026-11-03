@@ -447,11 +447,16 @@ ASSIST_LABEL = {
 }
 
 
+ROW_JQL = {'sprint': 'project = MIGDL AND issuetype not in ("MiGDL District Onboarding (Initial)", "MiGDL District Onboarding (Catch-Up)") AND Sprint IS EMPTY', 'resolution': 'project = MIGDL AND statusCategory = Done AND resolutiondate IS EMPTY', 'sd-code': 'project = MIGDL AND issuetype in ("MiGDL District Onboarding (Initial)", "MiGDL District Onboarding (Catch-Up)") AND "[MiGDL] SD Code (Auto)" IS EMPTY', 'workstream': 'project = MIGDL AND "[MiGDL] Workstream" IS EMPTY', 'story-points': 'project = MIGDL AND ("Story Points" IS NOT EMPTY OR "Story point estimate" IS NOT EMPTY)', 'school-year': 'project = MIGDL AND "[MiGDL] Historical Years Needed" IS NOT EMPTY'}
+
+
 def build(bundle):
     """Measure every gap against the current bundle, and list the sources it draws on."""
     out = []
     for g in GAPS:
         row = {k: v for k, v in g.items() if k != "probe"}
+        if g["id"] in ROW_JQL:
+            row["jql"] = ROW_JQL[g["id"]]
         a = ASSIST.get(g["id"])
         if a:
             row["assist"] = {"level": a[0], "how": a[1], "tool": a[2]}

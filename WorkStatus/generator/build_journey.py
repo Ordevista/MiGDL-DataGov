@@ -99,6 +99,7 @@ def road_status(live):
         done = sum(1 for i in known if i["sc"] == "Done")
         prog = sum(1 for i in known if i["sc"] == "In Progress")
         out.append(dict(st,
+                        keys=[k for k in keys if k in live],
                         tickets=len(known), done=done, in_progress=prog,
                         state=("current" if st["n"] == 0
                                else "no tickets" if not known

@@ -69,6 +69,92 @@ CONFLUENCE_PLAN = [
 ]
 
 
+# ── should sprints be enabled, and over what? ──────────────────────────────
+# Raised in review: the Initial and Catch-Up Kanban boards work, and a blanket
+# "create a Scrum board" would impose sprints on work that is correctly flow-shaped.
+# The data settles it. The two kinds of work share NO statuses at all — the
+# onboarding workflow runs Intake, Connection Setup, Bronze Load, Validate, Load
+# Completed and two On-Hold states; delivery work runs Backlog, To Do, In Progress,
+# Internal Validation, Ready for Stage, Done. A board filter separates them exactly,
+# with nothing landing on both boards.
+WORK_KINDS = [
+    dict(kind="District loading (Initial and Catch-Up)",
+         count_key="onboarding", board="The two existing Kanban boards",
+         shape="Flow. Arrives from registration forms on no schedule, each district "
+               "moves at the pace of its own data, and there is no sensible way to say "
+               "'we will finish eleven districts this fortnight'.",
+         cadence="Keep Kanban. Measure cycle time and work in progress, not velocity.",
+         verdict="Leave alone. Sprints would add a boundary this work does not have and "
+                 "would show carry-over every single sprint."),
+    dict(kind="Delivery work (Tiger Team, ETL, defects, API)",
+         count_key="delivery", board="A new Scrum board, filtered to exclude the two "
+                                     "onboarding issue types",
+         shape="Planned increments toward the Road to Nightly stages. Scope is chosen, "
+               "not arrived at, and the team already talks about it in stages and sprints.",
+         cadence="Sprints, with the sprint's own Goal field naming the stage it advances.",
+         verdict="Enable here, and only here."),
+]
+
+SPRINT_REWARD = [
+    "A sprint goal gets a real home: the sprint's own Goal field, visible on the board, "
+    "in the sprint report and in the burndown.",
+    "A commitment boundary for delivery work — what this fortnight is for — "
+    "without touching how districts are loaded.",
+    "Forecasting against the Road to Nightly: each stage's tickets are already known, so "
+    "velocity turns 'thirteen tickets' into 'about this many sprints'.",
+    "Sprint reports give leadership a cadence to read that is not a hand-refreshed page.",
+]
+
+SPRINT_RISK = [
+    dict(risk="Sprints get applied to district loading too",
+         why="The obvious implementation is one Scrum board over the whole project. That "
+             "would drag 143 onboarding issues into sprints, where they would carry over "
+             "every time and make the board lie.",
+         fix="Filter the Scrum board to exclude the two onboarding issue types. The "
+             "statuses do not overlap at all, so the filter is unambiguous and nothing "
+             "appears on both boards."),
+    dict(risk="Velocity is meaningless at first, and may be believed anyway",
+         why="Story points are set on 70 of 436 delivery issues and split across two "
+             "competing fields, and 246 issues are Done with no resolution date, so "
+             "burndown and velocity charts would be computed from mostly-missing data.",
+         fix="Turn on the sprint goal first and ignore velocity for several sprints. Fix "
+             "the resolution screen and retire one point field before anyone quotes a "
+             "velocity number."),
+    dict(risk="Ceremony cost on a team that already has a working cadence",
+         why="Operations runs a standup, a Parking Lot and an escalation path to the "
+             "Tiger Team. Sprint planning, review and retrospective on top of that is real "
+             "time, and the operational half of the team gets no benefit from it.",
+         fix="Only the delivery half attends. Keep the existing standup as it is; the "
+             "sprint ceremony replaces nothing in the Operations cadence."),
+    dict(risk="Retrofitting history",
+         why="Assigning in-flight issues to a sprint that has already started produces a "
+             "burndown that never burned down, and a first sprint that looks like a "
+             "failure.",
+         fix="Start the first sprint with new scope only. Leave everything already in "
+             "flight off the board until it closes."),
+    dict(risk="Mid-sprint scope change is normal here",
+         why="Defects and district escalations arrive mid-sprint by nature, and a sprint "
+             "that is re-planned twice a week is a Kanban board with extra steps.",
+         fix="Keep defect triage on the existing Kanban board. Only planned Tiger Team "
+             "and ETL work enters a sprint."),
+]
+
+SPRINT_PRECONDITION = [
+    "Resolution on the done transitions — without it there is no cycle time and the "
+    "sprint report cannot tell what actually finished.",
+    "One story-point field, not two.",
+    "A board filter that excludes the onboarding issue types, agreed before the board is "
+    "created rather than after.",
+]
+
+SPRINT_RECOMMENDATION = (
+    "Enable sprints on a new Scrum board scoped to delivery work, and leave both "
+    "onboarding Kanban boards exactly as they are. Set the sprint Goal from day one and "
+    "name the Road to Nightly stage it advances; leave velocity alone until the "
+    "resolution and story-point preconditions are met. This is additive — nothing "
+    "about how districts are loaded changes.")
+
+
 # ── where district state is maintained today ───────────────────────────────
 # Four places, two of them copies of a third. Recorded here because the gap register
 # below is about collapsing them, and because the disagreement between them is itself
@@ -188,26 +274,28 @@ GAPS = [
 
     # ── fields that exist but are empty ───────────────────────────────────
     dict(id="sprint", kind="setting", priority=1,
-         title="There are no sprints: the Sprint field is empty on every issue",
-         unlocks="Velocity, burndown, commitment and a sprint goal. The Sprint planning "
-                 "view shows ready-against-blocked instead, because there is no sprint to "
-                 "report on.",
-         how="Sprints come from a Scrum board, and the project's board is a Kanban one. "
-             "Create a Scrum board over the MIGDL project, or add one alongside the "
-             "existing board, which can stay for defect triage. Everything below follows "
-             "from that one change.",
-         probe=lambda b: (sum(1 for i in _issues(b) if i.get("sprint")), _n(b), "issues")),
+         title="Delivery work has no sprints; district loading should not have any",
+         unlocks="Velocity, burndown, commitment and a sprint goal \u2014 for the 436 "
+                 "delivery issues. The 143 onboarding issues are flow work and are "
+                 "deliberately excluded.",
+         how="Add a Scrum board filtered to exclude the two onboarding issue types, and "
+             "leave both Initial and Catch-Up Kanban boards untouched. The two workflows "
+             "share no statuses, so the filter is unambiguous. See the assessment above "
+             "for what this buys and what it risks.",
+         probe=lambda b: (sum(1 for i in _issues(b) if i.get("sprint")),
+                          sum(1 for i in _issues(b)
+                              if i.get("c") not in ("InitialOnboarding", "CatchUpOnboarding")),
+                          "delivery issues on a sprint")),
     dict(id="sprint-goal", kind="setting", priority=1,
          title="Sprint goals have nowhere to live that is actually a sprint",
          unlocks="Recording what a sprint is for, and reading it back later. A goal is a "
                  "property of a sprint, so it cannot sit on an issue without either picking "
                  "one issue to speak for the sprint or copying it onto every issue and then "
                  "reconciling the copies \u2014 the same failure as the four district trackers.",
-         how="Use the sprint's own Goal field, which every Jira sprint has: set it when the "
-             "sprint is started, and it shows on the board, in the sprint report and in the "
-             "burndown. Do not repurpose [MiGDL-OPS] Sprint Target Goal for this: it is an "
-             "issue field, and on all four issues that use it today it holds that issue's "
-             "own scope description rather than a sprint goal.",
+         how="Use the sprint's own Goal field, which arrives with the Scrum board above. Do "
+             "not repurpose [MiGDL-OPS] Sprint Target Goal for this: it is an issue field, "
+             "and on all four issues that use it today it holds that issue's own scope "
+             "description rather than a sprint goal.",
          probe=lambda b: (0, 1, "sprint goal recorded on a sprint")),
     dict(id="goal-hierarchy", kind="process", priority=2,
          title="Goals longer than a sprint have no home either",
@@ -375,6 +463,13 @@ def build(bundle):
         else:
             row.update(have=None, need=None, unit=None, pct=None, closed=None)
         out.append(row)
+    onb = ("InitialOnboarding", "CatchUpOnboarding")
+    counts = {"onboarding": sum(1 for i in _issues(bundle) if i.get("c") in onb),
+              "delivery": sum(1 for i in _issues(bundle) if i.get("c") not in onb)}
     return {"kinds": KINDS, "gaps": out, "sources": SOURCES,
+            "work_kinds": WORK_KINDS, "work_counts": counts,
+            "sprint_reward": SPRINT_REWARD, "sprint_risk": SPRINT_RISK,
+            "sprint_precondition": SPRINT_PRECONDITION,
+            "sprint_recommendation": SPRINT_RECOMMENDATION,
             "reconciliation": RECONCILIATION, "platform": PLATFORM,
             "confluence_plan": CONFLUENCE_PLAN, "assist_label": ASSIST_LABEL}

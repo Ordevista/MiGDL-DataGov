@@ -705,6 +705,60 @@
   }
 
 
+  /* ---- sprints: what to enable, and over which work ---- */
+  function sprintBlock() {
+    var G = window.GAPS;
+    var WK = G.work_kinds || [], C = G.work_counts || {};
+    if (!WK.length) return "";
+    return '<section class="sect"><h2>Should sprints be enabled, and over what?</h2>' +
+      '<p class="hint">Raised in review: the Initial and Catch-Up Kanban boards work, and ' +
+      'a blanket “create a Scrum board” would impose sprints on work that is ' +
+      'correctly flow-shaped. The data settles it — the two kinds of work share ' +
+      '<b>no statuses at all</b>, so a board filter separates them exactly and nothing ' +
+      'lands on both boards.</p>' +
+      '<div class="grid g2">' + WK.map(function (w) {
+        var n = C[w.count_key];
+        var keep = /Leave alone/.test(w.verdict);
+        return '<div class="card kv" style="border-top:3px solid var(--' +
+          (keep ? "ok" : "accent") + ')">' +
+          '<span class="k">' + esc(w.kind) + "</span>" +
+          '<span class="v">' + (n == null ? "" : n) +
+          ' <span class="gapsub" style="font-weight:400">issues</span></span>' +
+          "<div style='font-size:12.5px;color:var(--fg-2);margin-top:4px'><b>Shape.</b> " +
+          esc(w.shape) + "</div>" +
+          "<div style='font-size:12.5px;color:var(--fg-2);margin-top:4px'><b>Board.</b> " +
+          esc(w.board) + "</div>" +
+          "<div style='font-size:12.5px;color:var(--fg-2);margin-top:4px'><b>Cadence.</b> " +
+          esc(w.cadence) + "</div>" +
+          "<div style='margin-top:7px'><span class='pill " + (keep ? "ok" : "acc") + "'>" +
+          esc(w.verdict) + "</span></div></div>";
+      }).join("") + "</div>" +
+
+      '<div class="grid g2" style="margin-top:14px">' +
+      '<div class="card"><div class="nj" style="border-bottom:1px solid var(--line)">' +
+      "<span class='pill ok'>Reward</span><span class='w'>What enabling sprints buys</span>" +
+      "</div>" + (G.sprint_reward || []).map(function (x) {
+        return "<div class='nj'><span class='pill ok'>+</span><span>" + esc(x) + "</span></div>";
+      }).join("") + "</div>" +
+      '<div class="card"><div class="nj" style="border-bottom:1px solid var(--line)">' +
+      "<span class='pill warn'>Precondition</span><span class='w'>Do these first, or the " +
+      "numbers will mislead</span></div>" + (G.sprint_precondition || []).map(function (x) {
+        return "<div class='nj'><span class='pill warn'>!</span><span>" + esc(x) + "</span></div>";
+      }).join("") + "</div></div>" +
+
+      "<h3 style='font-size:13.5px;margin:16px 0 6px'>Risks, and what each needs</h3>" +
+      '<div class="card">' + (G.sprint_risk || []).map(function (r) {
+        return "<div class='nj'><span class='pill crit'>risk</span><span>" +
+          "<span class='w'>" + esc(r.risk) + "</span>" +
+          "<div style='color:var(--fg-2);margin-top:2px;font-size:12.5px'>" + esc(r.why) + "</div>" +
+          "<div style='color:var(--muted);margin-top:3px;font-size:12.5px'><b>Mitigation.</b> " +
+          esc(r.fix) + "</div></span></div>";
+      }).join("") + "</div>" +
+      '<div class="gap" style="margin-top:12px;border-left-color:var(--ok);' +
+      'background:var(--ok-soft)"><b>Recommendation.</b> ' +
+      esc(G.sprint_recommendation || "") + "</div></section>";
+  }
+
   /* ---- the Jira gap register, rendered in Sprint planning ---- */
   var PRIOLBL = { 1: "Do first", 2: "Next", 3: "Later" };
 
@@ -808,7 +862,7 @@
           }).join("") + "</div>";
       }).join("") + "</section>";
 
-    return platBlock + assistBlock + srcBlock +
+    return sprintBlock() + platBlock + assistBlock + srcBlock +
       '<section class="sect"><h2>To run this from Jira alone</h2>' +
       '<p class="hint">This page is built from three sources: Jira, the ingestion tracker ' +
       'spreadsheet, and two hand transcriptions of the Lucid map and the Game Plan. Below is ' +

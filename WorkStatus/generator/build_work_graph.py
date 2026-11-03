@@ -490,6 +490,16 @@ def main():
                 return by_name[n[:-len(suf)]]
         return None
 
+    # A district whose Bronze or Descriptor load is newer than its Gold load has been
+    # re-ingested and is waiting on Pipeline B. That is the normal mid-cycle state, not
+    # lost ground, and without it a drop in "students covered" reads as data loss.
+    for d in dj.values():
+        st = d.get("stages") or {}
+        upstream = max([v for k, v in st.items()
+                        if k in ("bronze-load", "descriptor-load", "silver-load")] or [""])
+        gold = st.get("goldplat-load", "")
+        d["awaiting_gold"] = bool(upstream and (not gold or upstream > gold))
+
     jira_only = {}
     for r in rows:
         d = r.get("district")
@@ -545,6 +555,9 @@ def main():
             "students_covered": sum(v.get("students") or 0 for v in dj.values()
                                     if v.get("stage") == "complete"),
             "students_total": sum(v.get("students") or 0 for v in dj.values()),
+            "districts_awaiting_gold": sum(1 for v in dj.values() if v.get("awaiting_gold")),
+            "students_awaiting_gold": sum(v.get("students") or 0 for v in dj.values()
+                                          if v.get("awaiting_gold")),
         },
         "personas": PERSONAS,
         "sd_backfill": sd_backfill(rows, master),
@@ -568,8 +581,10 @@ def main():
     for k in ("with_stage", "with_table", "with_layer", "with_domain",
               "with_workstream", "with_district", "with_product"):
         print("  %-16s %4d  %5.1f%%" % (k, c[k], 100 * c[k] / c["issues"]))
-    print("students          %s of %s in a loaded district"
-          % (format(c["students_covered"], ","), format(c["students_total"], ",")))
+    print("students          %s of %s in a district through Gold; %s awaiting Gold "
+          "promotion (%d districts)"
+          % (format(c["students_covered"], ","), format(c["students_total"], ","),
+             format(c["students_awaiting_gold"], ","), c["districts_awaiting_gold"]))
     _bf = bundle["sd_backfill"]
     print("sd backfill       %d tickets, %d with a confident suggestion, %d need a human"
           % (len(_bf), sum(1 for x in _bf if x["confidence"] >= 0.8),

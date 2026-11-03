@@ -1032,6 +1032,21 @@
 
   function num(n) { return n == null ? "—" : String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
 
+
+  /* A fresh Bronze/Descriptor sweep leaves districts with older Gold data. Without
+     saying so, "students covered" falling reads as data loss rather than a queue. */
+  function awaitingGoldNote() {
+    var c = W.coverage || {};
+    if (!c.districts_awaiting_gold) return "";
+    return '<div class="gap" style="border-left-color:var(--warn);background:var(--warn-soft)">' +
+      "<b>" + c.districts_awaiting_gold + " districts are waiting on Gold.</b> Their raw copy " +
+      "and codes have been refreshed more recently than their statewide model, so the apps " +
+      "are serving older data for them while the night shift catches up. That is " +
+      num(c.students_awaiting_gold) + " students whose data is in the lake but not yet " +
+      "through to the apps. It is a queue, not a loss — and it is the Pipeline B " +
+      "bottleneck the Data Journey describes, showing up in the numbers.</div>";
+  }
+
   function vStake() {
     var all = Object.keys(DIST).map(function (k) { return DIST[k]; });
     var ds = all.filter(function (d) { return d.src !== "jira-only"; })
@@ -1070,12 +1085,12 @@
       });
       return head +
         '<section class="sect"><div class="grid g3">' +
-        tile("Students covered", num(studentsIn), "of " + num(studentsAll) + " in registered districts") +
+        tile("Students through Gold", num(studentsIn), "of " + num(studentsAll) + " in registered districts") +
         tile("Districts loaded", loaded.length + " / " + ds.length, "across " + isds.length + " ISDs") +
         tile("Worst-case data age", worst + " days", "what a teacher may be looking at") +
         tile("ISDs fully loaded", isds.filter(function (k) {
           return byIsd[k].done === byIsd[k].n; }).length + " / " + isds.length, "every district in") +
-        "</div></section>" + freshBlock(true) +
+        "</div></section>" + awaitingGoldNote() + freshBlock(true) +
         '<section class="sect"><h2>By ISD</h2>' +
         '<p class="hint">Ordered by how many districts are still waiting, then by students. ' +
         'A region is only as current as its slowest district.</p>' +
@@ -1207,11 +1222,11 @@
       '<section class="sect"><div class="grid g3">' +
       tile("Districts loaded", loaded.length + " / " + ds.length, "per the ingestion tracker") +
       tile("Worst-case data age", worst + " days", "what a teacher may be looking at") +
-      tile("Students covered", num(studentsIn), "in a loaded district") +
+      tile("Students through Gold", num(studentsIn), "of " + num(studentsAll) + " registered") +
       tile("Applications live", Object.keys(ds.reduce(function (a, d) {
         (d.products || []).forEach(function (p) { a[p] = 1; }); return a; }, {})).length,
         "across all districts") +
-      "</div></section>" + freshBlock(true) + appShowsSection() +
+      "</div></section>" + awaitingGoldNote() + freshBlock(true) + appShowsSection() +
       '<section class="sect"><h2>Find your district</h2>' +
       '<p class="hint">Every registered district. The dots are the four load steps in order: ' +
       'raw copy, codes, district cabinet, statewide model. A filled dot means the tracker has ' +

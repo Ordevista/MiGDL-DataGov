@@ -575,6 +575,9 @@ def main():
             "jira": "https://micollabhub.atlassian.net/browse/",
             "board": "https://micollabhub.atlassian.net/jira/software/c/projects/MIGDL/boards/857",
             "ops": "https://micollabhub.atlassian.net/wiki/spaces/MiGDL/pages/6031507476/Operations",
+            # the Confluence cut of this same data, created 3 Nov 2026: live Jira
+            # macros where Jira can answer, dated snapshots where it cannot yet
+            "status_page": "https://micollabhub.atlassian.net/wiki/spaces/MiGDL/pages/6263308313/District+Ingestion+Status+live",
         },
     }
     (OUT / "work.json").write_text(json.dumps(bundle, separators=(",", ":")))

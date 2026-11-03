@@ -52,6 +52,7 @@ sub = {
     "{{MAPASOF}}": jrny["map"]["jira_asof"],
     "{{BOARD}}": work["companions"]["board"],
     "{{OPS}}": work["companions"]["ops"],
+    "{{STATUSPAGE}}": work["companions"]["status_page"],
 }
 if PUBLIC:
     banner = ('<div class="gap" style="border-left-color:var(--accent);'

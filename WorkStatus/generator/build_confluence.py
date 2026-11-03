@@ -20,6 +20,8 @@ SHEET = ("https://docs.google.com/spreadsheets/d/"
          "172NeOz4VwyQdcaNfuY9GjTvxCD3YKGKJAJr7wBR03Rw/edit?usp=sharing")
 TRACKER_PAGE = ("https://micollabhub.atlassian.net/wiki/spaces/MiGDL/pages/"
                 "6033145857/District+Onboarding+and+Ingestion+Tracker")
+ONTOLOGY_PAGE = ("https://ordevista.github.io/MiGDL-DataGov/WorkStatus/"
+                 "MiGDL-Work-Ontology.html")
 BOARD = ("https://micollabhub.atlassian.net/jira/software/c/projects/MIGDL/boards/857")
 BROWSE = "https://micollabhub.atlassian.net/browse/"
 
@@ -31,7 +33,7 @@ def e(s):
 
 
 # Column order is the author's, applied to every table so the seven read alike.
-COLUMNS = "type,key,summary,assignee,priority,status,created,updated"
+COLUMNS = "type,key,summary,assignee,priority,status,updated"
 
 
 def jira_macro(jql, label):
@@ -43,8 +45,21 @@ def jira_macro(jql, label):
                                 "title": "Jira Legacy"}}
     return ('<div data-type="extension" data-extension-key="jira"'
             ' data-extension-type="com.atlassian.confluence.macro.core"'
+            ' data-layout="full-width"'
             " data-parameters='%s'>%s</div>"
             % (json.dumps(params).replace("'", "&apos;"), e(label)))
+
+
+def toc():
+    """Native Table of Contents macro. Levels 2-3 — the h2 sections and the stage and
+    sub-table headings under them, which is the whole structure."""
+    params = {"macroParams": {"minLevel": {"value": "2"},
+                              "maxLevel": {"value": "3"}},
+              "macroMetadata": {"schemaVersion": {"value": "1"},
+                                "title": "Table of Contents"}}
+    return ('<div data-type="extension" data-extension-key="toc"'
+            ' data-extension-type="com.atlassian.confluence.macro.core"'
+            " data-parameters='%s'></div>" % json.dumps(params))
 
 
 def keys_jql(keys):
@@ -56,7 +71,7 @@ def link(key):
 
 
 def table(headers, rows, widths=None):
-    out = ["<table><thead><tr>"]
+    out = ['<table data-layout="full-width"><thead><tr>']
     for i, h in enumerate(headers):
         w = ' data-colwidth="%s"' % widths[i] if widths else ""
         out.append("<th%s>%s</th>" % (w, h))
@@ -92,6 +107,7 @@ def build():
     p = []
 
     # ── how to use ────────────────────────────────────────────────────────
+    p.append(toc())
     p.append(panel("info",
         "<p><strong>What this page is.</strong> The engineering view of ingestion: "
         "which pipeline work is moving, what the Data Journey asks for that Jira does "
@@ -241,8 +257,9 @@ def build():
     p.append("<h2>🐞 Defects</h2>")
     p.append("<p>Live, by status. The "
              '<a href="%s">Kanban board</a> stays the place to work them; this is the '
-             "same set in page form so it can be read beside the pipeline work above."
-             "</p>" % e(BOARD))
+             "same set in page form so it can be read beside the pipeline work above. "
+             "Jira's own issue type is <code>Bug</code>; the Data Journey and this page "
+             "call it a defect.</p>" % e(BOARD))
     # Jira's own issue type is Bug; "Defect" is this ontology's name for it, so the
     # macro has to say Bug or it silently returns nothing.
     p.append(jira_macro(
@@ -335,7 +352,12 @@ def build():
           "snapshot of %s" % e(w["generated"])],
          ["Data Journey (Lucid), %s" % e(mp["version"]),
           "the stations, pain points, ten fixes and the road to nightly",
-          "transcribed from the %s export" % e(mp["dated"])]],
+          "transcribed from the %s export" % e(mp["dated"])],
+         ['<a href="%s">MiGDL Work Ontology</a>' % e(ONTOLOGY_PAGE),
+          "the same facts in full, across five views: the map, developers, sprint "
+          "planning, leadership and K-12 stakeholders. District names are redacted "
+          "there; this page is internal and names them.",
+          "rebuilt alongside this page"]],
         widths=["260", "320", "160"]))
 
     p.append(panel("warning",
@@ -361,4 +383,5 @@ if __name__ == "__main__":
     dest.write_text(body)
     print("wrote %s  (%d KB)" % (dest.name, len(body) // 1024))
     print("  jira macros", body.count('data-extension-key="jira"'))
-    print("  tables     ", body.count("<table>"))
+    print("  tables     ", body.count("<table"))
+    print("  full width ", body.count('data-layout="full-width"'))

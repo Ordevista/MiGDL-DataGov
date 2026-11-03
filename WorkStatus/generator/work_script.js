@@ -896,6 +896,19 @@
           "<div style='margin-top:7px;font-size:12.5px;color:var(--fg)'><b>" +
           esc(t.verdict) + "</b></div></div>";
       }).join("") + "</div>" +
+      (C.status_page ? '<h3 style="font-size:13.5px;margin:16px 0 6px">The Confluence cut ' +
+        'now exists</h3><div class="card"><div class="nj">' +
+        "<span class='pill ok'>built</span><span>" +
+        '<a href="' + C.status_page + '" target="_blank" rel="noopener">' +
+        "\ud83d\udea6 District Ingestion Status (live)</a>" +
+        "<div style='color:var(--fg-2);font-size:12.5px;margin-top:3px'>" +
+        "A sibling of the hand-refreshed tracker under \ud83d\udcc5 Operations, built " +
+        "3 November 2026. The tables Jira can answer today are live Jira macros there " +
+        "\u2014 each road-to-nightly stage, every ticket this map cites, the onboarding " +
+        "tickets with no SD code, open defects. The district tables are a dated snapshot, " +
+        "because Jira still holds no per-district work item to query. It is the same facts " +
+        "as this page, cut for people who read Confluence rather than this view." +
+        "</div></span></div></div>" : "") +
       (CP.length ? '<h3 style="font-size:13.5px;margin:16px 0 6px">What moving to Confluence ' +
         'would actually replace</h3><div class="card">' + CP.map(function (x) {
           return "<div class='nj'><span class='pill acc'>replaces</span><span>" +

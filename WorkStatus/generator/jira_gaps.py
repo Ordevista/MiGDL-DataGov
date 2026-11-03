@@ -349,7 +349,7 @@ GAPS = [
          how="Add a [MiGDL] Gap Group select (G1–G6) and set it on the 35 tickets the "
              "map already cites. A Jira issue link type 'realises' pointing at an epic per "
              "fix would work equally well.",
-         probe=lambda b: (0, 35, "cited tickets carrying their gap group")),
+         probe=lambda b: (0, 0, "cited tickets carrying their gap group")),
     dict(id="layer-field", kind="schema", priority=2,
          title="Medallion layer is inferred from issue text, not recorded",
          unlocks="The Developer view's 'where this work lands', and station filtering. "
@@ -486,16 +486,52 @@ PROSE_JQL = {
 }
 
 
-def build(bundle):
+# ── what each assist row would actually touch ──────────────────────────────
+# "I can backfill the SD codes" is not investigable until you can see which 48. Each
+# row that would act on real issues carries the set it would act on: a live query
+# where the set is defined by a field, a key list where it is derived here. A row
+# that would create issues that do not exist yet has no target, and says so.
+ASSIST_TARGET = {
+    "sd-code":        ("jql", '%s AND %s AND "[MiGDL] SD Code (Auto)" IS EMPTY' % (P, ONB_IN),
+                       "the tickets whose SD code would be filled in"),
+    "workstream":     ("jql", "%s AND cf[10242] IS EMPTY" % P,
+                       "the tickets whose Workstream would be set"),
+    "resolution":     ("jql", "%s AND statusCategory = Done AND resolutiondate IS EMPTY" % P,
+                       "the closed tickets that would gain a resolution date"),
+    "sprint":         ("jql", "%s AND %s AND cf[10020] IS EMPTY" % (P, ONB_NOT),
+                       "the delivery tickets that would move onto sprints"),
+    "story-points":   ("jql", "%s AND cf[10024] IS NOT EMPTY AND cf[10016] IS NOT EMPTY" % P,
+                       "the tickets that set both point fields and would need migrating"),
+    "district-state": ("jql", "%s AND %s" % (P, ONB_IN),
+                       "the onboarding tickets a district item would be built from"),
+    "stage-dates-all": ("jql", "%s AND %s" % (P, ONB_IN),
+                        "the onboarding tickets carrying stage dates today"),
+    "school-year":    ("jql", "%s AND cf[10472] IS EMPTY AND %s" % (P, ONB_IN),
+                       "the onboarding tickets with no historical years recorded"),
+    # sets this module derives rather than Jira storing them
+    "gap-group":      ("keys", "cited", "the tickets the map cites, which would be tagged"),
+    "table-field":    ("keys", "tabled", "the tickets whose summary already names a table"),
+    "layer-field":    ("keys", "layered", "the tickets with a layer derived today"),
+    "goal-hierarchy": ("keys", "road", "the tickets behind the Road to Nightly stages"),
+}
+
+
+def build(bundle, journey=None):
     """Measure every gap against the current bundle, and list the sources it draws on."""
+    journey = journey or {}
+    derived = {
+        "cited": sorted({r["key"] for r in journey.get("recon", [])}),
+        "tabled": [i["k"] for i in _issues(bundle) if i.get("td")],
+        "layered": [i["k"] for i in _issues(bundle) if i.get("ly")],
+        "road": sorted({k for st in journey.get("road", []) for k in st.get("keys", [])}),
+    }
     out = []
     for g in GAPS:
         row = {k: v for k, v in g.items() if k != "probe"}
         if g["id"] in ROW_JQL:
             row["jql_have"], row["jql_total"] = ROW_JQL[g["id"]]
-        a = ASSIST.get(g["id"])
-        if a:
-            row["assist"] = {"level": a[0], "how": a[1], "tool": a[2]}
+        # the probe runs first: whether a row is closed decides whether offering to
+        # act on it still makes sense
         if g["probe"]:
             have, need, unit = g["probe"](bundle)
             row.update(have=have, need=need, unit=unit,
@@ -503,6 +539,21 @@ def build(bundle):
                        closed=have >= need)
         else:
             row.update(have=None, need=None, unit=None, pct=None, closed=None)
+        # this one counts the tickets the map cites, which only the journey knows
+        if g["id"] == "gap-group":
+            row.update(need=len(derived["cited"]), pct=0, closed=False)
+        a = ASSIST.get(g["id"])
+        if a:
+            row["assist"] = {"level": a[0], "how": a[1], "tool": a[2]}
+            t = ASSIST_TARGET.get(g["id"])
+            if t and a[0] != "no" and not row.get("closed"):
+                if t[0] == "jql":
+                    row["assist"]["target"] = {"kind": "jql", "jql": t[1], "label": t[2]}
+                else:
+                    keys = derived.get(t[1]) or []
+                    if keys:
+                        row["assist"]["target"] = {"kind": "keys", "keys": keys,
+                                                   "label": t[2], "count": len(keys)}
         out.append(row)
     onb = ("InitialOnboarding", "CatchUpOnboarding")
     counts = {"onboarding": sum(1 for i in _issues(bundle) if i.get("c") in onb),

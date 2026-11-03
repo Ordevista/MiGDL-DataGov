@@ -42,7 +42,7 @@
      re-derived field filter would. A set too large for a URL gets no link rather
      than an approximate one. */
   var JIRA_BASE = (C.jira || "").replace(/\/browse\/?$/, "");
-  var JQL_MAX_KEYS = 180;        // ~2.3k of URL; well inside browser limits
+  var JQL_MAX_KEYS = 280;        // ~3.6k of URL; well inside browser limits
 
   function jqlUrl(jql) {
     return JIRA_BASE + "/issues/?jql=" + encodeURIComponent(jql);
@@ -921,9 +921,18 @@
         return "<h3 style='font-size:13.5px;margin:16px 0 6px'><span class='pill " + cls +
           "'>" + esc(AL[lv] || lv) + "</span> <span class='gapsub' style='font-weight:400'>" +
           rows.length + "</span></h3><div class='card'>" + rows.map(function (g) {
+            var t = (g.assist || {}).target;
+            var look = !t ? "<span class='gapsub'>nothing to look at yet \u2014 this one " +
+                "creates issues rather than changing them</span>"
+              : t.kind === "jql"
+                ? jqlLink(t.jql, "Show me " + t.label,
+                    "Live Jira query \u2014 the set this would act on")
+                : keysLink(t.keys, "Show me " + t.label + " (" + t.count + ")",
+                    "The " + t.count + " tickets this would act on");
             return "<div class='nj'><span class='w' style='min-width:0'>" + esc(g.title) +
               "</span><span><div style='color:var(--fg-2);font-size:12.5px'>" +
               esc((g.assist || {}).how || "") + "</div>" +
+              "<div style='margin-top:4px;font-size:12.5px'>" + look + "</div>" +
               ((g.assist || {}).tool ? "<div class='gapsub mono' style='margin-top:3px'>" +
                 esc(g.assist.tool) + "</div>" : "") + "</span></div>";
           }).join("") + "</div>";

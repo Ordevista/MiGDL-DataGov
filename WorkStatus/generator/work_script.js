@@ -907,17 +907,18 @@
       var lv = (g.assist || {}).level;
       if (lv && lv !== "no") (byAssist[lv] = byAssist[lv] || []).push(g);
     });
-    var assistOrder = ["yes", "partly", "after-decision", "admin"];
+    var assistOrder = ["done", "yes", "partly", "after-decision", "admin"];
     var assistBlock = '<section class="sect"><h2>What I could move for you</h2>' +
       '<p class="hint">The Atlassian connector now has write access, so some of the register ' +
-      'above is work I could do with your access rather than hand you. Nothing below has been ' +
-      'done. Ten of the rows need a Jira administrator to create a field, add an option or ' +
+      'above is work I could do with your access rather than hand you. Anything marked done ' +
+      'has been applied to Jira; nothing else below has. Ten of the rows need a Jira ' +
+      'administrator to create a field, add an option or ' +
       'change a workflow before anything can be populated — that part is not something ' +
       'these tools can reach.</p>' +
       assistOrder.map(function (lv) {
         var rows = byAssist[lv] || [];
         if (!rows.length) return "";
-        var cls = lv === "yes" ? "ok" : lv === "admin" ? "warn" : "acc";
+        var cls = (lv === "yes" || lv === "done") ? "ok" : lv === "admin" ? "warn" : "acc";
         return "<h3 style='font-size:13.5px;margin:16px 0 6px'><span class='pill " + cls +
           "'>" + esc(AL[lv] || lv) + "</span> <span class='gapsub' style='font-weight:400'>" +
           rows.length + "</span></h3><div class='card'>" + rows.map(function (g) {
@@ -1227,18 +1228,22 @@
       }
 
       var bf = W.sd_backfill || [];
-      var bfSure = bf.filter(function (x) { return x.confidence >= 0.8; });
-      var bfNone = bf.filter(function (x) { return !x.suggested_sd; });
+      var bfDead = bf.filter(function (x) { return /cancel/i.test(x.status || ""); });
+      var bfLive = bf.filter(function (x) { return !/cancel/i.test(x.status || ""); });
 
       var bfSection = !bf.length ? "" :
         '<section class="sect"><h2>Onboarding tickets with no SD code ' +
         "<span class='gapsub'>" + bf.length + "</span></h2>" +
         "<p class='hint'>The SD code is the join key between a Jira ticket and district " +
-        "state, and " + bf.length + " onboarding tickets do not carry it. " + bfSure.length +
-        " can be filled in from evidence already on the ticket: the code is often written " +
-        "into the summary, and the district name usually matches the master. Where both " +
-        "exist they are compared rather than merged \u2014 today they agree in every case. " +
-        bfNone.length + " have neither and need a person.</p>" +
+        "state. It was backfilled on 3 November 2026: 24 tickets gained a code in " +
+        "[MiGDL] SD Code (Manual) from a confident district match, and a further 9 " +
+        "already carried one there \u2014 this page had been reading only the Auto field, " +
+        "which is automation-owned and empty on every onboarding ticket, so the gap it " +
+        "reported was overstated by 9. The " + bf.length + " below have no code to fill " +
+        "rather than a code waiting to be filled: " + bfDead.length + " are cancelled " +
+        "duplicates, and " + bfLive.length + " are live tickets for districts that carry " +
+        "no SD code anywhere in the Connected Districts master. Those need a person to " +
+        "issue a code, not a match.</p>" +
         '<button class="expbtn" type="button" data-export="sd" hidden>' +
         "Export " + bf.length + " tickets as CSV</button> " +
         keysLink(bf.map(function (x) { return x.key; }),
@@ -1265,7 +1270,8 @@
         tile("Mid-pipeline", midway.length, "started, not finished") +
         tile("Off the nightly schedule", unscheduled.length, "of " + ds.filter(function (d) {
           return d.src === "tracker"; }).length + " in the tracker") +
-        tileK("Tickets missing an SD code", bf.map(function (x) { return x.key; }), bfSure.length + " can be filled in") +
+        tileK("Tickets missing an SD code", bf.map(function (x) { return x.key; }),
+          bfDead.length + " cancelled, " + bfLive.length + " have no code to fill") +
         "</div></section>" + bfSection +
         queue("Districts with a named next action",
           "Straight from the tracker's Next Step column. This is the day's queue.",

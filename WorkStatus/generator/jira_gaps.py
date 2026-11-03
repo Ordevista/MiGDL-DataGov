@@ -318,11 +318,14 @@ GAPS = [
                           sum(1 for i in _issues(b) if i.get("sc") == "Done"),
                           "done issues with a resolution date")),
     dict(id="sd-code", kind="data", priority=1,
-         title="69 of 143 district onboarding tickets carry no SD code",
-         unlocks="A reliable join to district state. Twelve districts can only be matched "
-                 "by normalised name today, which is the Data Journey's own pain point 9.",
-         how="Make [MiGDL] SD Code (Auto) required on both onboarding issue types, and "
-             "backfill the 69. It is the join key for everything district-shaped.",
+         title="Every onboarding ticket that has an SD code to carry now carries one",
+         unlocks="A reliable join to district state \u2014 the Data Journey's own pain "
+                 "point 9. The remaining tickets are ones with no code to fill, not a "
+                 "backlog: cancelled duplicates, and districts that have no SD code "
+                 "anywhere in the Connected Districts master.",
+         how="Backfilled on 3 Nov 2026. What is left is to make the field required on "
+             "both onboarding issue types so the gap stops reopening, and to settle an "
+             "SD code for the districts that have none.",
          probe=lambda b: (sum(1 for i in _issues(b)
                               if i.get("c") in ONBOARDING and (i.get("di") or {}).get("sd")),
                           sum(1 for i in _issues(b) if i.get("c") in ONBOARDING),
@@ -435,7 +438,7 @@ GAPS = [
 ]
 
 
-ASSIST = {'district-state': ('after-decision', 'Create the district items in bulk from the tracker once the grain is agreed, and set every field on them.', 'createJiraIssue, editJiraIssue'), 'stage-dates-all': ('after-decision', 'Populate the six load-date fields on those items from the tracker export.', 'editJiraIssue'), 'source-proliferation': ('partly', 'Build the replacement Confluence page with live Jira macros. Cannot retire the spreadsheets for you.', 'createConfluencePage'), 'sprint': ('admin', 'Creating a Scrum board is a Jira configuration change. Once it exists I can move issues onto sprints in bulk.', 'editJiraIssue'), 'resolution': ('admin', 'Adding a Resolution screen to the done transitions is a project-configuration change in the Jira admin UI.', None), 'sd-code': ('yes', "Backfill the 69 missing SD codes by matching each ticket's district name against the tracker, and flag any that cannot be matched rather than guessing.", 'editJiraIssue'), 'story-points': ('admin', 'Retiring one of the two fields is a field-configuration change.', None), 'workstream': ('partly', 'Can set Workstream where the labels or the summary prefix already imply it (MiGDL-TT-1, MiGDL-ETL); the remainder need a human.', 'editJiraIssue'), 'gap-group': ('admin', 'The field has to exist first. Once it does, setting it on all 50 cited tickets is a single pass.', 'editJiraIssue'), 'layer-field': ('admin', 'Needs the field, or Components enabled. Then populate from the stage where it is field-derived, and leave the rest for a human.', 'editJiraIssue'), 'table-field': ('admin', 'Needs the field. Then seed the 12 tickets whose summary already names a table.', 'editJiraIssue'), 'app-options': ('admin', 'Adding select options is a field-configuration change.', None), 'isd-sis': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'schedule': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'school-year': ('admin', 'Needs school year on the district item; [MiGDL] Historical Years Needed already exists and can be populated.', 'editJiraIssue'), 'not-onboarding-states': ('admin', 'Adding workflow states or an engagement field is a configuration change.', None), 'decision-type': ('partly', "Can raise the two decisions as issues with a 'decision' label and a due date today; a proper Decision issue type is a configuration change.", 'createJiraIssue'), 'untracked-fixes': ('yes', "Raise an epic for fix 1 and for the runtime and error logging item, with the map's own wording as the description, and link them to the right gap group.", 'createJiraIssue, createIssueLink'), 'broken-ref': ('yes', 'Closed in v5.0 of the map — MIGDL-230 is no longer cited. Nothing to do.', None), 'status-vocab': ('partly', "Can publish the mapping between the tracker's statuses and Jira's as a Confluence page; aligning the workflow itself is configuration.", 'createConfluencePage'), 'keep-throughput': ('no', None, None), 'keep-lineage': ('no', None, None), 'sprint-goal': ('no', 'A sprint goal is decided by the team at sprint planning. Its home is the sprint’s own Goal field, which exists as soon as a Scrum board does.', None), 'goal-hierarchy': ('partly', 'Can publish the stage-to-sprint mapping and keep each stage’s live progress on the map view; naming the goal is the team’s call.', 'createConfluencePage')}
+ASSIST = {'district-state': ('after-decision', 'Create the district items in bulk from the tracker once the grain is agreed, and set every field on them.', 'createJiraIssue, editJiraIssue'), 'stage-dates-all': ('after-decision', 'Populate the six load-date fields on those items from the tracker export.', 'editJiraIssue'), 'source-proliferation': ('partly', 'Build the replacement Confluence page with live Jira macros. Cannot retire the spreadsheets for you.', 'createConfluencePage'), 'sprint': ('admin', 'Creating a Scrum board is a Jira configuration change. Once it exists I can move issues onto sprints in bulk.', 'editJiraIssue'), 'resolution': ('admin', 'Adding a Resolution screen to the done transitions is a project-configuration change in the Jira admin UI.', None), 'sd-code': ('done', "Backfilled on 3 Nov 2026: 24 tickets gained [MiGDL] SD Code (Manual) from a confident district match. 9 already carried a code there \u2014 the page had been reading only the Auto field, so the gap was overstated. 7 cancelled duplicates and the districts with no SD code in the master were flagged, not guessed.", 'editJiraIssue'), 'story-points': ('admin', 'Retiring one of the two fields is a field-configuration change.', None), 'workstream': ('partly', 'Can set Workstream where the labels or the summary prefix already imply it (MiGDL-TT-1, MiGDL-ETL); the remainder need a human.', 'editJiraIssue'), 'gap-group': ('admin', 'The field has to exist first. Once it does, setting it on all 50 cited tickets is a single pass.', 'editJiraIssue'), 'layer-field': ('admin', 'Needs the field, or Components enabled. Then populate from the stage where it is field-derived, and leave the rest for a human.', 'editJiraIssue'), 'table-field': ('admin', 'Needs the field. Then seed the 12 tickets whose summary already names a table.', 'editJiraIssue'), 'app-options': ('admin', 'Adding select options is a field-configuration change.', None), 'isd-sis': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'schedule': ('admin', 'Needs the fields; then populate from the tracker.', 'editJiraIssue'), 'school-year': ('admin', 'Needs school year on the district item; [MiGDL] Historical Years Needed already exists and can be populated.', 'editJiraIssue'), 'not-onboarding-states': ('admin', 'Adding workflow states or an engagement field is a configuration change.', None), 'decision-type': ('partly', "Can raise the two decisions as issues with a 'decision' label and a due date today; a proper Decision issue type is a configuration change.", 'createJiraIssue'), 'untracked-fixes': ('yes', "Raise an epic for fix 1 and for the runtime and error logging item, with the map's own wording as the description, and link them to the right gap group.", 'createJiraIssue, createIssueLink'), 'broken-ref': ('yes', 'Closed in v5.0 of the map — MIGDL-230 is no longer cited. Nothing to do.', None), 'status-vocab': ('partly', "Can publish the mapping between the tracker's statuses and Jira's as a Confluence page; aligning the workflow itself is configuration.", 'createConfluencePage'), 'keep-throughput': ('no', None, None), 'keep-lineage': ('no', None, None), 'sprint-goal': ('no', 'A sprint goal is decided by the team at sprint planning. Its home is the sprint’s own Goal field, which exists as soon as a Scrum board does.', None), 'goal-hierarchy': ('partly', 'Can publish the stage-to-sprint mapping and keep each stage’s live progress on the map view; naming the goal is the team’s call.', 'createConfluencePage')}
 
 
 ASSIST_LABEL = {
@@ -444,6 +447,7 @@ ASSIST_LABEL = {
     "after-decision": "I can do this once the grain is decided",
     "admin": "Needs a Jira admin first",
     "no": "Not mine to do",
+    "done": "Done \u2014 I did this with your access",
 }
 
 
@@ -465,8 +469,10 @@ ROW_JQL = {
                "%s AND %s" % (P, ONB_NOT)),
     "resolution": ("%s AND statusCategory = Done AND resolutiondate IS NOT EMPTY" % P,
                    "%s AND statusCategory = Done" % P),
-    "sd-code": ('%s AND %s AND "[MiGDL] SD Code (Auto)" IS NOT EMPTY' % (P, ONB_IN),
-                "%s AND %s" % (P, ONB_IN)),
+    # a ticket "has an SD code" if EITHER field holds one: Auto is automation-owned
+    # (MIGDL-285) and empty on these, Manual is where people type it
+    "sd-code": ("%s AND %s AND (cf[10453] IS NOT EMPTY OR cf[10498] IS NOT EMPTY)"
+                % (P, ONB_IN), "%s AND %s" % (P, ONB_IN)),
     "workstream": ("%s AND cf[10242] IS NOT EMPTY" % P, P),
     "story-points": ("%s AND (cf[10024] IS NOT EMPTY OR cf[10016] IS NOT EMPTY)" % P, P),
     # SY begin date or historical years needed: any school-year information at all
@@ -492,8 +498,9 @@ PROSE_JQL = {
 # where the set is defined by a field, a key list where it is derived here. A row
 # that would create issues that do not exist yet has no target, and says so.
 ASSIST_TARGET = {
-    "sd-code":        ("jql", '%s AND %s AND "[MiGDL] SD Code (Auto)" IS EMPTY' % (P, ONB_IN),
-                       "the tickets whose SD code would be filled in"),
+    "sd-code":        ("jql", "%s AND %s AND cf[10453] IS EMPTY AND cf[10498] IS EMPTY"
+                       % (P, ONB_IN),
+                       "the tickets still without a code, which have none to fill"),
     "workstream":     ("jql", "%s AND cf[10242] IS EMPTY" % P,
                        "the tickets whose Workstream would be set"),
     "resolution":     ("jql", "%s AND statusCategory = Done AND resolutiondate IS EMPTY" % P,

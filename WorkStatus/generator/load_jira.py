@@ -8,12 +8,17 @@ import glob, json, os
 PAGES = sorted(glob.glob(os.path.join(
     os.environ["JIRA_PAGES"], "mcp-*searchJiraIssuesUsingJql-*.txt")))
 
+# The export's field projection omits customfield_10498 ([MiGDL] SD Code (Manual))
+# altogether, so Manual codes come from their own pull, checked in beside the export.
+MANUAL = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                      "source", "sd-code-manual.json")
+
 # field id -> short ontology name, from the `names` block of a *all fetch
 F = {
     "customfield_10471": "load_type",
     "customfield_10461": "app_registration",
     "customfield_10242": "workstream",
-    "customfield_10453": "sd_code",
+    "customfield_10453": "sd_code_auto",
     "customfield_10497": "district_auto",
     "customfield_10459": "eem_code",
     "customfield_10472": "historical_years",
@@ -95,6 +100,14 @@ def load():
             for cf, name in F.items():
                 rec[name] = scalar(f.get(cf))
             out.append(rec)
+
+    # A district carries an SD code if EITHER field holds one. Auto is automation-owned
+    # (MIGDL-285) and empty on the onboarding tickets; Manual is where people type it.
+    with open(MANUAL) as fh:
+        manual = json.load(fh)["codes"]
+    for rec in out:
+        rec["sd_code_manual"] = manual.get(rec["key"])
+        rec["sd_code"] = rec["sd_code_auto"] or rec["sd_code_manual"]
     return sorted(out, key=lambda r: int(r["key"].split("-")[1]))
 
 

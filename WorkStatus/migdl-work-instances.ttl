@@ -33,29 +33,23 @@
 <https://migdl.midatahub.org/id/person/p22> a migdl:Person ; skos:prefLabel "Tiger Team" .
 <https://migdl.midatahub.org/id/person/p23> a migdl:Person ; skos:prefLabel "API" .
 
-<https://migdl.midatahub.org/id/district/unassigned-2> a migdl:District ;
-    skos:prefLabel "unassigned-2" ;
-    migdl:scheduleEnabled false .
 <https://migdl.midatahub.org/id/district/unassigned-1> a migdl:District ;
     skos:prefLabel "unassigned-1" ;
     migdl:scheduleEnabled false .
-<https://migdl.midatahub.org/id/district/unassigned-3> a migdl:District ;
-    skos:prefLabel "unassigned-3" ;
+<https://migdl.midatahub.org/id/district/unassigned-4> a migdl:District ;
+    skos:prefLabel "unassigned-4" ;
+    migdl:scheduleEnabled false .
+<https://migdl.midatahub.org/id/district/unassigned-8> a migdl:District ;
+    skos:prefLabel "unassigned-8" ;
     migdl:scheduleEnabled false .
 <https://migdl.midatahub.org/id/district/unassigned-7> a migdl:District ;
     skos:prefLabel "unassigned-7" ;
     migdl:scheduleEnabled false .
-<https://migdl.midatahub.org/id/district/unassigned-11> a migdl:District ;
-    skos:prefLabel "unassigned-11" ;
-    migdl:scheduleEnabled false .
-<https://migdl.midatahub.org/id/district/unassigned-10> a migdl:District ;
-    skos:prefLabel "unassigned-10" ;
+<https://migdl.midatahub.org/id/district/unassigned-2> a migdl:District ;
+    skos:prefLabel "unassigned-2" ;
     migdl:scheduleEnabled false .
 <https://migdl.midatahub.org/id/district/unassigned-5> a migdl:District ;
     skos:prefLabel "unassigned-5" ;
-    migdl:scheduleEnabled false .
-<https://migdl.midatahub.org/id/district/unassigned-8> a migdl:District ;
-    skos:prefLabel "unassigned-8" ;
     migdl:scheduleEnabled false .
 <https://migdl.midatahub.org/id/district/sd1> a migdl:District ;
     skos:prefLabel "sd1" ;
@@ -1140,7 +1134,7 @@
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd184> a migdl:District ;
-    skos:prefLabel "unassigned-1" ;
+    skos:prefLabel "sd184" ;
     dct:identifier "sd184" ;
     migdl:inISD "Huron ISD" ;
     migdl:sisVendor "Skyward" ;
@@ -1159,7 +1153,7 @@
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd186> a migdl:District ;
-    skos:prefLabel "unassigned-2" ;
+    skos:prefLabel "sd186" ;
     dct:identifier "sd186" ;
     migdl:inISD "Huron ISD" ;
     migdl:sisVendor "Skyward" ;
@@ -2295,14 +2289,11 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
-<https://migdl.midatahub.org/id/district/unassigned-4> a migdl:District ;
-    skos:prefLabel "unassigned-4" ;
+<https://migdl.midatahub.org/id/district/unassigned-3> a migdl:District ;
+    skos:prefLabel "unassigned-3" ;
     migdl:scheduleEnabled false .
 <https://migdl.midatahub.org/id/district/unassigned-6> a migdl:District ;
     skos:prefLabel "unassigned-6" ;
-    migdl:scheduleEnabled false .
-<https://migdl.midatahub.org/id/district/unassigned-9> a migdl:District ;
-    skos:prefLabel "unassigned-9" ;
     migdl:scheduleEnabled false .
 
 <https://migdl.midatahub.org/id/work/MIGDL-8> a migdl:Defect ;
@@ -8954,7 +8945,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-511> .
 <https://migdl.midatahub.org/id/work/MIGDL-512> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-512" ;
-    dct:title "unassigned-1" ;
+    dct:title "sd184" ;
     migdl:status "Connection Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
@@ -8962,7 +8953,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-1> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd184> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/connection-setup> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
@@ -9088,7 +9079,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-519> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-519" ;
-    dct:title "unassigned-2" ;
+    dct:title "sd186" ;
     migdl:status "Connection Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
@@ -9096,7 +9087,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-2> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd186> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/connection-setup> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
@@ -9318,7 +9309,7 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> .
 <https://migdl.midatahub.org/id/work/MIGDL-528> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-528" ;
-    dct:title "unassigned-3" ;
+    dct:title "unassigned-1" ;
     migdl:status "Duplicate (Cancelled)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -9326,7 +9317,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-3> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-1> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-529> a migdl:Deliverable ;
@@ -9984,7 +9975,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-545> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-545" ;
-    dct:title "unassigned-4" ;
+    dct:title "Sigel Township SD3F" ;
     migdl:status "Connection Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
@@ -9992,7 +9983,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-4> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd188> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/connection-setup> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
@@ -11045,7 +11036,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-608> .
 <https://migdl.midatahub.org/id/work/MIGDL-609> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-609" ;
-    dct:title "unassigned-5" ;
+    dct:title "unassigned-2" ;
     migdl:status "Connection Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
@@ -11053,7 +11044,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-5> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-2> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/connection-setup> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
@@ -11504,7 +11495,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> .
 <https://migdl.midatahub.org/id/work/MIGDL-628> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-628" ;
-    dct:title "unassigned-6" ;
+    dct:title "unassigned-3" ;
     migdl:status "Connection Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
@@ -11512,7 +11503,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-6> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-3> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/connection-setup> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
@@ -11562,7 +11553,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-632> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-632" ;
-    dct:title "unassigned-7" ;
+    dct:title "unassigned-4" ;
     migdl:status "Connection Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
@@ -11570,7 +11561,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-7> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-4> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/connection-setup> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
@@ -12702,7 +12693,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/charlton-heston-academy> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd193> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
@@ -13402,7 +13393,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-718> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-718" ;
-    dct:title "unassigned-8" ;
+    dct:title "unassigned-5" ;
     migdl:status "Connection Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
@@ -13410,7 +13401,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-8> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-5> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/connection-setup> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
@@ -13968,14 +13959,14 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-747> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-747" ;
-    dct:title "unassigned-9" ;
+    dct:title "unassigned-6" ;
     migdl:status "Connection Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "High" ;
     prov:startedAtTime "2026-10-28T15:17:07"^^xsd:dateTime ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-9> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-6> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/connection-setup> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-ewims> ;
@@ -14424,7 +14415,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-773> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-773" ;
-    dct:title "unassigned-10" ;
+    dct:title "unassigned-7" ;
     migdl:status "Connection Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
@@ -14432,7 +14423,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-10> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-7> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/connection-setup> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
@@ -14441,7 +14432,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-774> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-774" ;
-    dct:title "unassigned-11" ;
+    dct:title "unassigned-8" ;
     migdl:status "Duplicate (Cancelled)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -14449,13 +14440,13 @@
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-11> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-8> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-ewims> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-775> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-775" ;
-    dct:title "unassigned-11" ;
+    dct:title "unassigned-8" ;
     migdl:status "Ingestion Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
@@ -14463,14 +14454,14 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p18> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-11> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-8> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-ewims> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-776> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-776" ;
-    dct:title "unassigned-11" ;
+    dct:title "unassigned-8" ;
     migdl:status "Connection Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
@@ -14478,7 +14469,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-11> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-8> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/connection-setup> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;

@@ -222,9 +222,18 @@ def build():
         widths=["130", "200", "300", "180"]))
 
     # ── SD codes ──────────────────────────────────────────────────────────
+    # Two independent splits, because they call for different actions: a ticket either
+    # has a code waiting to be matched or it has none to match, and separately it is
+    # either live work or a cancelled duplicate. The 3 Nov backfill emptied the
+    # fillable set; new tickets and newly-issued SD codes refill it, so this is
+    # computed every build rather than asserted.
     bf = w["sd_backfill"]
-    dead = [x for x in bf if "cancel" in (x["status"] or "").lower()]
-    live = [x for x in bf if "cancel" not in (x["status"] or "").lower()]
+    def cancelled(x):
+        return "cancel" in (x["status"] or "").lower()
+    fillable = [x for x in bf if x["suggested_sd"]]
+    unknown = [x for x in bf if not x["suggested_sd"]]
+    fill_live = [x for x in fillable if not cancelled(x)]
+    unk_live = [x for x in unknown if not cancelled(x)]
     p.append("<hr>")
     p.append("<h2>🔑 Onboarding tickets with no SD code</h2>")
     p.append("<p>The SD code is the join key between a Jira ticket and district state. "
@@ -232,25 +241,42 @@ def build():
              "or <code>[MiGDL] SD Code (Manual)</code> is set — Auto is automation-owned "
              "and empty on every onboarding ticket, so Manual is the one people fill in."
              "</p>")
-    p.append(panel("success",
-        "<p>Backfilled on <time datetime=\"2026-11-03\">3 November 2026</time>: 24 "
-        "tickets gained a code from a confident district match, and a further 9 already "
-        "carried one. The %d below have no code to fill rather than a code waiting to "
-        "be filled — %d are cancelled duplicates, and %d are live tickets for districts "
-        "that carry no SD code anywhere in the Connected Districts master. Those need "
-        "someone to <strong>issue</strong> a code, not match one.</p>"
-        % (len(bf), len(dead), len(live))))
+    p.append(panel("info",
+        "<p>%d onboarding tickets carry no SD code. They split two ways. <strong>%d can "
+        "be filled now</strong> — the district name on the ticket matches a district that "
+        "has a code in the Connected Districts master, %d of them on live tickets rather "
+        "than cancelled duplicates. The other <strong>%d have no code to match</strong>: "
+        "their district carries no SD code anywhere in the master, so someone has to "
+        "<strong>issue</strong> one. A bulk backfill on "
+        "<time datetime=\"2026-11-03\">3 November 2026</time> filled 24 tickets and left "
+        "the fillable set empty; it refills as districts are registered and new tickets "
+        "are raised.</p>" % (len(bf), len(fillable), len(fill_live), len(unknown))))
     p.append(jira_macro(
         "project = MIGDL AND issuetype in "
         '("MiGDL District Onboarding (Initial)", "MiGDL District Onboarding (Catch-Up)") '
         "AND cf[10453] IS EMPTY AND cf[10498] IS EMPTY ORDER BY key ASC",
         "Onboarding tickets with no SD code"))
-    p.append("<h3>The districts that need a code issued</h3>")
-    p.append(table(
-        ["District", "Ticket", "Status"],
-        [[e(x["district"]), link(x["key"]), e(x["status"])]
-         for x in sorted(live, key=lambda x: (x["district"] or ""))],
-        widths=["300", "120", "180"]))
+
+    if fillable:
+        p.append("<h3>Can be filled now</h3>")
+        p.append("<p>Each district name matches the master, which already holds a code. "
+                 "Cancelled duplicates are listed but are not worth filling.</p>")
+        p.append(table(
+            ["District", "Suggested code", "Ticket", "Status"],
+            [[e(x["district"]), "<code>%s</code>" % e(x["suggested_sd"]), link(x["key"]),
+              e(x["status"])]
+             for x in sorted(fillable, key=lambda x: (x["district"] or "", x["key"]))],
+            widths=["260", "130", "120", "200"]))
+
+    if unk_live:
+        p.append("<h3>Need a code issued</h3>")
+        p.append("<p>Live tickets whose district has no SD code anywhere in the master. "
+                 "No match can be made; a code has to be assigned first.</p>")
+        p.append(table(
+            ["District", "Ticket", "Status"],
+            [[e(x["district"]), link(x["key"]), e(x["status"])]
+             for x in sorted(unk_live, key=lambda x: (x["district"] or ""))],
+            widths=["300", "120", "180"]))
 
     # ── defects ───────────────────────────────────────────────────────────
     p.append("<hr>")

@@ -12,7 +12,10 @@ Two deliberate choices:
   copy of sd37's, though the two are different districts. The engineering tracker joins
   on SD Name, so the error propagates.
 - SD codes are stripped, because two of them carry a trailing space which would
-  otherwise break an exact-match join.
+  otherwise break an exact-match join. Header names are stripped for the same reason:
+  the 9 Nov 2026 pull had "MiGDL API Active " with a trailing space, which silently
+  made api_active false for every district until the lookup was normalised. Columns
+  are addressed by name, so the workbook can gain columns without breaking this.
 
 The workbook's District Contacts tabs hold district staff names and emails. Nothing
 here needs them and they are never read.
@@ -46,10 +49,10 @@ def _enrolled(v):
 
 def load():
     raw = json.loads(SRC.read_text())
-    H = {h: i for i, h in enumerate(raw["header"])}
+    H = {(h or "").strip(): i for i, h in enumerate(raw["header"])}
 
     def g(r, col):
-        i = H.get(col)
+        i = H.get(col.strip())
         return r[i].strip() if i is not None and i < len(r) else ""
 
     out, no_code = {}, []

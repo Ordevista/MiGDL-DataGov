@@ -359,9 +359,12 @@ def build():
 
     byname = [d for d in ds if d.get("matched_by") == "name"]
     if byname:
-        p.append("<p>The name-matched districts, down from 12 before the SD code "
-                 "backfill: %s. Each is matched through a cancelled duplicate ticket; "
-                 "the live ticket carries a code.</p>"
+        # Which tickets actually carry the code is live state, so say only what the
+        # join is and point at the fillable table rather than asserting a mechanism.
+        p.append("<p>The name-matched districts, down from 12 before the 3 November SD "
+                 "code backfill: %s. Each is joined by a normalised name match because "
+                 "no ticket for it carries a code; the ones that can be filled from the "
+                 "master are listed under <em>Can be filled now</em> above.</p>"
                  % ", ".join("%s (%s)" % (e(d["name"]), e(d["sd"])) for d in byname))
 
     # ── provenance ────────────────────────────────────────────────────────

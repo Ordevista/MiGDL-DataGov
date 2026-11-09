@@ -39,9 +39,6 @@
 <https://migdl.midatahub.org/id/district/unassigned-4> a migdl:District ;
     skos:prefLabel "unassigned-4" ;
     migdl:scheduleEnabled false .
-<https://migdl.midatahub.org/id/district/unassigned-8> a migdl:District ;
-    skos:prefLabel "unassigned-8" ;
-    migdl:scheduleEnabled false .
 <https://migdl.midatahub.org/id/district/unassigned-7> a migdl:District ;
     skos:prefLabel "unassigned-7" ;
     migdl:scheduleEnabled false .
@@ -56,11 +53,11 @@
     dct:identifier "sd1" ;
     migdl:inISD "Tuscola ISD" ;
     migdl:sisVendor "Skyward SMS" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "11" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -69,10 +66,11 @@
     dct:identifier "sd10" ;
     migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "16" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -81,7 +79,7 @@
     dct:identifier "sd100" ;
     migdl:inISD "Allegan Area ESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "2" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -92,7 +90,7 @@
     dct:identifier "sd101" ;
     migdl:inISD "Newaygo County RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "3" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -103,7 +101,7 @@
     dct:identifier "sd102" ;
     migdl:inISD "Allegan Area ESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "1" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -114,7 +112,7 @@
     dct:identifier "sd103" ;
     migdl:inISD "Ionia ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "3" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -125,7 +123,7 @@
     dct:identifier "sd104" ;
     migdl:inISD "Ionia ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "1" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -136,7 +134,7 @@
     dct:identifier "sd105" ;
     migdl:inISD "Allegan Area ESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "1" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -147,11 +145,10 @@
     dct:identifier "sd106" ;
     migdl:inISD "Muskegon Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run G/P Delta or Refresh" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "4" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd107> a migdl:District ;
@@ -159,7 +156,7 @@
     dct:identifier "sd107" ;
     migdl:inISD "Muskegon Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "6" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -170,7 +167,7 @@
     dct:identifier "sd108" ;
     migdl:inISD "Ionia ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "2" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -181,10 +178,11 @@
     dct:identifier "sd109" ;
     migdl:inISD "Oakland Schools" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "12" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd11> a migdl:District ;
@@ -202,10 +200,11 @@
     dct:identifier "sd110" ;
     migdl:inISD "Berrien RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "15" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd111> a migdl:District ;
@@ -213,11 +212,10 @@
     dct:identifier "sd111" ;
     migdl:inISD "Mecosta-Osceola ISD" ;
     migdl:sisVendor "Skyward SMS" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run Silver Load" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "2" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd112> a migdl:District ;
@@ -225,7 +223,7 @@
     dct:identifier "sd112" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "4" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -236,10 +234,11 @@
     dct:identifier "sd113" ;
     migdl:inISD "Wexford-Missaukee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "14" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -248,10 +247,11 @@
     dct:identifier "sd114" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "15" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -260,10 +260,11 @@
     dct:identifier "sd115" ;
     migdl:inISD "Delta-Schoolcraft ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "14" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -284,7 +285,7 @@
     dct:identifier "sd117" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "Synergy" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "1" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -295,11 +296,11 @@
     dct:identifier "sd118" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "10" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -308,7 +309,7 @@
     dct:identifier "sd119" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "Synergy" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "5" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -319,10 +320,11 @@
     dct:identifier "sd12" ;
     migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "13" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd120> a migdl:District ;
@@ -330,11 +332,11 @@
     dct:identifier "sd120" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "17" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -354,10 +356,11 @@
     dct:identifier "sd122" ;
     migdl:inISD "Tuscola ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "14" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -366,11 +369,11 @@
     dct:identifier "sd123" ;
     migdl:inISD "Northwest Education Services" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "16" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd124> a migdl:District ;
@@ -378,11 +381,11 @@
     dct:identifier "sd124" ;
     migdl:inISD "Cheb-Otsego-Presque Isle ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "7" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd125> a migdl:District ;
@@ -390,11 +393,11 @@
     dct:identifier "sd125" ;
     migdl:inISD "Washtenaw ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "11" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd126> a migdl:District ;
@@ -402,10 +405,11 @@
     dct:identifier "sd126" ;
     migdl:inISD "Tuscola ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "13" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd127> a migdl:District ;
@@ -413,11 +417,11 @@
     dct:identifier "sd127" ;
     migdl:inISD "Washtenaw ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "11" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd128> a migdl:District ;
@@ -432,10 +436,11 @@
     dct:identifier "sd129" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "15" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -444,10 +449,11 @@
     dct:identifier "sd13" ;
     migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "14" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -456,11 +462,10 @@
     dct:identifier "sd130" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run Silver Load" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "1" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/community-schools-manager> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -469,11 +474,10 @@
     dct:identifier "sd131" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "RUNNING - BRONZE LOAD COMPLETED" ;
-    migdl:nextStep "Run Silver Load" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "2" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd132> a migdl:District ;
@@ -481,11 +485,11 @@
     dct:identifier "sd132" ;
     migdl:inISD "Tuscola ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "11" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -494,10 +498,11 @@
     dct:identifier "sd133" ;
     migdl:inISD "Tuscola ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "16" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -506,11 +511,11 @@
     dct:identifier "sd134" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "Synergy" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "7" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd135> a migdl:District ;
@@ -518,7 +523,7 @@
     dct:identifier "sd135" ;
     migdl:inISD "Montcalm Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "1" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -529,7 +534,7 @@
     dct:identifier "sd136" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "Infinite Campus" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "6" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -540,7 +545,7 @@
     dct:identifier "sd137" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "Infinite Campus" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "5" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -552,7 +557,7 @@
     dct:identifier "sd138" ;
     migdl:inISD "Oakland Schools" ;
     migdl:sisVendor "MiStar-Q" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "5" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -563,7 +568,7 @@
     dct:identifier "sd139" ;
     migdl:inISD "Allegan Area ESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "2" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -574,11 +579,11 @@
     dct:identifier "sd14" ;
     migdl:inISD "Gogebic-Ontonagon ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "11" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -587,11 +592,11 @@
     dct:identifier "sd140" ;
     migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "12" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd141> a migdl:District ;
@@ -611,7 +616,7 @@
     dct:identifier "sd142" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "Infinite Campus" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "6" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -623,11 +628,11 @@
     dct:identifier "sd143" ;
     migdl:inISD "Tuscola ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "9" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd144> a migdl:District ;
@@ -635,11 +640,11 @@
     dct:identifier "sd144" ;
     migdl:inISD "Cheb-Otsego-Presque Isle ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "7" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd145> a migdl:District ;
@@ -647,7 +652,7 @@
     dct:identifier "sd145" ;
     migdl:inISD "Allegan Area ESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "5" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -658,11 +663,10 @@
     dct:identifier "sd146" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "Infinite Campus" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run Silver Load" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "4" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/community-schools-manager> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -671,10 +675,11 @@
     dct:identifier "sd147" ;
     migdl:inISD "Berrien RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "13" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd148> a migdl:District ;
@@ -682,7 +687,7 @@
     dct:identifier "sd148" ;
     migdl:inISD "Mecosta-Osceola ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "6" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -718,10 +723,11 @@
     dct:identifier "sd150" ;
     migdl:inISD "Berrien RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "16" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd151> a migdl:District ;
@@ -739,11 +745,11 @@
     dct:identifier "sd152" ;
     migdl:inISD "Cheb-Otsego-Presque Isle ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "11" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd153> a migdl:District ;
@@ -751,11 +757,11 @@
     dct:identifier "sd153" ;
     migdl:inISD "Tuscola ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "11" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -764,11 +770,11 @@
     dct:identifier "sd154" ;
     migdl:inISD "Cheb-Otsego-Presque Isle ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "18" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd155> a migdl:District ;
@@ -776,10 +782,11 @@
     dct:identifier "sd155" ;
     migdl:inISD "Berrien RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "16" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd156> a migdl:District ;
@@ -787,11 +794,11 @@
     dct:identifier "sd156" ;
     migdl:inISD "Gogebic-Ontonagon ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "7" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd157> a migdl:District ;
@@ -799,10 +806,11 @@
     dct:identifier "sd157" ;
     migdl:inISD "Shiawassee Regional ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "14" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd158> a migdl:District ;
@@ -810,10 +818,11 @@
     dct:identifier "sd158" ;
     migdl:inISD "Berrien RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "13" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd159> a migdl:District ;
@@ -821,11 +830,11 @@
     dct:identifier "sd159" ;
     migdl:inISD "Dickinson-Iron ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "10" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd16> a migdl:District ;
@@ -833,11 +842,11 @@
     dct:identifier "sd16" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "Infinite Campus" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "18" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/community-schools-manager> ;
@@ -847,11 +856,11 @@
     dct:identifier "sd161" ;
     migdl:inISD "Livingston ESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "7" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd162> a migdl:District ;
@@ -859,7 +868,7 @@
     dct:identifier "sd162" ;
     migdl:inISD "Wayne RESA" ;
     migdl:sisVendor "MiStar-Q" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "3" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -881,7 +890,7 @@
     dct:identifier "sd164" ;
     migdl:inISD "Montcalm Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "3" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -892,10 +901,11 @@
     dct:identifier "sd165" ;
     migdl:inISD "COOR ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "17" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd166> a migdl:District ;
@@ -903,7 +913,7 @@
     dct:identifier "sd166" ;
     migdl:inISD "Montcalm Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "2" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -914,11 +924,10 @@
     dct:identifier "sd167" ;
     migdl:inISD "Wayne RESA" ;
     migdl:sisVendor "MiStar-Q" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run Silver Load" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "4" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd168> a migdl:District ;
@@ -926,11 +935,11 @@
     dct:identifier "sd168" ;
     migdl:inISD "COOR ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "17" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd169> a migdl:District ;
@@ -938,7 +947,7 @@
     dct:identifier "sd169" ;
     migdl:inISD "Muskegon Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "2" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -949,11 +958,11 @@
     dct:identifier "sd17" ;
     migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "Skyward SMS" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "12" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -962,7 +971,7 @@
     dct:identifier "sd170" ;
     migdl:inISD "Muskegon Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "1" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -973,11 +982,11 @@
     dct:identifier "sd171" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "17" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd172> a migdl:District ;
@@ -985,11 +994,11 @@
     dct:identifier "sd172" ;
     migdl:inISD "COOR ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "17" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd173> a migdl:District ;
@@ -997,11 +1006,11 @@
     dct:identifier "sd173" ;
     migdl:inISD "Eastern Upper Peninsula ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "12" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd174> a migdl:District ;
@@ -1009,10 +1018,11 @@
     dct:identifier "sd174" ;
     migdl:inISD "Dickinson-Iron ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
+    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "13" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd175> a migdl:District ;
@@ -1020,10 +1030,11 @@
     dct:identifier "sd175" ;
     migdl:inISD "Cheb-Otsego-Presque Isle ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "15" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd176> a migdl:District ;
@@ -1031,11 +1042,11 @@
     dct:identifier "sd176" ;
     migdl:inISD "Sanilac ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "9" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd177> a migdl:District ;
@@ -1043,11 +1054,11 @@
     dct:identifier "sd177" ;
     migdl:inISD "Sanilac ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "17" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd178> a migdl:District ;
@@ -1055,11 +1066,11 @@
     dct:identifier "sd178" ;
     migdl:inISD "Sanilac ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "17" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd179> a migdl:District ;
@@ -1067,10 +1078,11 @@
     dct:identifier "sd179" ;
     migdl:inISD "Sanilac ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "16" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd18> a migdl:District ;
@@ -1090,11 +1102,11 @@
     dct:identifier "sd180" ;
     migdl:inISD "COOR ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "9" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd181> a migdl:District ;
@@ -1102,11 +1114,11 @@
     dct:identifier "sd181" ;
     migdl:inISD "Huron ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run Silver Load" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "15" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd182> a migdl:District ;
@@ -1126,11 +1138,11 @@
     dct:identifier "sd183" ;
     migdl:inISD "Huron ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "17" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd184> a migdl:District ;
@@ -1145,11 +1157,11 @@
     dct:identifier "sd185" ;
     migdl:inISD "Sanilac ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "9" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd186> a migdl:District ;
@@ -1164,11 +1176,11 @@
     dct:identifier "sd187" ;
     migdl:inISD "Sanilac ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "9" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd188> a migdl:District ;
@@ -1195,11 +1207,11 @@
     dct:identifier "sd19" ;
     migdl:inISD "Gratiot-Isabella RESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "18" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd190> a migdl:District ;
@@ -1207,11 +1219,11 @@
     dct:identifier "sd190" ;
     migdl:inISD "Eastern Upper Peninsula ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "12" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd191> a migdl:District ;
@@ -1219,11 +1231,11 @@
     dct:identifier "sd191" ;
     migdl:inISD "Sanilac ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "11" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd192> a migdl:District ;
@@ -1231,10 +1243,11 @@
     dct:identifier "sd192" ;
     migdl:inISD "Cheb-Otsego-Presque Isle ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "15" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd193> a migdl:District ;
@@ -1248,16 +1261,28 @@
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
+<https://migdl.midatahub.org/id/district/sd194> a migdl:District ;
+    skos:prefLabel "sd194" ;
+    dct:identifier "sd194" ;
+    migdl:inISD "Kent ISD" ;
+    migdl:sisVendor "PowerSchool" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
+    migdl:nextStep "Run Desc Load" ;
+    migdl:scheduleBatch "20" ;
+    migdl:scheduleEnabled false ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd2> a migdl:District ;
     skos:prefLabel "sd2" ;
     dct:identifier "sd2" ;
     migdl:inISD "Tuscola ISD" ;
     migdl:sisVendor "Skyward SMS" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "18" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1266,10 +1291,11 @@
     dct:identifier "sd20" ;
     migdl:inISD "Branch ISD" ;
     migdl:sisVendor "Skyward SMS" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "14" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1278,10 +1304,11 @@
     dct:identifier "sd21" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "15" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1290,11 +1317,11 @@
     dct:identifier "sd22" ;
     migdl:inISD "Midland County ESA" ;
     migdl:sisVendor "Synergy" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run G/P Delta or Refresh" ;
+    migdl:trackerStatus "RUNNING - BRONZE LOAD COMPLETED" ;
+    migdl:nextStep "Run Silver Load" ;
     migdl:scheduleBatch "9" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd23> a migdl:District ;
@@ -1302,10 +1329,11 @@
     dct:identifier "sd23" ;
     migdl:inISD "West Shore ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "14" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1314,11 +1342,11 @@
     dct:identifier "sd24" ;
     migdl:inISD "Oakland Schools" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "8" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
@@ -1328,10 +1356,11 @@
     dct:identifier "sd25" ;
     migdl:inISD "Mecosta-Osceola ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "13" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1340,7 +1369,7 @@
     dct:identifier "sd26" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "Synergy" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "5" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1352,7 +1381,7 @@
     dct:identifier "sd27" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "2" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1364,11 +1393,11 @@
     dct:identifier "sd28" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "11" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/community-schools-manager> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1377,10 +1406,11 @@
     dct:identifier "sd29" ;
     migdl:inISD "Montcalm Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "13" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1389,10 +1419,11 @@
     dct:identifier "sd3" ;
     migdl:inISD "Wayne RESA" ;
     migdl:sisVendor "MiStar-Q" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "16" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1401,7 +1432,7 @@
     dct:identifier "sd30" ;
     migdl:inISD "Montcalm Area ISD" ;
     migdl:sisVendor "Synergy" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "4" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1412,11 +1443,11 @@
     dct:identifier "sd31" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "12" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
@@ -1426,11 +1457,10 @@
     dct:identifier "sd32" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "Infinite Campus" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run G/P Delta or Refresh" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "5" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/community-schools-manager> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1451,7 +1481,7 @@
     dct:identifier "sd34" ;
     migdl:inISD "Manistee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "1" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1462,11 +1492,11 @@
     dct:identifier "sd35" ;
     migdl:inISD "Berrien RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "18" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd36> a migdl:District ;
@@ -1474,10 +1504,11 @@
     dct:identifier "sd36" ;
     migdl:inISD "Saginaw ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "13" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd37> a migdl:District ;
@@ -1485,11 +1516,11 @@
     dct:identifier "sd37" ;
     migdl:inISD "Berrien RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "10" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd38> a migdl:District ;
@@ -1497,11 +1528,11 @@
     dct:identifier "sd38" ;
     migdl:inISD "Berrien RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "10" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd39> a migdl:District ;
@@ -1509,7 +1540,7 @@
     dct:identifier "sd39" ;
     migdl:inISD "Manistee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "2" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1520,11 +1551,11 @@
     dct:identifier "sd4" ;
     migdl:inISD "Wayne RESA" ;
     migdl:sisVendor "MiStar-Q" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "12" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1533,11 +1564,11 @@
     dct:identifier "sd40" ;
     migdl:inISD "Tuscola ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "12" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd41> a migdl:District ;
@@ -1545,11 +1576,10 @@
     dct:identifier "sd41" ;
     migdl:inISD "Montcalm Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run Silver Load" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "6" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd42> a migdl:District ;
@@ -1557,11 +1587,11 @@
     dct:identifier "sd42" ;
     migdl:inISD "Berrien RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "11" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd43> a migdl:District ;
@@ -1569,10 +1599,11 @@
     dct:identifier "sd43" ;
     migdl:inISD "Barry ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "16" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
@@ -1582,10 +1613,11 @@
     dct:identifier "sd44" ;
     migdl:inISD "Heritage Southwest ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "14" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd45> a migdl:District ;
@@ -1600,11 +1632,11 @@
     dct:identifier "sd46" ;
     migdl:inISD "Oakland Schools" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "8" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1613,10 +1645,11 @@
     dct:identifier "sd47" ;
     migdl:inISD "West Shore ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
+    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "7" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1625,11 +1658,11 @@
     dct:identifier "sd48" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "17" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/community-schools-manager> ;
@@ -1639,11 +1672,11 @@
     dct:identifier "sd49" ;
     migdl:inISD "West Shore ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "10" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1652,10 +1685,11 @@
     dct:identifier "sd5" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "Infinite Campus" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "16" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/community-schools-manager> ;
@@ -1665,11 +1699,10 @@
     dct:identifier "sd50" ;
     migdl:inISD "Barry ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run Silver Load" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "3" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd51> a migdl:District ;
@@ -1677,7 +1710,7 @@
     dct:identifier "sd51" ;
     migdl:inISD "Muskegon Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "4" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1688,10 +1721,11 @@
     dct:identifier "sd52" ;
     migdl:inISD "Cheb-Otsego-Presque Isle ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "15" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd53> a migdl:District ;
@@ -1699,10 +1733,11 @@
     dct:identifier "sd53" ;
     migdl:inISD "Wayne RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "15" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1722,11 +1757,11 @@
     dct:identifier "sd55" ;
     migdl:inISD "Hillsdale ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "18" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd56> a migdl:District ;
@@ -1734,7 +1769,7 @@
     dct:identifier "sd56" ;
     migdl:inISD "Manistee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "6" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1745,11 +1780,11 @@
     dct:identifier "sd57" ;
     migdl:inISD "Oakland Schools" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "8" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd58> a migdl:District ;
@@ -1757,11 +1792,11 @@
     dct:identifier "sd58" ;
     migdl:inISD "Wexford-Missaukee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "18" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd59> a migdl:District ;
@@ -1769,7 +1804,7 @@
     dct:identifier "sd59" ;
     migdl:inISD "Ionia ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "5" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1780,10 +1815,11 @@
     dct:identifier "sd6" ;
     migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "13" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1792,11 +1828,11 @@
     dct:identifier "sd60" ;
     migdl:inISD "Washtenaw ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "8" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1805,11 +1841,11 @@
     dct:identifier "sd61" ;
     migdl:inISD "West Shore ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "7" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1818,11 +1854,11 @@
     dct:identifier "sd62" ;
     migdl:inISD "Macomb ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "10" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1831,7 +1867,7 @@
     dct:identifier "sd63" ;
     migdl:inISD "Manistee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "5" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1842,11 +1878,10 @@
     dct:identifier "sd64" ;
     migdl:inISD "Manistee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run Silver Load" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "2" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd65> a migdl:District ;
@@ -1854,7 +1889,7 @@
     dct:identifier "sd65" ;
     migdl:inISD "Wexford-Missaukee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "4" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1865,7 +1900,7 @@
     dct:identifier "sd66" ;
     migdl:inISD "Eaton RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "5" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1876,7 +1911,7 @@
     dct:identifier "sd67" ;
     migdl:inISD "Wexford-Missaukee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "4" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1887,11 +1922,11 @@
     dct:identifier "sd68" ;
     migdl:inISD "West Shore ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "10" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1900,11 +1935,11 @@
     dct:identifier "sd69" ;
     migdl:inISD "West Shore ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "10" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1913,11 +1948,11 @@
     dct:identifier "sd7" ;
     migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "8" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd70> a migdl:District ;
@@ -1925,11 +1960,11 @@
     dct:identifier "sd70" ;
     migdl:inISD "Wexford-Missaukee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "12" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -1945,10 +1980,11 @@
     dct:identifier "sd72" ;
     migdl:inISD "Wexford-Missaukee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "15" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd73> a migdl:District ;
@@ -1956,7 +1992,7 @@
     dct:identifier "sd73" ;
     migdl:inISD "Muskegon Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "3" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1967,7 +2003,7 @@
     dct:identifier "sd74" ;
     migdl:inISD "Montcalm Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "4" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -1978,7 +2014,7 @@
     dct:identifier "sd75" ;
     migdl:inISD "Mecosta-Osceola ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "3" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -2002,11 +2038,11 @@
     dct:identifier "sd77" ;
     migdl:inISD "Kent ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "10" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd78> a migdl:District ;
@@ -2014,11 +2050,11 @@
     dct:identifier "sd78" ;
     migdl:inISD "Berrien RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "18" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd79> a migdl:District ;
@@ -2026,7 +2062,7 @@
     dct:identifier "sd79" ;
     migdl:inISD "Muskegon Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "3" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -2037,10 +2073,11 @@
     dct:identifier "sd8" ;
     migdl:inISD "Gogebic-Ontonagon ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "14" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd80> a migdl:District ;
@@ -2061,7 +2098,7 @@
     dct:identifier "sd81" ;
     migdl:inISD "Wexford-Missaukee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "6" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -2072,7 +2109,7 @@
     dct:identifier "sd82" ;
     migdl:inISD "Ionia ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "6" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -2083,7 +2120,7 @@
     dct:identifier "sd83" ;
     migdl:inISD "Muskegon Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "3" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -2094,7 +2131,7 @@
     dct:identifier "sd84" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "3" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -2106,11 +2143,11 @@
     dct:identifier "sd85" ;
     migdl:inISD "West Shore ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "18" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -2119,11 +2156,11 @@
     dct:identifier "sd86" ;
     migdl:inISD "Saginaw ISD" ;
     migdl:sisVendor "Skyward" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "10" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd87> a migdl:District ;
@@ -2131,11 +2168,11 @@
     dct:identifier "sd87" ;
     migdl:inISD "Northwest Education Services" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "9" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd88> a migdl:District ;
@@ -2143,10 +2180,11 @@
     dct:identifier "sd88" ;
     migdl:inISD "Calhoun ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "14" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd89> a migdl:District ;
@@ -2154,11 +2192,11 @@
     dct:identifier "sd89" ;
     migdl:inISD "West Shore ESD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "8" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
@@ -2168,11 +2206,11 @@
     dct:identifier "sd9" ;
     migdl:inISD "Copper Country ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "8" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd90> a migdl:District ;
@@ -2180,10 +2218,11 @@
     dct:identifier "sd90" ;
     migdl:inISD "Berrien RESA" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "13" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd91> a migdl:District ;
@@ -2191,11 +2230,11 @@
     dct:identifier "sd91" ;
     migdl:inISD "Ottawa Area ISD" ;
     migdl:sisVendor "Infinite Campus" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:trackerStatus "SILVER LOAD COMPLETED" ;
     migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "7" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/community-schools-manager> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
@@ -2216,7 +2255,7 @@
     dct:identifier "sd93" ;
     migdl:inISD "Wexford-Missaukee ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "1" ;
     migdl:scheduleEnabled true ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
@@ -2227,10 +2266,11 @@
     dct:identifier "sd94" ;
     migdl:inISD "St Joseph County ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED" ;
+    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
+    migdl:nextStep "Run G/P Delta or Refresh" ;
     migdl:scheduleBatch "16" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd95> a migdl:District ;
@@ -2238,11 +2278,10 @@
     dct:identifier "sd95" ;
     migdl:inISD "Muskegon Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run G/P Delta or Refresh" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "6" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/sd96> a migdl:District ;
@@ -2282,11 +2321,10 @@
     dct:identifier "sd99" ;
     migdl:inISD "Muskegon Area ISD" ;
     migdl:sisVendor "PowerSchool" ;
-    migdl:trackerStatus "DESCRIPTOR LOAD COMPLETED" ;
-    migdl:nextStep "Run Silver Load" ;
+    migdl:trackerStatus "GOLD MAIN LOAD COMPLETED - FULL LOAD" ;
     migdl:scheduleBatch "4" ;
     migdl:scheduleEnabled true ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/mistrategybank> .
 <https://migdl.midatahub.org/id/district/unassigned-3> a migdl:District ;
@@ -3850,8 +3888,8 @@
 <https://migdl.midatahub.org/id/work/MIGDL-188> a migdl:Defect ;
     migdl:issueKey "MIGDL-188" ;
     dct:title "MiRead - STAR Assessment Data from 2025–26 Appearing as Current-Year Data in MiRead" ;
-    migdl:status "To Do" ;
-    migdl:statusCategory "To Do" ;
+    migdl:status "In Progress" ;
+    migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
     prov:startedAtTime "2026-09-09T15:09:19"^^xsd:dateTime ;
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p18> ;
@@ -4557,7 +4595,7 @@
     prov:startedAtTime "2026-09-15T16:12:21"^^xsd:dateTime ;
     migdl:storyPoints 3 ;
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-117> ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p23> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p6> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
@@ -4682,12 +4720,13 @@
 <https://migdl.midatahub.org/id/work/MIGDL-303> a migdl:Epic ;
     migdl:issueKey "MIGDL-303" ;
     dct:title "MiGDL-ETL: Delta Load Automation Scheduling" ;
-    migdl:status "To Do" ;
-    migdl:statusCategory "To Do" ;
+    migdl:status "Internal Validation" ;
+    migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-09-16T14:34:56"^^xsd:dateTime ;
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p17> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/validation> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-304> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-304" ;
@@ -9197,8 +9236,7 @@
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/platinum> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> ;
-    migdl:relatesTo <https://migdl.midatahub.org/id/work/MIGDL-604> .
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-523/stagedone/bronze-load> a migdl:StageCompletion ;
     migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:completedOn "2026-10-05"^^xsd:date ;
@@ -10145,18 +10183,18 @@
 <https://migdl.midatahub.org/id/work/MIGDL-552> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-552" ;
     dct:title "sd94 : sd94" ;
-    migdl:status "On Hold - DE Follow-Up (Catch-Up)" ;
+    migdl:status "Validate (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-08T14:24:43"^^xsd:dateTime ;
     migdl:loadType "Data Refresh" ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p17> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p3> ;
     migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p18> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:forDistrict <https://migdl.midatahub.org/id/district/sd94> ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/blocked> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/validation> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
@@ -10813,19 +10851,18 @@
 <https://migdl.midatahub.org/id/work/MIGDL-600> a migdl:Defect ;
     migdl:issueKey "MIGDL-600" ;
     dct:title "MiRead Student Context endpoint has malformed support_team_json" ;
-    migdl:status "Hold" ;
-    migdl:statusCategory "In Progress" ;
+    migdl:status "Closed-MiGDL" ;
+    migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-08T16:05:20"^^xsd:dateTime ;
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p18> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/miread> ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/blocked> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/student> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-601> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-601" ;
     dct:title "sd163 : sd163" ;
@@ -10936,17 +10973,6 @@
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/reference-content> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
-<https://migdl.midatahub.org/id/work/MIGDL-604> a migdl:Defect ;
-    migdl:issueKey "MIGDL-604" ;
-    dct:title "Test" ;
-    migdl:status "Backlog" ;
-    migdl:statusCategory "To Do" ;
-    migdl:priority "Medium" ;
-    prov:startedAtTime "2026-10-09T09:27:56"^^xsd:dateTime ;
-    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
-    migdl:relatesTo <https://migdl.midatahub.org/id/work/MIGDL-523> .
 <https://migdl.midatahub.org/id/work/MIGDL-605> a migdl:Defect ;
     migdl:issueKey "MIGDL-605" ;
     dct:title "Grade Incorrect in MiRead" ;
@@ -11065,20 +11091,21 @@
 <https://migdl.midatahub.org/id/work/MIGDL-611> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-611" ;
     dct:title "sd77: sd77" ;
-    migdl:status "On Hold - DE Follow-Up (Catch-Up)" ;
-    migdl:statusCategory "In Progress" ;
+    migdl:status "Load Completed" ;
+    migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-09T19:14:35"^^xsd:dateTime ;
     migdl:loadType "Data Refresh" ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p8> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p3> ;
     migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p14> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/blocked> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/validation> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-conformed> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-star> ;
@@ -11086,7 +11113,6 @@
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-611/stagedone/bronze-load> a migdl:StageCompletion ;
     migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
@@ -11103,6 +11129,10 @@
 <https://migdl.midatahub.org/id/work/MIGDL-611/stagedone/goldplat-load> a migdl:StageCompletion ;
     migdl:ofStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
     migdl:completedOn "2026-10-12"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-611> .
+<https://migdl.midatahub.org/id/work/MIGDL-611/stagedone/validation> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/validation> ;
+    migdl:completedOn "2026-11-05"^^xsd:date ;
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-611> .
 <https://migdl.midatahub.org/id/work/MIGDL-612> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-612" ;
@@ -11334,12 +11364,12 @@
 <https://migdl.midatahub.org/id/work/MIGDL-622> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-622" ;
     dct:title "sd47 : sd47" ;
-    migdl:status "On Hold - DE Follow-Up (Catch-Up)" ;
+    migdl:status "On Hold - DI Follow-Up (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "High" ;
     prov:startedAtTime "2026-10-12T13:52:38"^^xsd:dateTime ;
     migdl:loadType "Data Refresh" ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p18> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p4> ;
     migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p3> ;
     migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p18> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
@@ -11942,18 +11972,17 @@
 <https://migdl.midatahub.org/id/work/MIGDL-645> a migdl:Defect ;
     migdl:issueKey "MIGDL-645" ;
     dct:title "MiGDL, MiRead - Crawford AuSable (sd165) Principal, Sally Benedict Can't view students/classes in MiRead" ;
-    migdl:status "Hold" ;
-    migdl:statusCategory "In Progress" ;
+    migdl:status "Closed-MiGDL" ;
+    migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-15T14:59:19"^^xsd:dateTime ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/miread> ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/blocked> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/student> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-646> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-646" ;
     dct:title "sd52 : sd52" ;
@@ -12279,14 +12308,14 @@
 <https://migdl.midatahub.org/id/work/MIGDL-658> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-658" ;
     dct:title "MiGDL-ETL: Relieve S3 request rates in jobs leveraging ingestion tracker when parallelizing" ;
-    migdl:status "Internal Validation" ;
+    migdl:status "Ready for Stage" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-16T14:49:55"^^xsd:dateTime ;
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-693> ;
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p5> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/validation> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/ready-for-stage> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-659> a migdl:Deliverable ;
@@ -12685,7 +12714,7 @@
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-675> .
 <https://migdl.midatahub.org/id/work/MIGDL-676> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-676" ;
-    dct:title "Charlton Heston Academy : sd193" ;
+    dct:title "sd193 : sd193" ;
     migdl:status "Done (Initial User Assigned)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -12905,12 +12934,13 @@
 <https://migdl.midatahub.org/id/work/MIGDL-689> a migdl:Epic ;
     migdl:issueKey "MIGDL-689" ;
     dct:title "MiGDL-ETL: Full Refresh Automation Scheduling for Pipeline B" ;
-    migdl:status "To Do" ;
-    migdl:statusCategory "To Do" ;
+    migdl:status "Internal Validation" ;
+    migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-21T14:04:04"^^xsd:dateTime ;
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p17> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/validation> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-690> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-690" ;
@@ -12964,22 +12994,21 @@
     migdl:statusCategory "To Do" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-21T14:08:08"^^xsd:dateTime ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p17> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p2> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-694> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-694" ;
     dct:title "MiGDL-ETL: Assess dependency chain of sequenced for loop and limitations of moving to parallelism" ;
-    migdl:status "Internal Validation" ;
-    migdl:statusCategory "In Progress" ;
+    migdl:status "Done" ;
+    migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-21T14:09:57"^^xsd:dateTime ;
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-693> ;
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p15> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/validation> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-695> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-695" ;
     dct:title "MiGDL-ETL: Update run_data_prep to handle all loads in parallel before placing in S3 for singular COPY command" ;
@@ -13178,7 +13207,7 @@
     prov:startedAtTime "2026-10-22T18:25:42"^^xsd:dateTime ;
     migdl:storyPoints 3 ;
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-117> ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p23> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p6> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
@@ -13226,6 +13255,7 @@
     prov:startedAtTime "2026-10-22T18:38:28"^^xsd:dateTime ;
     migdl:storyPoints 5 ;
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-29> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p22> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-712> a migdl:CatchUpOnboarding ;
@@ -13326,8 +13356,8 @@
 <https://migdl.midatahub.org/id/work/MIGDL-715> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-715" ;
     dct:title "sd147 : sd147" ;
-    migdl:status "On Hold - DE Follow-Up (Catch-Up)" ;
-    migdl:statusCategory "In Progress" ;
+    migdl:status "Load Completed" ;
+    migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-23T12:51:33"^^xsd:dateTime ;
     migdl:loadType "Data Refresh" ;
@@ -13337,11 +13367,12 @@
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:forDistrict <https://migdl.midatahub.org/id/district/sd147> ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/blocked> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/validation> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-conformed> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-star> ;
@@ -13350,7 +13381,6 @@
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-715/stagedone/bronze-load> a migdl:StageCompletion ;
     migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
@@ -13367,6 +13397,10 @@
 <https://migdl.midatahub.org/id/work/MIGDL-715/stagedone/goldplat-load> a migdl:StageCompletion ;
     migdl:ofStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
     migdl:completedOn "2026-10-29"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-715> .
+<https://migdl.midatahub.org/id/work/MIGDL-715/stagedone/validation> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/validation> ;
+    migdl:completedOn "2026-11-04"^^xsd:date ;
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-715> .
 <https://migdl.midatahub.org/id/work/MIGDL-716> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-716" ;
@@ -13440,7 +13474,7 @@
 <https://migdl.midatahub.org/id/work/MIGDL-721> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-721" ;
     dct:title "MiGDL-TT-3: [G3/G4 Implementation] Add derived layer table guards against D Tombstone Rows" ;
-    migdl:status "Internal Validation" ;
+    migdl:status "Ready for Stage" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
     prov:startedAtTime "2026-10-23T15:10:17"^^xsd:dateTime ;
@@ -13448,7 +13482,7 @@
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-117> ;
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p19> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/validation> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/ready-for-stage> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-722> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-722" ;
@@ -13568,12 +13602,13 @@
 <https://migdl.midatahub.org/id/work/MIGDL-727> a migdl:Defect ;
     migdl:issueKey "MIGDL-727" ;
     dct:title "MiGDL-ETL: sd165 Crawford/sd24 Bradford - fact_miread_student_context.sql: Numeric data overflow" ;
-    migdl:status "In Progress" ;
+    migdl:status "Ready for Stage" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "High" ;
     prov:startedAtTime "2026-10-26T09:31:24"^^xsd:dateTime ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/ready-for-stage> ;
     migdl:touchesTable <https://migdl.midatahub.org/id/table/platinum.fact_miread_student_context> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-star> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
@@ -13697,16 +13732,16 @@
 <https://migdl.midatahub.org/id/work/MIGDL-734> a migdl:Defect ;
     migdl:issueKey "MIGDL-734" ;
     dct:title "Reeths-Puffer sd163 Unable to Search for Students in 3 Buildings" ;
-    migdl:status "In Progress" ;
-    migdl:statusCategory "In Progress" ;
+    migdl:status "Closed-MiGDL" ;
+    migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-26T16:36:07"^^xsd:dateTime ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p14> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/misafestudent> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/student> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
 <https://migdl.midatahub.org/id/work/MIGDL-735> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-735" ;
     dct:title "[MiGDL-TT-1] feature(ddb_publish_wrapper): pass product job ids as job arguments to stay under the 25 ParameterAccess limit" ;
@@ -13871,13 +13906,14 @@
 <https://migdl.midatahub.org/id/work/MIGDL-742> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-742" ;
     dct:title "MiGDL-TT-1: Orchestrate Resolve Groups Job" ;
-    migdl:status "Backlog" ;
-    migdl:statusCategory "To Do" ;
+    migdl:status "Internal Validation" ;
+    migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
     prov:startedAtTime "2026-10-27T17:07:12"^^xsd:dateTime ;
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-83> ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p15> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p19> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/validation> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-743> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-743" ;
@@ -13906,12 +13942,12 @@
 <https://migdl.midatahub.org/id/work/MIGDL-745> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-745" ;
     dct:title "sd149 : sd149" ;
-    migdl:status "On Hold - DI Follow-Up (Catch-Up)" ;
+    migdl:status "On Hold - DE Follow-Up (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-28T14:31:01"^^xsd:dateTime ;
     migdl:loadType "Data Refresh" ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p9> ;
     migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p3> ;
     migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p9> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
@@ -14089,12 +14125,13 @@
 <https://migdl.midatahub.org/id/work/MIGDL-753> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-753" ;
     dct:title "Per-district ETL run log for the Ed-Fi pipelines" ;
-    migdl:status "In Progress" ;
+    migdl:status "Ready for Stage" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
     prov:startedAtTime "2026-10-29T16:27:29"^^xsd:dateTime ;
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p11> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/ready-for-stage> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-754> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-754" ;
@@ -14110,11 +14147,11 @@
 <https://migdl.midatahub.org/id/work/MIGDL-755> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-755" ;
     dct:title "Integrate the ETL run log (bronze.edfi_etl_run_log) into the dashboard" ;
-    migdl:status "To Do" ;
-    migdl:statusCategory "To Do" ;
+    migdl:status "In Progress" ;
+    migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
     prov:startedAtTime "2026-10-29T16:32:51"^^xsd:dateTime ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p11> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p21> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
@@ -14147,15 +14184,14 @@
 <https://migdl.midatahub.org/id/work/MIGDL-758> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-758" ;
     dct:title "MiGDL-ETL: Entity-parallel Spark prep (Silver) inside a run " ;
-    migdl:status "Hold" ;
+    migdl:status "In Progress" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
     prov:startedAtTime "2026-10-30T10:38:20"^^xsd:dateTime ;
     migdl:storyPoints 3 ;
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-693> ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p2> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p11> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/blocked> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
@@ -14174,11 +14210,12 @@
 <https://migdl.midatahub.org/id/work/MIGDL-760> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-760" ;
     dct:title "MiGDL-ETL: Move Cleanup logic into three load job steps" ;
-    migdl:status "Backlog" ;
-    migdl:statusCategory "To Do" ;
+    migdl:status "In Progress" ;
+    migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-10-30T12:27:25"^^xsd:dateTime ;
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-689> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p22> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/education-organization> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
@@ -14190,6 +14227,7 @@
     migdl:statusCategory "To Do" ;
     migdl:priority "Low" ;
     prov:startedAtTime "2026-10-30T13:18:42"^^xsd:dateTime ;
+    migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-231> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/education-organization> ;
@@ -14245,26 +14283,31 @@
 <https://migdl.midatahub.org/id/work/MIGDL-766> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-766" ;
     dct:title "sd159 : sd159" ;
-    migdl:status "Gold/Plat Load (Catch-Up)" ;
-    migdl:statusCategory "In Progress" ;
+    migdl:status "Load Completed" ;
+    migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-11-02T09:07:41"^^xsd:dateTime ;
     migdl:loadType "Data Refresh" ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p18> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p3> ;
     migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p18> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:forDistrict <https://migdl.midatahub.org/id/district/sd159> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/validation> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-conformed> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-star> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/platinum> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-766/stagedone/bronze-load> a migdl:StageCompletion ;
     migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
@@ -14278,29 +14321,42 @@
     migdl:ofStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:completedOn "2026-11-03"^^xsd:date ;
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-766> .
+<https://migdl.midatahub.org/id/work/MIGDL-766/stagedone/goldplat-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
+    migdl:completedOn "2026-11-04"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-766> .
+<https://migdl.midatahub.org/id/work/MIGDL-766/stagedone/validation> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/validation> ;
+    migdl:completedOn "2026-11-04"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-766> .
 <https://migdl.midatahub.org/id/work/MIGDL-767> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-767" ;
     dct:title "sd154 : sd154" ;
-    migdl:status "Gold/Plat Load (Catch-Up)" ;
-    migdl:statusCategory "In Progress" ;
+    migdl:status "Load Completed" ;
+    migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-11-02T09:23:04"^^xsd:dateTime ;
     migdl:loadType "Data Refresh" ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p18> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p3> ;
     migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p18> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:forDistrict <https://migdl.midatahub.org/id/district/sd154> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/validation> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-conformed> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-star> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/platinum> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-767/stagedone/bronze-load> a migdl:StageCompletion ;
     migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
@@ -14313,6 +14369,14 @@
 <https://migdl.midatahub.org/id/work/MIGDL-767/stagedone/silver-load> a migdl:StageCompletion ;
     migdl:ofStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:completedOn "2026-11-03"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-767> .
+<https://migdl.midatahub.org/id/work/MIGDL-767/stagedone/goldplat-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
+    migdl:completedOn "2026-11-04"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-767> .
+<https://migdl.midatahub.org/id/work/MIGDL-767/stagedone/validation> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/validation> ;
+    migdl:completedOn "2026-11-04"^^xsd:date ;
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-767> .
 <https://migdl.midatahub.org/id/work/MIGDL-768> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-768" ;
@@ -14347,26 +14411,31 @@
 <https://migdl.midatahub.org/id/work/MIGDL-770> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-770" ;
     dct:title "sd181 : " ;
-    migdl:status "Gold/Plat Load (Catch-Up)" ;
-    migdl:statusCategory "In Progress" ;
+    migdl:status "Load Completed" ;
+    migdl:statusCategory "Done" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-11-02T12:01:02"^^xsd:dateTime ;
     migdl:loadType "Data Refresh" ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p18> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p3> ;
     migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p18> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:forDistrict <https://migdl.midatahub.org/id/district/sd181> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
     migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/validation> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-conformed> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-star> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/platinum> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
-    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-770/stagedone/bronze-load> a migdl:StageCompletion ;
     migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
@@ -14380,10 +14449,18 @@
     migdl:ofStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:completedOn "2026-11-03"^^xsd:date ;
     prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-770> .
+<https://migdl.midatahub.org/id/work/MIGDL-770/stagedone/goldplat-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
+    migdl:completedOn "2026-11-04"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-770> .
+<https://migdl.midatahub.org/id/work/MIGDL-770/stagedone/validation> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/validation> ;
+    migdl:completedOn "2026-11-04"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-770> .
 <https://migdl.midatahub.org/id/work/MIGDL-771> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-771" ;
     dct:title "sd115 : sd115" ;
-    migdl:status "Bronze Load (Catch-Up)" ;
+    migdl:status "Gold/Plat Load (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-11-02T13:31:09"^^xsd:dateTime ;
@@ -14394,13 +14471,28 @@
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:forDistrict <https://migdl.midatahub.org/id/district/sd115> ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
+<https://migdl.midatahub.org/id/work/MIGDL-771/stagedone/bronze-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-771> .
+<https://migdl.midatahub.org/id/work/MIGDL-771/stagedone/descriptor-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-771> .
+<https://migdl.midatahub.org/id/work/MIGDL-771/stagedone/silver-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-771> .
 <https://migdl.midatahub.org/id/work/MIGDL-772> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-772" ;
     dct:title "Clean up Run Statuses in Dev and Stg Metadata Registries" ;
@@ -14408,7 +14500,7 @@
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-11-02T13:59:40"^^xsd:dateTime ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p19> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p9> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/education-organization> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
@@ -14432,7 +14524,7 @@
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-774> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-774" ;
-    dct:title "unassigned-8" ;
+    dct:title "sd194" ;
     migdl:status "Duplicate (Cancelled)" ;
     migdl:statusCategory "Done" ;
     migdl:priority "Medium" ;
@@ -14440,28 +14532,28 @@
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-8> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd194> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-ewims> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-775> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-775" ;
-    dct:title "unassigned-8" ;
-    migdl:status "Ingestion Setup" ;
+    dct:title "sd194 : " ;
+    migdl:status "Initial (Parent) User Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-11-02T14:53:44"^^xsd:dateTime ;
-    migdl:assignedTo <https://migdl.midatahub.org/id/person/p18> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miewims> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-8> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd194> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-ewims> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
 <https://migdl.midatahub.org/id/work/MIGDL-776> a migdl:InitialOnboarding ;
     migdl:issueKey "MIGDL-776" ;
-    dct:title "unassigned-8" ;
+    dct:title "sd194" ;
     migdl:status "Connection Setup" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
@@ -14469,7 +14561,7 @@
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p3> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
-    migdl:forDistrict <https://migdl.midatahub.org/id/district/unassigned-8> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd194> ;
     migdl:atStage <https://migdl.midatahub.org/id/stage/connection-setup> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
@@ -14479,7 +14571,7 @@
 <https://migdl.midatahub.org/id/work/MIGDL-777> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-777" ;
     dct:title "MiGDL [MiEWIMS]: Add cp_number_of_flags and cp_number_of_cautions to earlywarning/summary" ;
-    migdl:status "Backlog" ;
+    migdl:status "To Do" ;
     migdl:statusCategory "To Do" ;
     migdl:priority "Medium" ;
     prov:startedAtTime "2026-11-02T16:46:07"^^xsd:dateTime ;
@@ -14513,29 +14605,31 @@
 <https://migdl.midatahub.org/id/work/MIGDL-780> a migdl:SubTask ;
     migdl:issueKey "MIGDL-780" ;
     dct:title "Implement Proposed Natural Key Fixes" ;
-    migdl:status "To Do" ;
-    migdl:statusCategory "To Do" ;
+    migdl:status "Hold" ;
+    migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
     prov:startedAtTime "2026-11-02T18:42:23"^^xsd:dateTime ;
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-731> ;
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p19> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/blocked> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-781> a migdl:SubTask ;
     migdl:issueKey "MIGDL-781" ;
     dct:title "Data Remediation" ;
-    migdl:status "To Do" ;
-    migdl:statusCategory "To Do" ;
+    migdl:status "Hold" ;
+    migdl:statusCategory "In Progress" ;
     migdl:priority "Medium" ;
     prov:startedAtTime "2026-11-02T18:42:30"^^xsd:dateTime ;
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-731> ;
     migdl:assignedTo <https://migdl.midatahub.org/id/person/p19> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/blocked> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
 <https://migdl.midatahub.org/id/work/MIGDL-782> a migdl:CatchUpOnboarding ;
     migdl:issueKey "MIGDL-782" ;
     dct:title "sd185 : " ;
-    migdl:status "Bronze Load (Catch-Up)" ;
+    migdl:status "Gold/Plat Load (Catch-Up)" ;
     migdl:statusCategory "In Progress" ;
     migdl:priority "Highest" ;
     prov:startedAtTime "2026-11-03T09:33:31"^^xsd:dateTime ;
@@ -14546,13 +14640,28 @@
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
     migdl:forDistrict <https://migdl.midatahub.org/id/district/sd185> ;
-    migdl:atStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
     migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
     migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
+<https://migdl.midatahub.org/id/work/MIGDL-782/stagedone/bronze-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-782> .
+<https://migdl.midatahub.org/id/work/MIGDL-782/stagedone/descriptor-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-782> .
+<https://migdl.midatahub.org/id/work/MIGDL-782/stagedone/silver-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-782> .
 <https://migdl.midatahub.org/id/work/MIGDL-783> a migdl:Deliverable ;
     migdl:issueKey "MIGDL-783" ;
     dct:title "MiGDL-TT-1: Identifier Resolve ETL Publish Job" ;
@@ -14583,3 +14692,333 @@
     migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-783> ;
     migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
     migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+<https://migdl.midatahub.org/id/work/MIGDL-786> a migdl:Defect ;
+    migdl:issueKey "MIGDL-786" ;
+    dct:title "MiEWIMS: Gateway To Success - No Data Loading " ;
+    migdl:status "Closed-MiGDL" ;
+    migdl:statusCategory "Done" ;
+    migdl:priority "Highest" ;
+    prov:startedAtTime "2026-11-04T11:03:55"^^xsd:dateTime ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-ewims> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> .
+<https://migdl.midatahub.org/id/work/MIGDL-788> a migdl:CatchUpOnboarding ;
+    migdl:issueKey "MIGDL-788" ;
+    dct:title "sd84 : sd84" ;
+    migdl:status "Validate (Catch-Up)" ;
+    migdl:statusCategory "In Progress" ;
+    migdl:priority "Highest" ;
+    prov:startedAtTime "2026-11-04T14:54:32"^^xsd:dateTime ;
+    migdl:loadType "Data Refresh" ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p14> ;
+    migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p14> ;
+    migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd84> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/validation> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-conformed> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/gold-star> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/platinum> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
+<https://migdl.midatahub.org/id/work/MIGDL-788/stagedone/goldplat-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/goldplat-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-788> .
+<https://migdl.midatahub.org/id/work/MIGDL-789> a migdl:CatchUpOnboarding ;
+    migdl:issueKey "MIGDL-789" ;
+    dct:title "sd157 : sd157sd157" ;
+    migdl:status "Gold/Plat Load (Catch-Up)" ;
+    migdl:statusCategory "In Progress" ;
+    migdl:priority "Highest" ;
+    prov:startedAtTime "2026-11-05T12:01:13"^^xsd:dateTime ;
+    migdl:loadType "Data Refresh" ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p3> ;
+    migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd157> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
+<https://migdl.midatahub.org/id/work/MIGDL-789/stagedone/bronze-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-789> .
+<https://migdl.midatahub.org/id/work/MIGDL-789/stagedone/descriptor-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-789> .
+<https://migdl.midatahub.org/id/work/MIGDL-789/stagedone/silver-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-789> .
+<https://migdl.midatahub.org/id/work/MIGDL-790> a migdl:Deliverable ;
+    migdl:issueKey "MIGDL-790" ;
+    dct:title "MiGDL-TT-1: ETL Release 2026-11-05: EdFi ETL Run Log + MiREAD Attendance Fix" ;
+    migdl:status "Closed-MiGDL" ;
+    migdl:statusCategory "Done" ;
+    migdl:priority "Medium" ;
+    prov:startedAtTime "2026-11-05T12:08:59"^^xsd:dateTime ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p11> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/attendance> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/education-organization> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> .
+<https://migdl.midatahub.org/id/work/MIGDL-791> a migdl:Deliverable ;
+    migdl:issueKey "MIGDL-791" ;
+    dct:title "MiGDL-TT-3: [G3/G4 Promotion] Smoke Testing Execution" ;
+    migdl:status "Backlog" ;
+    migdl:statusCategory "To Do" ;
+    migdl:priority "Medium" ;
+    prov:startedAtTime "2026-11-05T16:28:50"^^xsd:dateTime ;
+    migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-117> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+<https://migdl.midatahub.org/id/work/MIGDL-792> a migdl:Deliverable ;
+    migdl:issueKey "MIGDL-792" ;
+    dct:title "MiGDL-TT-1: Change ddb publish jobs' network configuration to App-Public-2 to not compete with other Glue jobs for IP addresses" ;
+    migdl:status "Internal Validation" ;
+    migdl:statusCategory "In Progress" ;
+    migdl:priority "Medium" ;
+    prov:startedAtTime "2026-11-05T17:53:50"^^xsd:dateTime ;
+    migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-83> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p19> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/validation> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+<https://migdl.midatahub.org/id/work/MIGDL-793> a migdl:Defect ;
+    migdl:issueKey "MIGDL-793" ;
+    dct:title "Duplicate assessments in Inland Lake for Redshift" ;
+    migdl:status "Backlog" ;
+    migdl:statusCategory "To Do" ;
+    migdl:priority "Medium" ;
+    prov:startedAtTime "2026-11-06T11:51:36"^^xsd:dateTime ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/miread> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/assessment> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+<https://migdl.midatahub.org/id/work/MIGDL-794> a migdl:Defect ;
+    migdl:issueKey "MIGDL-794" ;
+    dct:title "mCLASS data for MiRead" ;
+    migdl:status "Backlog" ;
+    migdl:statusCategory "To Do" ;
+    migdl:priority "High" ;
+    prov:startedAtTime "2026-11-06T12:52:06"^^xsd:dateTime ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+<https://migdl.midatahub.org/id/work/MIGDL-795> a migdl:CatchUpOnboarding ;
+    migdl:issueKey "MIGDL-795" ;
+    dct:title "sd46 : sd46" ;
+    migdl:status "Gold/Plat Load (Catch-Up)" ;
+    migdl:statusCategory "In Progress" ;
+    migdl:priority "Highest" ;
+    prov:startedAtTime "2026-11-06T15:04:41"^^xsd:dateTime ;
+    migdl:loadType "Data Refresh" ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p14> ;
+    migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/misafestudent> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd46> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
+<https://migdl.midatahub.org/id/work/MIGDL-795/stagedone/bronze-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-795> .
+<https://migdl.midatahub.org/id/work/MIGDL-795/stagedone/descriptor-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-795> .
+<https://migdl.midatahub.org/id/work/MIGDL-795/stagedone/silver-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-795> .
+<https://migdl.midatahub.org/id/work/MIGDL-796> a migdl:Deliverable ;
+    migdl:issueKey "MIGDL-796" ;
+    dct:title "ETL Release 2026-11-06: Gold Batch Run Log + Operational Data View + Full Refresh Automation" ;
+    migdl:status "Internal Validation" ;
+    migdl:statusCategory "In Progress" ;
+    migdl:priority "Medium" ;
+    prov:startedAtTime "2026-11-06T15:40:29"^^xsd:dateTime ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p11> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/validation> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/education-organization> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+<https://migdl.midatahub.org/id/work/MIGDL-797> a migdl:Deliverable ;
+    migdl:issueKey "MIGDL-797" ;
+    dct:title "MiGDL-TT-1: Investigate Redshift Warmer Lambda" ;
+    migdl:status "Backlog" ;
+    migdl:statusCategory "To Do" ;
+    migdl:priority "Medium" ;
+    prov:startedAtTime "2026-11-06T16:10:44"^^xsd:dateTime ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p15> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+<https://migdl.midatahub.org/id/work/MIGDL-798> a migdl:SubTask ;
+    migdl:issueKey "MIGDL-798" ;
+    dct:title "Clean up Deprecated registry states in Dev and Stg" ;
+    migdl:status "Done" ;
+    migdl:statusCategory "Done" ;
+    migdl:priority "Medium" ;
+    prov:startedAtTime "2026-11-06T16:12:22"^^xsd:dateTime ;
+    migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-772> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p19> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/complete> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/education-organization> .
+<https://migdl.midatahub.org/id/work/MIGDL-799> a migdl:SubTask ;
+    migdl:issueKey "MIGDL-799" ;
+    dct:title "Clean up Failed registry states in Stg" ;
+    migdl:status "In Progress" ;
+    migdl:statusCategory "In Progress" ;
+    migdl:priority "Medium" ;
+    prov:startedAtTime "2026-11-06T16:12:48"^^xsd:dateTime ;
+    migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-772> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/education-organization> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+<https://migdl.midatahub.org/id/work/MIGDL-800> a migdl:SubTask ;
+    migdl:issueKey "MIGDL-800" ;
+    dct:title "Clean up Failed registry states in Dev" ;
+    migdl:status "Backlog" ;
+    migdl:statusCategory "To Do" ;
+    migdl:priority "Medium" ;
+    prov:startedAtTime "2026-11-06T16:14:51"^^xsd:dateTime ;
+    migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-772> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/operations> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/education-organization> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+<https://migdl.midatahub.org/id/work/MIGDL-801> a migdl:Defect ;
+    migdl:issueKey "MIGDL-801" ;
+    dct:title "MiGDL-TT-1: Increase EWDISTRICT write_concurrency to prevent OOM error" ;
+    migdl:status "Internal Validation" ;
+    migdl:statusCategory "In Progress" ;
+    migdl:priority "Medium" ;
+    prov:startedAtTime "2026-11-06T16:41:17"^^xsd:dateTime ;
+    migdl:parentWork <https://migdl.midatahub.org/id/work/MIGDL-231> ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p19> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/tiger-team> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/validation> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> .
+<https://migdl.midatahub.org/id/work/MIGDL-802> a migdl:CatchUpOnboarding ;
+    migdl:issueKey "MIGDL-802" ;
+    dct:title "sd187 : " ;
+    migdl:status "Gold/Plat Load (Catch-Up)" ;
+    migdl:statusCategory "In Progress" ;
+    migdl:priority "Highest" ;
+    prov:startedAtTime "2026-11-09T09:09:33"^^xsd:dateTime ;
+    migdl:loadType "Data Refresh" ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p3> ;
+    migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd187> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
+<https://migdl.midatahub.org/id/work/MIGDL-802/stagedone/bronze-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-802> .
+<https://migdl.midatahub.org/id/work/MIGDL-802/stagedone/descriptor-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-802> .
+<https://migdl.midatahub.org/id/work/MIGDL-802/stagedone/silver-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-802> .
+<https://migdl.midatahub.org/id/work/MIGDL-803> a migdl:CatchUpOnboarding ;
+    migdl:issueKey "MIGDL-803" ;
+    dct:title "sd183 : " ;
+    migdl:status "Gold/Plat Load (Catch-Up)" ;
+    migdl:statusCategory "In Progress" ;
+    migdl:priority "Highest" ;
+    prov:startedAtTime "2026-11-09T10:38:52"^^xsd:dateTime ;
+    migdl:loadType "Data Refresh" ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p3> ;
+    migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd183> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/silver> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .
+<https://migdl.midatahub.org/id/work/MIGDL-803/stagedone/bronze-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-803> .
+<https://migdl.midatahub.org/id/work/MIGDL-803/stagedone/descriptor-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/descriptor-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-803> .
+<https://migdl.midatahub.org/id/work/MIGDL-803/stagedone/silver-load> a migdl:StageCompletion ;
+    migdl:ofStage <https://migdl.midatahub.org/id/stage/silver-load> ;
+    migdl:completedOn "2026-11-09"^^xsd:date ;
+    prov:wasGeneratedBy <https://migdl.midatahub.org/id/work/MIGDL-803> .
+<https://migdl.midatahub.org/id/work/MIGDL-804> a migdl:CatchUpOnboarding ;
+    migdl:issueKey "MIGDL-804" ;
+    dct:title "sd154 : sd154" ;
+    migdl:status "Bronze Load (Catch-Up)" ;
+    migdl:statusCategory "In Progress" ;
+    migdl:priority "Highest" ;
+    prov:startedAtTime "2026-11-09T13:14:49"^^xsd:dateTime ;
+    migdl:loadType "Data Refresh" ;
+    migdl:assignedTo <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:dataIntegrator <https://migdl.midatahub.org/id/person/p7> ;
+    migdl:assignedEngineer <https://migdl.midatahub.org/id/person/p9> ;
+    migdl:inWorkstream <https://migdl.midatahub.org/id/workstream/intake> ;
+    migdl:servesDataProduct <https://migdl.midatahub.org/id/product/miread> ;
+    migdl:forDistrict <https://migdl.midatahub.org/id/district/sd154> ;
+    migdl:atStage <https://migdl.midatahub.org/id/stage/bronze-load> ;
+    migdl:touchesLayer <https://migdl.midatahub.org/id/layer/bronze> ;
+    migdl:touchesDomain <https://migdl.midatahub.org/id/domain/platinum-miread> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/developer> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/leadership> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/sprint-planning> ;
+    migdl:relevantTo <https://migdl.midatahub.org/id/audience/stakeholder> .

@@ -130,7 +130,7 @@ private window shows the new icon right away.
 Built-in behavior:
 - A listed `file` that isn't in `content/files/` shows as **Coming soon** (no broken links).
 - An item past its `expires` date shows as **Closed** with no link. This happens on the next
-  publish, so run `./publish.sh` on Nov 1 to close the self-assessment card.
+  publish, so run `./publish.sh` on Jan 16, 2027 to close the self-assessment card.
 - Need a dedicated page for one event later? Add `content/pages/maeds-2026/index.html`;
   `k12.ordevista.com/maeds-2026` works automatically.
 
